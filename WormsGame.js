@@ -613,26 +613,26 @@ Worms.Game.prototype = {
 			this.worm.frame = 6;
 			}
 
-		//  Re-position the bullet where the bazooka is
+		// RESTORING THE BULLET POSITION
 		this.bullet.reset(this.bazooka.x, this.bazooka.y);
 
-		//  Now work out where the END of the bazooka is
+		// GETTING WHERE THE BAZOOKA ENDS
 		var p = new Phaser.Point(this.bazooka.x, this.bazooka.y);
 		p.rotate(p.x, p.y, this.bazooka.rotation, false, 20);
 
-		//  And position the flame sprite there
+		// RELOCATING THE FLAME SPRITE
 		this.flame.x = p.x;
 		this.flame.y = p.y;
 		this.flame.alpha = 1;
 		this.flame.visible = true;
 
-		//  Boom
+		// STARTING THE FADE OUT ANIMATION (EXPLOSION) ON THE FLAME SPRITE
 		this.add.tween(this.flame).to( { alpha: 0 }, 100, "Linear", true);
 
-		//  So we can see what's going on when the bullet leaves the screen
+		// MAKING THE CAMERA TO FOLLOW THE BULLET
 		this.camera.follow(this.bullet);
 
-		//  Our launch trajectory is based on the angle of the bazooka and the power
+		// SHOOTING THE BAZOOKA
 		this.physics.arcade.velocityFromRotation(this.bazooka.rotation, this.power, this.bullet.body.velocity);
 		},
 
