@@ -389,83 +389,114 @@ Worms.Game.prototype = {
 				this.removeBullet(true);
 				}, null, this);
 
-			//  Bullet vs. the land
-			this.bulletVsLand();
+			// CHECKING IF THE BULLET HIT THE LAND
+			this.checkIfBulletHitLand();
 			}
 			else
 			{
-			//  Allow them to set the power between 100 and 600
+			// CHECKING IF THE USER IS PRESSING THE LEFT KEY
 			if (this.cursors.left.isDown)
 				{
+				// PLAYING THE WALKING LEFT ANIMATION
 				this.worm.animations.play("walk_left", 6, true);
+
+				// CHECKING IF THE WORM CAN MOVE TO THE LEFT
 				if (this.canMoveLeft()==true)
 					{
+					// MOVING THE WORM TO THE LEFT
 					this.worm.position.x = this.worm.position.x - 1;
+
+					// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
 					if (this.bazooka.scale.x>0)
 						{
+						// UPDATING THE BAZOOKA ORIENTATION
 						this.bazooka.scale.x *= -1;
 						}
 					}
 				}
+			// CHECKING IF THE USER IS PRESSING THE RIGHT KEY
 			else if (this.cursors.right.isDown)
 				{
+				// PLAYING THE WALKING RIGHT ANIMATION
 				this.worm.animations.play("walk_right", 6, true);
+
+				// CHECKING IF THE WORM CAN MOVE TO THE RIGHT
 				if (this.canMoveRight()==true)
 					{
+					// MOVING THE WORM TO THE RIGHT
 					this.worm.position.x = this.worm.position.x + 1;
+
+					// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
 					if (this.bazooka.scale.x<0)
 						{
+						// UPDATING THE BAZOOKA ORIENTATION
 						this.bazooka.scale.x *= -1;
 						}
 					}
 				}
 				else
 				{
+				// STOPPING ALL THE ANIMATIONS
 				this.worm.animations.stop();
+
+				// CHECKING IF THE WORM WAS WALKING TO THE LEFT
 				if (this.worm.animations.currentAnim.name=="walk_left")
 					{
+					// SHOWING THE STAND LEFT FRAME
 					this.worm.frame = 0;
 					}
 					else
 					{
+					// SHOWING THE STAND RIGHT FRAME
 					this.worm.frame = 6;
 					}
 				}
 
-			//  Allow them to set the angle, between -90 (straight up) and 0 (facing to the right)
+			// CHECKING IF THE USER IS PRESSING THE UP KEY AND IF THE BAZOOKA ANGLE CAN BE UPDATED
 			if (this.cursors.up.isDown && this.bazooka.angle > -90)
 				{
-				this.bazooka.angle--;
+				// UPDATING THE BAZOOKA ANGLE
+				this.bazooka.angle = this.bazooka.angle - 1;
 				}
+			// CHECKING IF THE USER IS PRESSING THE DOWN KEY AND IF THE BAZOOKA ANGLE CAN BE UPDATED
 			else if (this.cursors.down.isDown && this.bazooka.angle < 45)
 				{
-				this.bazooka.angle++;
+				// UPDATING THE BAZOOKA ANGLE
+				this.bazooka.angle = this.bazooka.angle + 1;
 				}
 			}
 		},
 
 	preRender: function()
 		{
-		this.checkGravity();
+		// APPLYING GRAVITY TO THE WORM
+		this.applyGravity();
 		},
 
 	render:function()
 		{
-		this.checkGravity();
+		// APPLYING GRAVITY TO THE WORM
+		this.applyGravity();
 		},
 
-	checkGravity: function()
+	applyGravity: function()
 		{
+		// GETTING THE PIXEL LOCATION UNDER THE CURRENT WORM LOCATION
 		var x = Math.floor(this.worm.position.x + Math.floor(this.worm.width / 2));
 		var y = Math.floor(this.worm.position.y + this.worm.height - 2);
+
+		// GETTING THE PIXEL DATA UNDER THE CURRENT WORM LOCATION
 		var rgba = this.land.getPixel(x, y);
 
+		// CHECKING IF THERE IS LAND ON THAT PIXEL
 		if (rgba.a > 0)
 			{
+			// THE WORM MUST MOVE UP
 			this.worm.position.y = this.worm.position.y - 1;
 			}
 			else
 			{
+			// THE WORM MUST MOVE DOWN
 			this.worm.position.y = this.worm.position.y + 1;
 			}
 		},
@@ -483,7 +514,6 @@ Worms.Game.prototype = {
 
 		if (this.worm.position.x < 2)
 			{
-			console.log('block left')
 			return false;
 			}
 
@@ -509,12 +539,15 @@ Worms.Game.prototype = {
 		return true;
 		},
 
-	bulletVsLand: function()
+	checkIfBulletHitLand: function()
 		{
-		//  Simple bounds check
+		// CHECKING IF THE BULLET IS OUT OF THE SCREEN
 		if (this.bullet.x < 0 || this.bullet.x > this.game.world.width || this.bullet.y > this.game.height)
 			{
+			// REMOVING THE BULLET
 			this.removeBullet();
+
+			// NO POINT GOING ANY FURTHER
 			return;
 			}
 
@@ -536,7 +569,7 @@ Worms.Game.prototype = {
 
 	fire: function ()
 		{
-		if (this.bullet.exists)
+		if (this.bullet.exists==true)
 			{
 			return;
 			}
