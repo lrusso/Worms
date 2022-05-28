@@ -495,6 +495,16 @@ Worms.Menu.prototype = {
 Worms.Game = function (game)
 	{
 	this.background = null;
+	this.player1LabelShadow = null;
+	this.player1Label = null;
+	this.player1HealthContainer = null;
+	this.player1HealthMeter = null;
+	this.player2LabelShadow = null;
+	this.player2Label = null;
+	this.player2HealthContainer = null;
+	this.player2HealthMeter = null;
+	this.koLabelShadow = null;
+	this.koLabel = null;
 	this.targets = null;
 	this.land = null;
 	this.bullet = null;
@@ -537,6 +547,16 @@ Worms.Game.prototype = {
 	init: function()
 		{
 		this.background = null;
+		this.player1LabelShadow = null;
+		this.player1Label = null;
+		this.player1HealthContainer = null;
+		this.player1HealthMeter = null;
+		this.player2LabelShadow = null;
+		this.player2Label = null;
+		this.player2HealthContainer = null;
+		this.player2HealthMeter = null;
+		this.koLabelShadow = null;
+		this.koLabel = null;
 		this.targets = null;
 		this.land = null;
 		this.bullet = null;
@@ -581,6 +601,67 @@ Worms.Game.prototype = {
 		this.background.width = game.width;
 		this.background.height = game.height;
 		this.background.fixedToCamera = true;
+
+		// ADDING THE PLAYER 1 LABEL SHADOW
+		this.player1LabelShadow = game.add.bitmapText(22, 17, "ArialBlackWhite", "PLAYER 1", 15);
+		this.player1LabelShadow.height = 17;
+		this.player1LabelShadow.tint = 0x000000;
+		this.player1LabelShadow.fixedToCamera = true;
+
+		// ADDING THE PLAYER 1 LABEL
+		this.player1Label = game.add.bitmapText(20, 15, "ArialBlackWhite", "PLAYER 1", 15);
+		this.player1Label.height = 17;
+		this.player1Label.fixedToCamera = true;
+
+		// ADDING THE PLAYER 1 HEALTH CONTAINER
+		this.player1HealthContainer = game.add.graphics(0, 0);
+		this.player1HealthContainer.lineStyle(4, 0xFFFFFF, 1);
+		this.player1HealthContainer.drawRect(20, 40, 315, 30);
+		this.player1HealthContainer.fixedToCamera = true;
+
+		// ADDING THE PLAYER 1 HEALTH METER
+		this.player1HealthMeter = game.add.graphics(0, 0);
+		this.player1HealthMeter.beginFill(0X7F0000);
+		this.player1HealthMeter.drawRect(20, 40, 315, 30);
+		this.player1HealthMeter.fixedToCamera = true;
+
+		// ADDING THE PLAYER 2 LABEL SHADOW
+		this.player2LabelShadow = game.add.bitmapText(422, 17, "ArialBlackWhite", "PLAYER 2", 15);
+		this.player2LabelShadow.position.x = game.width - this.player2LabelShadow.width - 23;
+		this.player2LabelShadow.height = 17;
+		this.player2LabelShadow.tint = 0x000000;
+		this.player2LabelShadow.fixedToCamera = true;
+
+		// ADDING THE PLAYER 2 LABEL
+		this.player2Label = game.add.bitmapText(420, 15, "ArialBlackWhite", "PLAYER 2", 15);
+		this.player2Label.position.x = game.width - this.player2Label.width - 25;
+		this.player2Label.height = 17;
+		this.player2Label.tint = 0xFFFF00;
+		this.player2Label.fixedToCamera = true;
+
+		// ADDING THE PLAYER 2 HEALTH CONTAINER
+		this.player2HealthContainer = game.add.graphics(0, 0);
+		this.player2HealthContainer.lineStyle(4, 0xFFFFFF, 1);
+		this.player2HealthContainer.drawRect(420, 40, 315, 30);
+		this.player2HealthContainer.fixedToCamera = true;
+
+		// ADDING THE PLAYER 2 HEALTH METER
+		this.player2HealthMeter = game.add.graphics(0, 0);
+		this.player2HealthMeter.beginFill(0X7F0000);
+		this.player2HealthMeter.drawRect(420, 40, 315, 30);
+		this.player2HealthMeter.fixedToCamera = true;
+
+		// ADDING THE KO LABEL SHADOW
+		this.koLabelShadow = game.add.bitmapText(355, 42, "ArialBlackWhite", "KO", 30);
+		this.koLabelShadow.height = 35;
+		this.koLabelShadow.tint = 0x000000;
+		this.koLabelShadow.fixedToCamera = true;
+
+		// ADDING THE KO LABEL
+		this.koLabel = game.add.bitmapText(353, 40, "ArialBlackWhite", "KO", 30);
+		this.koLabel.height = 35;
+		this.koLabel.tint = 0xFFFF00;
+		this.koLabel.fixedToCamera = true;
 
 		// CREATING THE TARGETS GROUP
 		this.targets = this.add.group(this.game.world, "targets", false, true, Phaser.Physics.ARCADE);
