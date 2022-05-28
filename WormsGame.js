@@ -567,18 +567,24 @@ Worms.Game.prototype = {
 			return;
 			}
 
+		// GETTING THE BULLET LOCATION
 		var x = Math.floor(this.bullet.x);
 		var y = Math.floor(this.bullet.y);
+
+		// GETTING THE LAND PIXEL DATA FROM THAT LOCATION
 		var rgba = this.land.getPixel(x, y);
 
+		// CHECKING IF THERE IS LAND ON THAT PIXEL
 		if (rgba.a > 0)
 			{
+			// DRAWING A CIRCLE ON THAT LOCATION
 			this.land.dirty = true;
 			this.land.blendDestinationOut();
 			this.land.circle(x, y, 16, "rgba(0, 0, 0, 255");
 			this.land.blendReset();
 			this.land.update();
 
+			// REMOVING THE BULLET
 			this.removeBullet();
 			}
 		},
@@ -592,13 +598,18 @@ Worms.Game.prototype = {
 			return;
 			}
 
+		// STOPPING THE WORM ANIMATION
 		this.worm.animations.stop();
+
+		// CHECKING IF THE WORM WAS WALKING TO THE LEFT
 		if (this.worm.animations.currentAnim.name=="walk_left")
 			{
+			// SHOWING THE STAND LEFT FRAME
 			this.worm.frame = 0;
 			}
 			else
 			{
+			// SHOWING THE STAND RIGHT FRAME
 			this.worm.frame = 6;
 			}
 
