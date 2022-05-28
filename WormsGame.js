@@ -267,27 +267,16 @@ Worms.Disclaimer.prototype = {
 
 Worms.Game = function (game)
 	{
-	this.toastText = null;
-	this.toastShadow = null;
-
-	this.width = 800;
-	this.height = 432;
-
-	this.nbTile = 42;
-	this.tileWidth = 54;
-	this.tileHeight = 66;
-	this.tilesList = new Array();
-
-	this.lastTile = null;
-	this.tilesGroup = null;
-	this.tileLayout = null;
-
-	this.buttonRestart = null;
-	this.buttonRestartShadow = null;
-	this.buttonHint = null;
-	this.buttonHintShadow = null;
-
-	this.hintRequested = false;
+	this.background = null;
+	this.targets = null;
+	this.land = null;
+	this.bullet = null;
+	this.worm = null;
+	this.turret = null;
+	this.flame = null;
+	this.cursors = null;
+	this.fireButton = null;
+	this.power = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
@@ -309,7 +298,16 @@ Worms.Game.prototype = {
 
 	init: function()
 		{
-
+		this.background = null;
+		this.targets = null;
+		this.land = null;
+		this.bullet = null;
+		this.worm = null;
+		this.turret = null;
+		this.flame = null;
+		this.cursors = null;
+		this.fireButton = null;
+		this.power = 300;
 		},
 
 	create: function ()
@@ -358,8 +356,6 @@ Worms.Game.prototype = {
 		this.flame = this.add.sprite(0, 0, "imageFlame");
 		this.flame.anchor.set(0.5);
 		this.flame.visible = false;
-
-		this.power = 300;
 
 		//  Some basic controls
 		this.cursors = this.input.keyboard.createCursorKeys();
