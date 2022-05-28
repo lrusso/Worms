@@ -588,7 +588,7 @@ Worms.Game.prototype = {
 	create: function ()
 		{
 		// CHECKING IS THE GAME IS RUNNING IN A MOBILE DEVICE
-		this.isMobileDevice = isMobileDevice();
+		this.isMobileDevice = !isMobileDevice();
 
 		// ADDING THE PAD PLUGIN
 		this.pad = this.game.plugins.add(Phaser.VirtualJoystick);
@@ -1062,6 +1062,21 @@ Worms.Game.prototype = {
 		this.add.tween(this.koLabelShadow).to( { alpha: 0 }, 200, "Linear", true);
 		this.add.tween(this.koLabel).to( { alpha: 0 }, 200, "Linear", true);
 
+		// CHECKING IF IT IS A MOBILE DEVICE
+		if (this.isMobileDevice==true)
+			{
+			// DISABLING THE STICK
+			this.stick.enabled = false;
+
+			// FADING OUT THE STICK
+			this.add.tween(this.stick).to( { alpha: 0 }, 200, "Linear", true);
+
+			// FADING OUT THE FIRE BUTTON
+			this.add.tween(this.buttonFireNormal).to( { alpha: 0 }, 200, "Linear", true);
+			this.add.tween(this.buttonFirePressed).to( { alpha: 0 }, 200, "Linear", true);
+			this.add.tween(this.buttonFireIcon).to( { alpha: 0 }, 200, "Linear", true);
+			}
+
 		// STOPPING THE WORM ANIMATION
 		this.worm.animations.stop();
 
@@ -1155,6 +1170,21 @@ Worms.Game.prototype = {
 			// FADING IN THE KO LABEL
 			game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].koLabelShadow).to( { alpha: 1 }, 200, "Linear", true);
 			game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].koLabel).to( { alpha: 1 }, 200, "Linear", true);
+
+			// CHECKING IF IT IS A MOBILE DEVICE
+			if (game.state.states["Worms.Game"].isMobileDevice==true)
+				{
+				// ENABLING THE STICK
+				game.state.states["Worms.Game"].stick.enabled = true;
+
+				// FADING IN THE STICK
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].stick).to( { alpha: 1 }, 200, "Linear", true);
+
+				// FADING IN THE FIRE BUTTON
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireNormal).to( { alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFirePressed).to( { alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireIcon).to( { alpha: 0.35 }, 200, "Linear", true);
+				}
 			});
 		}
 	};
