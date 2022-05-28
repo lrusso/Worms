@@ -514,6 +514,12 @@ Worms.Game = function (game)
 	this.player2Label = null;
 	this.player2HealthContainer = null;
 	this.player2HealthMeter = null;
+	this.player2Worm1 = null;
+	this.player2Worm1Label = null;
+	this.player2Worm1Health = null;
+	this.player2Worm2 = null;
+	this.player2Worm2Label = null;
+	this.player2Worm2Health = null;
 	this.koLabelShadow = null;
 	this.koLabel = null;
 	this.targets = null;
@@ -568,6 +574,12 @@ Worms.Game.prototype = {
 		this.player2Label = null;
 		this.player2HealthContainer = null;
 		this.player2HealthMeter = null;
+		this.player2Worm1 = null;
+		this.player2Worm1Label = null;
+		this.player2Worm1Health = 100;
+		this.player2Worm2 = null;
+		this.player2Worm2Label = null;
+		this.player2Worm2Health = 100;
 		this.koLabelShadow = null;
 		this.koLabel = null;
 		this.targets = null;
@@ -675,16 +687,6 @@ Worms.Game.prototype = {
 		this.koLabel.tint = 0xFFFF00;
 		this.koLabel.fixedToCamera = true;
 
-		// CREATING THE TARGETS GROUP
-		this.targets = this.add.group(this.game.world, "targets", false, true, Phaser.Physics.ARCADE);
-
-		// ADDING THE TARGETS
-		this.targets.create(475, 135, "imageGameWormSpritesheet");
-		this.targets.create(695, 261, "imageGameWormSpritesheet");
-
-		// PREVENT THE TARGETS TO BE AFFECTED BY THE GRAVITY
-		this.targets.setAll("body.allowGravity", false);
-
 		// ADDING THE LAND
 		this.land = this.add.bitmapData(990, 490);
 		this.land.draw("imageGameLand");
@@ -696,15 +698,33 @@ Worms.Game.prototype = {
 		this.bullet.exists = false;
 		this.physics.arcade.enable(this.bullet);
 
-		// ADDING THE WORM
+		// ADDING THE PLAYER 1 WORM 1
 		this.player1Worm1 = this.add.sprite(324, 230, "imageGameWormSpritesheet");
 		this.player1Worm1.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]);
 		this.player1Worm1.animations.add("walk_right", [6, 7, 8, 9, 10, 11]);
 		this.camera.follow(this.player1Worm1);
 
-		// ADDING THE WORM LABEL
+		// ADDING THE PLAYER 1 WORM 1 LABEL
 		this.player1Worm1Label = game.add.bitmapText(this.player1Worm1.x + 15, this.player1Worm1.y + 20, "ArialBlackWhite", this.player1Worm1Health + "", 15);
 		this.player1Worm1Label.tint = 0xFFFFFF;
+
+		// ADDING THE PLAYER 2 WORM 1
+		this.player2Worm1 = this.add.sprite(475, 135, "imageGameWormSpritesheet");
+		this.physics.arcade.enable(this.player2Worm1);
+		this.player2Worm1.body.allowGravity = false;
+
+		// ADDING THE PLAYER 2 WORM 1 LABEL
+		this.player2Worm1Label = game.add.bitmapText(this.player2Worm1.x + 15, this.player2Worm1.y + 20, "ArialBlackWhite", this.player2Worm1Health + "", 15);
+		this.player2Worm1Label.tint = 0xFFFF00;
+
+		// ADDING THE PLAYER 2 WORM 2
+		this.player2Worm2 = this.add.sprite(695, 261, "imageGameWormSpritesheet");
+		this.physics.arcade.enable(this.player2Worm2);
+		this.player2Worm2.body.allowGravity = false;
+
+		// ADDING THE PLAYER 2 WORM 2 LABEL
+		this.player2Worm2Label = game.add.bitmapText(this.player2Worm1.x + 15, this.player2Worm1.y + 20, "ArialBlackWhite", this.player2Worm2Health + "", 15);
+		this.player2Worm2Label.tint = 0xFFFF00;
 
 		// ADDING THE BAZOOKA
 		this.bazooka = this.add.sprite(this.player1Worm1.x + 15, this.player1Worm1.y + 20, "imageGameBazooka");
@@ -785,15 +805,9 @@ Worms.Game.prototype = {
 		// CHECKING IF THE BULLET EXISTS
 		if (this.bullet.exists==true)
 			{
-			// CHECKING IF THE BULLET OVERLAPS A TARGET
-			this.physics.arcade.overlap(this.bullet, this.targets, function(bullet, target)
-				{
-				// DELETING THE TARGET
-				target.kill();
-
-				// REMOVING THE BULLLET
-				this.removeBullet();
-				}, null, this);
+			// CHECKING IF THE BULLET OVERLAPS A WORM
+			this.physics.arcade.overlap(this.bullet, this.player2Worm1, this.damageWorm, null, this);
+			this.physics.arcade.overlap(this.bullet, this.player2Worm2, this.damageWorm, null, this);
 
 			// CHECKING IF THE BULLET HIT THE LAND
 			this.checkIfBulletHitLand();
@@ -926,9 +940,17 @@ Worms.Game.prototype = {
 		// APPLYING GRAVITY TO THE WORM
 		this.applyGravity();
 
-		// MAKING THE WORM LABEL TO FOLLOW TO WORM
+		// MAKING THE PLAYER 1 WORM 1 LABEL TO FOLLOW TO WORM
 		this.player1Worm1Label.position.x = this.player1Worm1.x + this.player1Worm1.width / 2 - this.player1Worm1Label.width / 2;
 		this.player1Worm1Label.position.y = this.player1Worm1.y - 15;
+
+		// MAKING THE PLAYER 2 WORM 1 LABEL TO FOLLOW TO WORM
+		this.player2Worm1Label.position.x = this.player2Worm1.x + this.player2Worm1.width / 2 - this.player2Worm1Label.width / 2;
+		this.player2Worm1Label.position.y = this.player2Worm1.y - 15;
+
+		// MAKING THE PLAYER 2 WORM 2 LABEL TO FOLLOW TO WORM
+		this.player2Worm2Label.position.x = this.player2Worm2.x + this.player2Worm2.width / 2 - this.player2Worm2Label.width / 2;
+		this.player2Worm2Label.position.y = this.player2Worm2.y - 15;
 
 		// MAKING THE BAZOOKA TO FOLLOW THE WORM
 		this.bazooka.position.x = this.player1Worm1.x + 15;
@@ -1143,6 +1165,19 @@ Worms.Game.prototype = {
 
 		// FIRING THE BAZOOKA
 		this.physics.arcade.velocityFromRotation(bazookaRotation, this.power, this.bullet.body.velocity);
+		},
+
+	damageWorm: function(bullet, target)
+		{
+		// CHECKING WHAT WORM LABEL TO HIDE
+		if (target==this.player2Worm1){this.player2Worm1Label.visible = false;}
+		if (target==this.player2Worm2){this.player2Worm2Label.visible = false;}
+
+		// DELETING THE TARGET
+		target.kill();
+
+		// REMOVING THE BULLLET
+		this.removeBullet();
 		},
 
 	removeBullet: function ()
