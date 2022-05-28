@@ -16,6 +16,8 @@ function isMobileDevice(){return!!(navigator.userAgent.match(/Android/i)||naviga
 // GETTING THE USER LANGUAGE
 var userLanguage = window.navigator.userLanguage || window.navigator.language;
 
+var STRING_PLAYER1 = "";
+var STRING_PLAYER2 = "";
 var STRING_DISCLAIMER1 = "";
 var STRING_DISCLAIMER2 = "";
 var STRING_DISCLAIMER3 = "";
@@ -29,6 +31,8 @@ var STRING_DISCLAIMER8_MOBILE = "";
 // CHECKING THE USER LANGUAGE
 if (userLanguage.substring(0,2)=="es")
 	{
+	STRING_PLAYER1 = "JUGADOR 1";
+	STRING_PLAYER2 = "JUGADOR 2";
 	STRING_DISCLAIMER1 = "DESCARGO DE RESPONSABILIDAD";
 	STRING_DISCLAIMER2 = "Los recursos de Worms";
 	STRING_DISCLAIMER3 = "(im" + String.fromCharCode(225) + "genes, fuentes, m" + String.fromCharCode(250) + "sica y sonidos)";
@@ -41,6 +45,8 @@ if (userLanguage.substring(0,2)=="es")
 	}
 	else
 	{
+	STRING_PLAYER1 = "PLAYER 1";
+	STRING_PLAYER2 = "PLAYER 2";
 	STRING_DISCLAIMER1 = "DISCLAIMER";
 	STRING_DISCLAIMER2 = "The Worms resources";
 	STRING_DISCLAIMER3 = "(images, fonts, music and sounds)";
@@ -603,13 +609,13 @@ Worms.Game.prototype = {
 		this.background.fixedToCamera = true;
 
 		// ADDING THE PLAYER 1 LABEL SHADOW
-		this.player1LabelShadow = game.add.bitmapText(22, 17, "ArialBlackWhite", "PLAYER 1", 15);
+		this.player1LabelShadow = game.add.bitmapText(22, 17, "ArialBlackWhite", STRING_PLAYER1, 15);
 		this.player1LabelShadow.height = 17;
 		this.player1LabelShadow.tint = 0x000000;
 		this.player1LabelShadow.fixedToCamera = true;
 
 		// ADDING THE PLAYER 1 LABEL
-		this.player1Label = game.add.bitmapText(20, 15, "ArialBlackWhite", "PLAYER 1", 15);
+		this.player1Label = game.add.bitmapText(20, 15, "ArialBlackWhite", STRING_PLAYER1, 15);
 		this.player1Label.height = 17;
 		this.player1Label.fixedToCamera = true;
 
@@ -626,14 +632,14 @@ Worms.Game.prototype = {
 		this.player1HealthMeter.fixedToCamera = true;
 
 		// ADDING THE PLAYER 2 LABEL SHADOW
-		this.player2LabelShadow = game.add.bitmapText(422, 17, "ArialBlackWhite", "PLAYER 2", 15);
+		this.player2LabelShadow = game.add.bitmapText(422, 17, "ArialBlackWhite", STRING_PLAYER2, 15);
 		this.player2LabelShadow.position.x = game.width - this.player2LabelShadow.width - 23;
 		this.player2LabelShadow.height = 17;
 		this.player2LabelShadow.tint = 0x000000;
 		this.player2LabelShadow.fixedToCamera = true;
 
 		// ADDING THE PLAYER 2 LABEL
-		this.player2Label = game.add.bitmapText(420, 15, "ArialBlackWhite", "PLAYER 2", 15);
+		this.player2Label = game.add.bitmapText(420, 15, "ArialBlackWhite", STRING_PLAYER2, 15);
 		this.player2Label.position.x = game.width - this.player2Label.width - 25;
 		this.player2Label.height = 17;
 		this.player2Label.tint = 0xFFFF00;
