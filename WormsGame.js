@@ -376,8 +376,8 @@ Worms.Game.prototype = {
 		this.bazooka.position.x = this.worm.x + 15;
 		this.bazooka.position.y = this.worm.y + 20;
 
-		// CHECKING THE BULLET EXISTS
-		if (this.bullet.exists == true)
+		// CHECKING IF THE BULLET EXISTS
+		if (this.bullet.exists==true)
 			{
 			// CHECKING IF THE BULLET OVERLAPS A TARGET
 			this.physics.arcade.overlap(this.bullet, this.targets, function(bullet, target)
@@ -485,7 +485,7 @@ Worms.Game.prototype = {
 		var x = Math.floor(this.worm.position.x + Math.floor(this.worm.width / 2));
 		var y = Math.floor(this.worm.position.y + this.worm.height - 2);
 
-		// GETTING THE PIXEL DATA UNDER THE CURRENT WORM LOCATION
+		// GETTING THE LAND PIXEL DATA UNDER THE CURRENT WORM LOCATION
 		var rgba = this.land.getPixel(x, y);
 
 		// CHECKING IF THERE IS LAND ON THAT PIXEL
@@ -503,39 +503,55 @@ Worms.Game.prototype = {
 
 	canMoveLeft: function()
 		{
+		// GETTING THE WORM TOP-LEFT LOCATION
 		var x = Math.floor(this.worm.position.x - 1);
 		var y = Math.floor(this.worm.position.y - 1);
+
+		// GETTING THE LAND PIXEL DATA FROM THAT LOCATION
 		var rgba = this.land.getPixel(x, y);
 
+		// CHECKING IF THERE IS LAND ON THAT PIXEL
 		if (rgba.a > 0)
 			{
+			// THE WORM CANNOT MOVE
 			return false;
 			}
 
+		// CHECKING IF THE WORM IS GOING TO BE OUT OF THE SCREEN
 		if (this.worm.position.x < 2)
 			{
+			// THE WORM CANNOT MOVE
 			return false;
 			}
 
+		// THE WORM CAN MOVE
 		return true;
 		},
 
 	canMoveRight: function()
 		{
+		// GETTING THE WORM TOP-RIGHT LOCATION
 		var x = Math.floor(this.worm.position.x + this.worm.width + 1);
 		var y = Math.floor(this.worm.position.y - 1);
+
+		// GETTING THE LAND PIXEL DATA FROM THAT LOCATION
 		var rgba = this.land.getPixel(x, y);
 
+		// CHECKING IF THERE IS LAND ON THAT PIXEL
 		if (rgba.a > 0)
 			{
+			// THE WORM CANNOT MOVE
 			return false;
 			}
 
+		// CHECKING IF THE WORM IS GOING TO BE OUT OF THE SCREEN
 		if (this.worm.position.x > this.game.world.width - this.worm.width - 2)
 			{
+			// THE WORM CANNOT MOVE
 			return false;
 			}
 
+		// THE WORM CAN MOVE
 		return true;
 		},
 
@@ -569,8 +585,10 @@ Worms.Game.prototype = {
 
 	fire: function ()
 		{
+		// CHECKING IF THE BULLET EXISTS
 		if (this.bullet.exists==true)
 			{
+			// NO POINT GOING ANY FURTHER
 			return;
 			}
 
