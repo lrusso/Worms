@@ -570,16 +570,38 @@ Worms.Game.prototype = {
 				}
 
 			// CHECKING IF THE USER IS PRESSING THE UP KEY AND IF THE BAZOOKA ANGLE CAN BE UPDATED
-			if (((moveUp==true && moveLeft==false && moveRight==false && moveDown==false) || (this.stick.isDown==true && this.stick.octant==270)) && this.bazooka.angle > -90)
+			if ((moveUp==true && moveLeft==false && moveRight==false && moveDown==false) || (this.stick.isDown==true && this.stick.octant==270))
 				{
-				// UPDATING THE BAZOOKA ANGLE
-				this.bazooka.angle = this.bazooka.angle - 1;
+				// CHECKING IF THE WORM WAS WALKING TO THE LEFT AND THE BAZOOKA ANGLE CAN BE UPDATED
+				if (this.worm.animations.currentAnim.name=="walk_left" && this.bazooka.angle < 90)
+					{
+					// UPDATING THE BAZOOKA ANGLE
+					this.bazooka.angle = this.bazooka.angle + 1;
+					}
+
+				// CHECKING IF THE WORM WAS WALKING TO THE RIGHT AND THE BAZOOKA ANGLE CAN BE UPDATED
+				if (this.worm.animations.currentAnim.name=="walk_right" && this.bazooka.angle > -90)
+					{
+					// UPDATING THE BAZOOKA ANGLE
+					this.bazooka.angle = this.bazooka.angle - 1;
+					}
 				}
 			// CHECKING IF THE USER IS PRESSING THE DOWN KEY AND IF THE BAZOOKA ANGLE CAN BE UPDATED
-			else if (((moveDown==true && moveLeft==false && moveRight==false && moveUp==false) || (this.stick.isDown==true && this.stick.octant==90)) && this.bazooka.angle < 70)
+			else if ((moveDown==true && moveLeft==false && moveRight==false && moveUp==false) || (this.stick.isDown==true && this.stick.octant==90))
 				{
-				// UPDATING THE BAZOOKA ANGLE
-				this.bazooka.angle = this.bazooka.angle + 1;
+				// CHECKING IF THE WORM WAS WALKING TO THE LEFT AND THE BAZOOKA ANGLE CAN BE UPDATED
+				if (this.worm.animations.currentAnim.name=="walk_left" && this.bazooka.angle > -90)
+					{
+					// UPDATING THE BAZOOKA ANGLE
+					this.bazooka.angle = this.bazooka.angle - 1;
+					}
+
+				// CHECKING IF THE WORM WAS WALKING TO THE RIGHT AND THE BAZOOKA ANGLE CAN BE UPDATED
+				if (this.worm.animations.currentAnim.name=="walk_right" && this.bazooka.angle < 90)
+					{
+					// UPDATING THE BAZOOKA ANGLE
+					this.bazooka.angle = this.bazooka.angle + 1;
+					}
 				}
 
 			// CHECKING IF THE USER IS PRESSING THE SPACE KEY
