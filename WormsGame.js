@@ -276,6 +276,7 @@ Worms.Game = function (game)
 	this.flame = null;
 	this.cursors = null;
 	this.fireButton = null;
+	this.gameInMotion = null;
 	this.power = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
@@ -307,6 +308,7 @@ Worms.Game.prototype = {
 		this.flame = null;
 		this.cursors = null;
 		this.fireButton = null;
+		this.gameInMotion = false;
 		this.power = 300;
 		},
 
@@ -386,7 +388,7 @@ Worms.Game.prototype = {
 				target.kill();
 
 				// REMOVING THE BULLLET
-				this.removeBullet(true);
+				this.removeBullet();
 				}, null, this);
 
 			// CHECKING IF THE BULLET HIT THE LAND
@@ -394,6 +396,13 @@ Worms.Game.prototype = {
 			}
 			else
 			{
+			// CHECKING IF THE GAME IS IN MOTION
+			if (this.gameInMotion==true)
+				{
+				// NO POINT GOING ANY FURTHER
+				return;
+				}
+
 			// CHECKING IF THE USER IS PRESSING THE LEFT KEY
 			if (this.cursors.left.isDown)
 				{
@@ -629,32 +638,35 @@ Worms.Game.prototype = {
 		// STARTING THE FADE OUT ANIMATION (EXPLOSION) ON THE FLAME SPRITE
 		this.add.tween(this.flame).to( { alpha: 0 }, 100, "Linear", true);
 
+		// MAKING THE CAMERA TO NOT FOLLOWING ANYONE
+		this.camera.follow(null);
+
 		// MAKING THE CAMERA TO FOLLOW THE BULLET
 		this.camera.follow(this.bullet);
+
+		// SETTING THAT THE GAME IS IN MOTION
+		this.gameInMotion = true;
 
 		// SHOOTING THE BAZOOKA
 		this.physics.arcade.velocityFromRotation(this.bazooka.rotation, this.power, this.bullet.body.velocity);
 		},
 
-	removeBullet: function (hasExploded)
+	removeBullet: function ()
 		{
-		if (typeof hasExploded === "undefined") { hasExploded = false; }
-
+		// REMOVING THE BULLET
 		this.bullet.kill();
 
-		var delay = 1000;
+		// MAKING THE CAMERA TO NOT FOLLOWING ANYONE
+		this.camera.follow(null);
 
-		if (hasExploded)
+		// MOVING THE CAMERA BACK TO THE WORM
+		this.add.tween(this.camera).to( { x: this.worm.position.x - (game.camera.width / 2) }, 2000, "Quint", true, 1500);
+
+		// WAITING 2000 MS
+		game.time.events.add(2000, function()
 			{
-			delay = 2000;
-			}
-
-		this.add.tween(this.camera).to( { x: 0 }, 1000, "Quint", true, delay);
-
-		// WAITING 1000 MS
-		game.time.events.add(1000, function()
-			{
-			game.state.states["Worms.Game"].camera.follow(game.state.states["Worms.Game"].worm);
+			// SETTING THAT THE GAME IS NOT IN MOTION
+			game.state.states["Worms.Game"].gameInMotion = false;
 			});
 		}
 	};
