@@ -499,6 +499,7 @@ Worms.Game.prototype = {
 				return;
 				}
 
+			// DETECTING THE KEYS
 			var moveLeft = this.cursors.left.isDown || this.keyA.isDown;
 			var moveRight = this.cursors.right.isDown || this.keyD.isDown;
 			var moveUp = this.cursors.up.isDown || this.keyW.isDown;
