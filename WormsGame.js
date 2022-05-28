@@ -1143,48 +1143,45 @@ Worms.Game.prototype = {
 		game.time.events.add(1500, function()
 			{
 			// MOVING THE CAMERA BACK TO THE WORM
-			game.add.tween(game.state.states["Worms.Game"].camera).to({x: game.state.states["Worms.Game"].worm.position.x - (game.state.states["Worms.Game"].camera.width / 2)}, 2000, Phaser.Easing.Linear.None, true);
-			});
-
-		// WAITING 3300 MS
-		game.time.events.add(3300, function()
-			{
-			// SETTING THAT THE GAME IS NOT IN MOTION
-			game.state.states["Worms.Game"].gameInMotion = false;
-
-			// MAKING THE CAMERA TO FOLLOW THE WORM
-			game.state.states["Worms.Game"].camera.follow(game.state.states["Worms.Game"].worm);
-
-			// FADING IN THE PLAYER 1 LABEL AND HEALTH METER
-			game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1LabelShadow).to( { alpha: 1 }, 200, "Linear", true);
-			game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1Label).to( { alpha: 1 }, 200, "Linear", true);
-			game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1HealthContainer).to( { alpha: 1 }, 200, "Linear", true);
-			game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1HealthMeter).to( { alpha: 1 }, 200, "Linear", true);
-
-			// FADING IN THE PLAYER 2 LABEL AND HEALTH METER
-			game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2LabelShadow).to( { alpha: 1 }, 200, "Linear", true);
-			game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2Label).to( { alpha: 1 }, 200, "Linear", true);
-			game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2HealthContainer).to( { alpha: 1 }, 200, "Linear", true);
-			game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2HealthMeter).to( { alpha: 1 }, 200, "Linear", true);
-
-			// FADING IN THE KO LABEL
-			game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].koLabelShadow).to( { alpha: 1 }, 200, "Linear", true);
-			game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].koLabel).to( { alpha: 1 }, 200, "Linear", true);
-
-			// CHECKING IF IT IS A MOBILE DEVICE
-			if (game.state.states["Worms.Game"].isMobileDevice==true)
+			game.add.tween(game.state.states["Worms.Game"].camera).to({x: game.state.states["Worms.Game"].worm.position.x - (game.state.states["Worms.Game"].camera.width / 2)}, 2000, Phaser.Easing.Linear.None, true).onComplete.add(function()
 				{
-				// ENABLING THE STICK
-				game.state.states["Worms.Game"].stick.enabled = true;
+				// SETTING THAT THE GAME IS NOT IN MOTION
+				game.state.states["Worms.Game"].gameInMotion = false;
 
-				// FADING IN THE STICK
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].stick).to( { alpha: 1 }, 200, "Linear", true);
+				// MAKING THE CAMERA TO FOLLOW THE WORM
+				game.state.states["Worms.Game"].camera.follow(game.state.states["Worms.Game"].worm);
 
-				// FADING IN THE FIRE BUTTON
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireNormal).to( { alpha: 1 }, 200, "Linear", true);
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFirePressed).to( { alpha: 1 }, 200, "Linear", true);
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireIcon).to( { alpha: 0.35 }, 200, "Linear", true);
-				}
+				// FADING IN THE PLAYER 1 LABEL AND HEALTH METER
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1LabelShadow).to( { alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1Label).to( { alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1HealthContainer).to( { alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1HealthMeter).to( { alpha: 1 }, 200, "Linear", true);
+
+				// FADING IN THE PLAYER 2 LABEL AND HEALTH METER
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2LabelShadow).to( { alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2Label).to( { alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2HealthContainer).to( { alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2HealthMeter).to( { alpha: 1 }, 200, "Linear", true);
+
+				// FADING IN THE KO LABEL
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].koLabelShadow).to( { alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].koLabel).to( { alpha: 1 }, 200, "Linear", true);
+
+				// CHECKING IF IT IS A MOBILE DEVICE
+				if (game.state.states["Worms.Game"].isMobileDevice==true)
+					{
+					// ENABLING THE STICK
+					game.state.states["Worms.Game"].stick.enabled = true;
+
+					// FADING IN THE STICK
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].stick).to( { alpha: 1 }, 200, "Linear", true);
+
+					// FADING IN THE FIRE BUTTON
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireNormal).to( { alpha: 1 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFirePressed).to( { alpha: 1 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireIcon).to( { alpha: 0.35 }, 200, "Linear", true);
+					}
+				});
 			});
 		}
 	};
