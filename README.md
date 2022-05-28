@@ -7,3 +7,7 @@ Worms game in JavaScript.
 ## Web:
 
 https://lrusso.github.io/Worms/Worms.htm
+
+## Disclaimer
+
+The Worms resources (images, fonts, music and sounds) are provided for educational purposes ONLY. This demo is not affiliated with or endorsed by their respective copyright holders.
