@@ -937,7 +937,7 @@ Worms.Game.prototype = {
 
 	preRender: function()
 		{
-		// APPLYING GRAVITY TO THE WORM
+		// APPLYING GRAVITY TO EACH WORM
 		this.applyGravity();
 
 		// MAKING THE PLAYER 1 WORM 1 LABEL TO FOLLOW TO WORM
@@ -959,15 +959,23 @@ Worms.Game.prototype = {
 
 	render:function()
 		{
-		// APPLYING GRAVITY TO THE WORM
+		// APPLYING GRAVITY TO EACH WORM
 		this.applyGravity();
 		},
 
 	applyGravity: function()
 		{
+		// CHECKING AND APPLYING GRAVITY TO EACH WORM
+		this.checkGravityFor(this.player1Worm1);
+		this.checkGravityFor(this.player2Worm1);
+		this.checkGravityFor(this.player2Worm2);
+		},
+
+	checkGravityFor: function(selectedWorm)
+		{
 		// GETTING THE PIXEL LOCATION UNDER THE CURRENT WORM LOCATION
-		var x = Math.floor(this.player1Worm1.position.x + Math.floor(this.player1Worm1.width / 2));
-		var y = Math.floor(this.player1Worm1.position.y + this.player1Worm1.height - 2);
+		var x = Math.floor(selectedWorm.position.x + Math.floor(selectedWorm.width / 2));
+		var y = Math.floor(selectedWorm.position.y + selectedWorm.height - 2);
 
 		// GETTING THE LAND PIXEL DATA UNDER THE CURRENT WORM LOCATION
 		var rgba = this.land.getPixel(x, y);
@@ -976,12 +984,12 @@ Worms.Game.prototype = {
 		if (rgba.a > 0)
 			{
 			// THE WORM MUST MOVE UP
-			this.player1Worm1.position.y = this.player1Worm1.position.y - 1;
+			selectedWorm.position.y = selectedWorm.position.y - 1;
 			}
 			else
 			{
 			// THE WORM MUST MOVE DOWN
-			this.player1Worm1.position.y = this.player1Worm1.position.y + 1;
+			selectedWorm.position.y = selectedWorm.position.y + 1;
 			}
 		},
 
