@@ -709,8 +709,8 @@ Worms.Game.prototype = {
 
 	fire: function ()
 		{
-		// CHECKING IF THE BULLET EXISTS OR THE GAME IS IN MOTION
-		if (this.bullet.exists==true || this.gameInMotion==true)
+		// CHECKING IF THE GAME IS IN MOTION
+		if (this.gameInMotion==true)
 			{
 			// NO POINT GOING ANY FURTHER
 			return;
@@ -768,14 +768,21 @@ Worms.Game.prototype = {
 		// MAKING THE CAMERA TO NOT FOLLOWING ANYONE
 		this.camera.follow(null);
 
-		// MOVING THE CAMERA BACK TO THE WORM
-		this.add.tween(this.camera).to( { x: this.worm.position.x - (game.camera.width / 2) }, 2000, "Quint", true, 1500);
+		// WAITING 1500 MS
+		game.time.events.add(1500, function()
+			{
+			// MOVING THE CAMERA BACK TO THE WORM
+			game.add.tween(game.state.states["Worms.Game"].camera).to({x: game.state.states["Worms.Game"].worm.position.x - (game.state.states["Worms.Game"].camera.width / 2)}, 2000, Phaser.Easing.Linear.None, true);
+			});
 
-		// WAITING 2000 MS
-		game.time.events.add(2000, function()
+		// WAITING 3500 MS
+		game.time.events.add(3500, function()
 			{
 			// SETTING THAT THE GAME IS NOT IN MOTION
 			game.state.states["Worms.Game"].gameInMotion = false;
+
+			// MAKING THE CAMERA TO FOLLOW THE WORM
+			game.state.states["Worms.Game"].camera.follow(game.state.states["Worms.Game"].worm);
 			});
 		}
 	};
