@@ -709,8 +709,8 @@ Worms.Game.prototype = {
 
 	fire: function ()
 		{
-		// CHECKING IF THE BULLET EXISTS
-		if (this.bullet.exists==true)
+		// CHECKING IF THE BULLET EXISTS OR THE GAME IS IN MOTION
+		if (this.bullet.exists==true || this.gameInMotion==true)
 			{
 			// NO POINT GOING ANY FURTHER
 			return;
