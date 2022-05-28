@@ -734,9 +734,19 @@ Worms.Game.prototype = {
 		// RESTORING THE BULLET POSITION
 		this.bullet.reset(this.bazooka.x, this.bazooka.y);
 
+		// GETTING THE BAZOOKA ROTATION FOR LATER USE
+		var bazookaRotation = this.bazooka.rotation;
+
+		// CHECKING IF THE WORM WAS WALKING TO THE LEFT
+		if (this.worm.animations.currentAnim.name=="walk_left")
+			{
+			// GETTING THE OPPOSITE ANGLE
+			bazookaRotation = (this.bazooka.rotation + 180) % 360 * 1.1;
+			}
+
 		// GETTING WHERE THE BAZOOKA ENDS
 		var p = new Phaser.Point(this.bazooka.x, this.bazooka.y);
-		p.rotate(p.x, p.y, this.bazooka.rotation, false, 20);
+		p.rotate(p.x, p.y, bazookaRotation, false, 20);
 
 		// RELOCATING THE FLAME SPRITE
 		this.flame.x = p.x;
@@ -757,7 +767,7 @@ Worms.Game.prototype = {
 		this.gameInMotion = true;
 
 		// FIRING THE BAZOOKA
-		this.physics.arcade.velocityFromRotation(this.bazooka.rotation, this.power, this.bullet.body.velocity);
+		this.physics.arcade.velocityFromRotation(bazookaRotation, this.power, this.bullet.body.velocity);
 		},
 
 	removeBullet: function ()
