@@ -1,6 +1,6 @@
-# Worms
+# Worms Clone
 
-Worms game in JavaScript.
+Worms Clone game in JavaScript.
 
 ![alt screenshot](https://raw.githubusercontent.com/lrusso/Worms/main/Worms.png)
 
