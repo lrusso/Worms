@@ -1091,7 +1091,7 @@ Worms.Game.prototype = {
 			// DRAWING A CIRCLE ON THAT LOCATION
 			this.land.dirty = true;
 			this.land.blendDestinationOut();
-			this.land.circle(x, y, 16, "rgba(0, 0, 0, 255");
+			this.land.circle(x, y, 19, "rgba(0, 0, 0, 255");
 			this.land.blendReset();
 			this.land.update();
 
