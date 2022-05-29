@@ -821,6 +821,7 @@ Worms.Game.prototype = {
 		if (this.bullet.exists==true)
 			{
 			// CHECKING IF THE BULLET OVERLAPS A WORM
+			this.physics.arcade.overlap(this.bullet, this.player1Worm2, this.damageWorm, null, this);
 			this.physics.arcade.overlap(this.bullet, this.player2Worm1, this.damageWorm, null, this);
 			this.physics.arcade.overlap(this.bullet, this.player2Worm2, this.damageWorm, null, this);
 
@@ -953,7 +954,10 @@ Worms.Game.prototype = {
 	preRender: function()
 		{
 		// APPLYING GRAVITY TO EACH WORM
-		this.applyGravity();
+		this.applyGravityFor(this.player1Worm1);
+		this.applyGravityFor(this.player1Worm2);
+		this.applyGravityFor(this.player2Worm1);
+		this.applyGravityFor(this.player2Worm2);
 
 		// MAKING THE PLAYER 1 WORM 1 LABEL TO FOLLOW TO WORM
 		this.player1Worm1Label.position.x = this.player1Worm1.x + this.player1Worm1.width / 2 - this.player1Worm1Label.width / 2;
@@ -979,19 +983,13 @@ Worms.Game.prototype = {
 	render:function()
 		{
 		// APPLYING GRAVITY TO EACH WORM
-		this.applyGravity();
+		this.applyGravityFor(this.player1Worm1);
+		this.applyGravityFor(this.player1Worm2);
+		this.applyGravityFor(this.player2Worm1);
+		this.applyGravityFor(this.player2Worm2);
 		},
 
-	applyGravity: function()
-		{
-		// CHECKING AND APPLYING GRAVITY TO EACH WORM
-		this.checkGravityFor(this.player1Worm1);
-		this.checkGravityFor(this.player1Worm2);
-		this.checkGravityFor(this.player2Worm1);
-		this.checkGravityFor(this.player2Worm2);
-		},
-
-	checkGravityFor: function(selectedWorm)
+	applyGravityFor: function(selectedWorm)
 		{
 		// GETTING THE PIXEL LOCATION UNDER THE CURRENT WORM LOCATION
 		var x = Math.floor(selectedWorm.position.x + Math.floor(selectedWorm.width / 2));
@@ -1198,6 +1196,7 @@ Worms.Game.prototype = {
 	damageWorm: function(bullet, target)
 		{
 		// CHECKING WHAT WORM LABEL TO HIDE
+		if (target==this.player1Worm2){this.player1Worm2Label.visible = false;}
 		if (target==this.player2Worm1){this.player2Worm1Label.visible = false;}
 		if (target==this.player2Worm2){this.player2Worm2Label.visible = false;}
 
