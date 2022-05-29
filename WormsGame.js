@@ -848,7 +848,7 @@ Worms.Game.prototype = {
 			if ((moveLeft==true && moveUp==false && moveDown==false && moveRight==false) || (this.stick.isDown==true && this.stick.octant==180))
 				{
 				// PLAYING THE WALKING LEFT ANIMATION
-				this.player1Worm1.animations.play("walk_left", 6, true);
+				this.player1Worm1.animations.play("walk_left", 9, true);
 
 				// CHECKING IF THE WORM CAN MOVE TO THE LEFT
 				if (this.canMoveLeft()==true)
@@ -871,7 +871,7 @@ Worms.Game.prototype = {
 			else if ((moveRight==true && moveUp==false && moveDown==false && moveLeft==false) || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)))
 				{
 				// PLAYING THE WALKING RIGHT ANIMATION
-				this.player1Worm1.animations.play("walk_right", 6, true);
+				this.player1Worm1.animations.play("walk_right", 9, true);
 
 				// CHECKING IF THE WORM CAN MOVE TO THE RIGHT
 				if (this.canMoveRight()==true)
