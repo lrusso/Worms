@@ -1238,7 +1238,7 @@ Worms.Game.prototype = {
 		game.time.events.add(1500, function()
 			{
 			// MOVING THE CAMERA BACK TO THE WORM
-			game.add.tween(game.state.states["Worms.Game"].camera).to({x: game.state.states["Worms.Game"].player1Worm1.position.x - (game.state.states["Worms.Game"].camera.width / 2)}, 2000, Phaser.Easing.Linear.None, true).onComplete.add(function()
+			game.add.tween(game.state.states["Worms.Game"].camera).to({x: game.state.states["Worms.Game"].player1Worm1.position.x - (game.state.states["Worms.Game"].camera.width / 2)}, 500, Phaser.Easing.Linear.None, true).onComplete.add(function()
 				{
 				// SETTING THAT THE GAME IS NOT IN MOTION
 				game.state.states["Worms.Game"].gameInMotion = false;
