@@ -646,13 +646,13 @@ Worms.Game.prototype = {
 		// ADDING THE PLAYER 1 HEALTH CONTAINER
 		this.player1HealthContainer = game.add.graphics(0, 0);
 		this.player1HealthContainer.lineStyle(4, 0xFFFFFF, 1);
-		this.player1HealthContainer.drawRect(20, 40, 315, 30);
+		this.player1HealthContainer.drawRect(20, 40, 315, 20);
 		this.player1HealthContainer.fixedToCamera = true;
 
 		// ADDING THE PLAYER 1 HEALTH METER
 		this.player1HealthMeter = game.add.graphics(0, 0);
 		this.player1HealthMeter.beginFill(0X7F0000);
-		this.player1HealthMeter.drawRect(20, 40, 315, 30);
+		this.player1HealthMeter.drawRect(20, 40, 315, 20);
 		this.player1HealthMeter.fixedToCamera = true;
 
 		// ADDING THE PLAYER 2 LABEL SHADOW
@@ -672,23 +672,23 @@ Worms.Game.prototype = {
 		// ADDING THE PLAYER 2 HEALTH CONTAINER
 		this.player2HealthContainer = game.add.graphics(0, 0);
 		this.player2HealthContainer.lineStyle(4, 0xFFFFFF, 1);
-		this.player2HealthContainer.drawRect(420, 40, 315, 30);
+		this.player2HealthContainer.drawRect(420, 40, 315, 20);
 		this.player2HealthContainer.fixedToCamera = true;
 
 		// ADDING THE PLAYER 2 HEALTH METER
 		this.player2HealthMeter = game.add.graphics(0, 0);
 		this.player2HealthMeter.beginFill(0X7F0000);
-		this.player2HealthMeter.drawRect(420, 40, 315, 30);
+		this.player2HealthMeter.drawRect(420, 40, 315, 20);
 		this.player2HealthMeter.fixedToCamera = true;
 
 		// ADDING THE KO LABEL SHADOW
-		this.koLabelShadow = game.add.bitmapText(355, 42, "ArialBlackWhite", "KO", 30);
+		this.koLabelShadow = game.add.bitmapText(355, 37, "ArialBlackWhite", "KO", 30);
 		this.koLabelShadow.height = 35;
 		this.koLabelShadow.tint = 0x000000;
 		this.koLabelShadow.fixedToCamera = true;
 
 		// ADDING THE KO LABEL
-		this.koLabel = game.add.bitmapText(353, 40, "ArialBlackWhite", "KO", 30);
+		this.koLabel = game.add.bitmapText(353, 35, "ArialBlackWhite", "KO", 30);
 		this.koLabel.height = 35;
 		this.koLabel.tint = 0xFFFF00;
 		this.koLabel.fixedToCamera = true;
