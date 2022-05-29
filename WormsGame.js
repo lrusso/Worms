@@ -1095,6 +1095,15 @@ Worms.Game.prototype = {
 			this.land.blendReset();
 			this.land.update();
 
+			// RELOCATING THE FLAME SPRITE
+			this.flame.x = x;
+			this.flame.y = y;
+			this.flame.alpha = 1;
+			this.flame.visible = true;
+
+			// STARTING THE FADE OUT ANIMATION (EXPLOSION) ON THE FLAME SPRITE
+			this.add.tween(this.flame).to( { alpha: 0 }, 100, "Linear", true);
+
 			// REMOVING THE BULLET
 			this.removeBullet();
 			}
@@ -1201,8 +1210,17 @@ Worms.Game.prototype = {
 		if (target==this.player2Worm1){this.player2Worm1Label.visible = false;}
 		if (target==this.player2Worm2){this.player2Worm2Label.visible = false;}
 
-		// DELETING THE TARGET
-		target.kill();
+		// RELOCATING THE FLAME SPRITE
+		this.flame.x = Math.floor(this.bullet.x);
+		this.flame.y = Math.floor(this.bullet.y);
+		this.flame.alpha = 1;
+		this.flame.visible = true;
+
+		// STARTING THE FADE OUT ANIMATION (EXPLOSION) ON THE FLAME SPRITE
+		this.add.tween(this.flame).to( { alpha: 0 }, 100, "Linear", true);
+
+		// FADING OUT THE WORM AND KILLING IT
+		this.add.tween(target).to( { alpha: 0 }, 100, "Linear", true).onComplete.add(function(){target.kill();});
 
 		// REMOVING THE BULLLET
 		this.removeBullet();
