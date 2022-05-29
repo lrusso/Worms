@@ -717,7 +717,8 @@ Worms.Game.prototype = {
 		// ADDING THE PLAYER 1 WORM 2
 		this.player1Worm2 = this.add.sprite(208, 305, "imageGameWormSpritesheet");
 		this.player1Worm2.frame = 6;
-		this.camera.follow(this.player1Worm2);
+		this.physics.arcade.enable(this.player1Worm2);
+		this.player1Worm2.body.allowGravity = false;
 
 		// ADDING THE PLAYER 1 WORM 2 LABEL
 		this.player1Worm2Label = game.add.bitmapText(this.player1Worm2.x + 15, this.player1Worm2.y + 20, "ArialBlackWhite", this.player1Worm2Health + "", 15);
