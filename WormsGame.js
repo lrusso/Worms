@@ -536,6 +536,7 @@ Worms.Game = function (game)
 	this.keyW = null;
 	this.keyS = null;
 	this.keySpace = null;
+	this.keySpaceWasDown = null;
 	this.stick = null;
 	this.buttonFireNormal = null;
 	this.buttonFirePressed = null;
@@ -599,6 +600,7 @@ Worms.Game.prototype = {
 		this.keyW = null;
 		this.keyS = null;
 		this.keySpace = null;
+		this.keySpaceWasDown = false;
 		this.stick = null;
 		this.buttonFireNormal = null;
 		this.buttonFirePressed = null;
@@ -606,7 +608,7 @@ Worms.Game.prototype = {
 		this.buttonFireHandler = null;
 		this.gameInMotion = false;
 		this.isMobileDevice = null;
-		this.power = 300;
+		this.power = 100;
 		},
 
 	create: function ()
@@ -946,8 +948,28 @@ Worms.Game.prototype = {
 			// CHECKING IF THE USER IS PRESSING THE SPACE KEY
 			if (this.keySpace.isDown==true)
 				{
+				// SETTING THAT THE USER IS PRESSING THE SPACE KEY
+				this.keySpaceWasDown = true;
+
+				// CHECKING IF THE USER CAN INCREASE THE SHOT POWER
+				if (this.power<490)
+					{
+					// INCREASING THE SHOT POWER
+					this.power = this.power + 10;
+					}
+				}
+
+			// CHECKING IF THE USER STOP PRESSING THE SPACE KEY
+			else if (this.keySpaceWasDown==true)
+				{
+				// SETTING THAT THE USER IS NOT PRESSING THE SPACE KEY
+				this.keySpaceWasDown = false;
+
 				// FIRING THE BAZOOKA
 				this.fire();
+
+				// RESTORING THE SHOT POWER
+				this.power = 100;
 				}
 			}
 		},
