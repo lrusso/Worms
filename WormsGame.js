@@ -545,6 +545,7 @@ Worms.Game = function (game)
 	this.gameInMotion = null;
 	this.isMobileDevice = null;
 	this.power = null;
+	this.powerMax = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
@@ -609,6 +610,7 @@ Worms.Game.prototype = {
 		this.gameInMotion = false;
 		this.isMobileDevice = null;
 		this.power = 100;
+		this.powerMax = 500;
 		},
 
 	create: function ()
@@ -971,14 +973,14 @@ Worms.Game.prototype = {
 					}
 
 				// CHECKING IF THE USER CAN INCREASE THE SHOT POWER
-				if (this.power<500)
+				if (this.power<this.powerMax)
 					{
 					// INCREASING THE SHOT POWER
 					this.power = this.power + 10;
 					}
 
 				// CHECKING IF THE USER HIT THE POWER LIMIT
-				else if (this.power==500)
+				else if (this.power==this.powerMax)
 					{
 					// SETTING THAT THE USER IS NOT PRESSING THE SPACE KEY
 					this.keySpaceWasDown = false;
