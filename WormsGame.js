@@ -979,7 +979,7 @@ Worms.Game.prototype = {
 					this.power = this.power + 10;
 					}
 
-				// CHECKING IF THE USER HIT THE POWER LIMIT
+				// CHECKING IF THE SHOT POWER IS THE MAXIMUM POWER
 				else if (this.power==this.powerMax)
 					{
 					// SETTING THAT THE USER IS NOT PRESSING THE SPACE KEY
