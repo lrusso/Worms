@@ -840,61 +840,122 @@ Worms.Game.prototype = {
 				return;
 				}
 
-			// DETECTING THE KEYS
-			var moveLeft = this.cursors.left.isDown || this.keyA.isDown;
-			var moveRight = this.cursors.right.isDown || this.keyD.isDown;
-			var moveUp = this.cursors.up.isDown || this.keyW.isDown;
-			var moveDown = this.cursors.down.isDown || this.keyS.isDown;
-
-			// CHECKING IF THE USER IS PRESSING THE LEFT KEY
-			if ((moveLeft==true && moveUp==false && moveDown==false && moveRight==false) || (this.stick.isDown==true && this.stick.octant==180))
+			// CHECKING IF THE USER WAS NOT PRESSING THE SPACE KEY (TO PREVENT TO MOVE THE WORM WHILE POWERING UP THE SHOT)
+			if (this.keySpaceWasDown==false)
 				{
-				// PLAYING THE WALKING LEFT ANIMATION
-				this.player1Worm1.animations.play("walk_left", 9, true);
+				// DETECTING THE KEYS
+				var moveLeft = this.cursors.left.isDown || this.keyA.isDown;
+				var moveRight = this.cursors.right.isDown || this.keyD.isDown;
+				var moveUp = this.cursors.up.isDown || this.keyW.isDown;
+				var moveDown = this.cursors.down.isDown || this.keyS.isDown;
 
-				// CHECKING IF THE WORM CAN MOVE TO THE LEFT
-				if (this.canMoveLeft()==true)
+				// CHECKING IF THE USER IS PRESSING THE LEFT KEY
+				if ((moveLeft==true && moveUp==false && moveDown==false && moveRight==false) || (this.stick.isDown==true && this.stick.octant==180))
 					{
-					// MOVING THE WORM TO THE LEFT
-					this.player1Worm1.position.x = this.player1Worm1.position.x - 1;
+					// PLAYING THE WALKING LEFT ANIMATION
+					this.player1Worm1.animations.play("walk_left", 9, true);
 
-					// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
-					if (this.bazooka.scale.x>0)
+					// CHECKING IF THE WORM CAN MOVE TO THE LEFT
+					if (this.canMoveLeft()==true)
 						{
-						// UPDATING THE BAZOOKA ORIENTATION
-						this.bazooka.scale.x = this.bazooka.scale.x * -1;
+						// MOVING THE WORM TO THE LEFT
+						this.player1Worm1.position.x = this.player1Worm1.position.x - 1;
 
+						// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
+						if (this.bazooka.scale.x>0)
+							{
+							// UPDATING THE BAZOOKA ORIENTATION
+							this.bazooka.scale.x = this.bazooka.scale.x * -1;
+
+							// UPDATING THE BAZOOKA ANGLE
+							this.bazooka.angle = this.bazooka.angle * -1;
+							}
+						}
+					}
+				// CHECKING IF THE USER IS PRESSING THE RIGHT KEY
+				else if ((moveRight==true && moveUp==false && moveDown==false && moveLeft==false) || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)))
+					{
+					// PLAYING THE WALKING RIGHT ANIMATION
+					this.player1Worm1.animations.play("walk_right", 9, true);
+
+					// CHECKING IF THE WORM CAN MOVE TO THE RIGHT
+					if (this.canMoveRight()==true)
+						{
+						// MOVING THE WORM TO THE RIGHT
+						this.player1Worm1.position.x = this.player1Worm1.position.x + 1;
+
+						// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
+						if (this.bazooka.scale.x<0)
+							{
+							// UPDATING THE BAZOOKA ORIENTATION
+							this.bazooka.scale.x = this.bazooka.scale.x * -1;
+
+							// UPDATING THE BAZOOKA ANGLE
+							this.bazooka.angle = this.bazooka.angle * -1;
+							}
+						}
+					}
+					else
+					{
+					// STOPPING ALL THE ANIMATIONS
+					this.player1Worm1.animations.stop();
+
+					// CHECKING IF THE WORM WAS WALKING TO THE LEFT
+					if (this.player1Worm1.animations.currentAnim.name=="walk_left")
+						{
+						// SHOWING THE STAND LEFT FRAME
+						this.player1Worm1.frame = 0;
+						}
+						else
+						{
+						// SHOWING THE STAND RIGHT FRAME
+						this.player1Worm1.frame = 6;
+						}
+					}
+
+				// CHECKING IF THE USER IS PRESSING THE UP KEY AND IF THE BAZOOKA ANGLE CAN BE UPDATED
+				if ((moveUp==true && moveLeft==false && moveRight==false && moveDown==false) || (this.stick.isDown==true && this.stick.octant==270))
+					{
+					// CHECKING IF THE WORM WAS WALKING TO THE LEFT AND THE BAZOOKA ANGLE CAN BE UPDATED
+					if (this.player1Worm1.animations.currentAnim.name=="walk_left" && this.bazooka.angle < 90)
+						{
 						// UPDATING THE BAZOOKA ANGLE
-						this.bazooka.angle = this.bazooka.angle * -1;
+						this.bazooka.angle = this.bazooka.angle + 1;
+						}
+
+					// CHECKING IF THE WORM WAS WALKING TO THE RIGHT AND THE BAZOOKA ANGLE CAN BE UPDATED
+					if (this.player1Worm1.animations.currentAnim.name=="walk_right" && this.bazooka.angle > -90)
+						{
+						// UPDATING THE BAZOOKA ANGLE
+						this.bazooka.angle = this.bazooka.angle - 1;
+						}
+					}
+				// CHECKING IF THE USER IS PRESSING THE DOWN KEY AND IF THE BAZOOKA ANGLE CAN BE UPDATED
+				else if ((moveDown==true && moveLeft==false && moveRight==false && moveUp==false) || (this.stick.isDown==true && this.stick.octant==90))
+					{
+					// CHECKING IF THE WORM WAS WALKING TO THE LEFT AND THE BAZOOKA ANGLE CAN BE UPDATED
+					if (this.player1Worm1.animations.currentAnim.name=="walk_left" && this.bazooka.angle > -90)
+						{
+						// UPDATING THE BAZOOKA ANGLE
+						this.bazooka.angle = this.bazooka.angle - 1;
+						}
+
+					// CHECKING IF THE WORM WAS WALKING TO THE RIGHT AND THE BAZOOKA ANGLE CAN BE UPDATED
+					if (this.player1Worm1.animations.currentAnim.name=="walk_right" && this.bazooka.angle < 90)
+						{
+						// UPDATING THE BAZOOKA ANGLE
+						this.bazooka.angle = this.bazooka.angle + 1;
 						}
 					}
 				}
-			// CHECKING IF THE USER IS PRESSING THE RIGHT KEY
-			else if ((moveRight==true && moveUp==false && moveDown==false && moveLeft==false) || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)))
+
+			// CHECKING IF THE USER IS PRESSING THE SPACE KEY
+			if (this.keySpace.isDown==true)
 				{
-				// PLAYING THE WALKING RIGHT ANIMATION
-				this.player1Worm1.animations.play("walk_right", 9, true);
+				// SETTING THAT THE USER IS PRESSING THE SPACE KEY
+				this.keySpaceWasDown = true;
 
-				// CHECKING IF THE WORM CAN MOVE TO THE RIGHT
-				if (this.canMoveRight()==true)
-					{
-					// MOVING THE WORM TO THE RIGHT
-					this.player1Worm1.position.x = this.player1Worm1.position.x + 1;
-
-					// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
-					if (this.bazooka.scale.x<0)
-						{
-						// UPDATING THE BAZOOKA ORIENTATION
-						this.bazooka.scale.x = this.bazooka.scale.x * -1;
-
-						// UPDATING THE BAZOOKA ANGLE
-						this.bazooka.angle = this.bazooka.angle * -1;
-						}
-					}
-				}
-				else
-				{
-				// STOPPING ALL THE ANIMATIONS
+				// STOPPING THE WORM ANIMATION
 				this.player1Worm1.animations.stop();
 
 				// CHECKING IF THE WORM WAS WALKING TO THE LEFT
@@ -908,54 +969,25 @@ Worms.Game.prototype = {
 					// SHOWING THE STAND RIGHT FRAME
 					this.player1Worm1.frame = 6;
 					}
-				}
-
-			// CHECKING IF THE USER IS PRESSING THE UP KEY AND IF THE BAZOOKA ANGLE CAN BE UPDATED
-			if ((moveUp==true && moveLeft==false && moveRight==false && moveDown==false) || (this.stick.isDown==true && this.stick.octant==270))
-				{
-				// CHECKING IF THE WORM WAS WALKING TO THE LEFT AND THE BAZOOKA ANGLE CAN BE UPDATED
-				if (this.player1Worm1.animations.currentAnim.name=="walk_left" && this.bazooka.angle < 90)
-					{
-					// UPDATING THE BAZOOKA ANGLE
-					this.bazooka.angle = this.bazooka.angle + 1;
-					}
-
-				// CHECKING IF THE WORM WAS WALKING TO THE RIGHT AND THE BAZOOKA ANGLE CAN BE UPDATED
-				if (this.player1Worm1.animations.currentAnim.name=="walk_right" && this.bazooka.angle > -90)
-					{
-					// UPDATING THE BAZOOKA ANGLE
-					this.bazooka.angle = this.bazooka.angle - 1;
-					}
-				}
-			// CHECKING IF THE USER IS PRESSING THE DOWN KEY AND IF THE BAZOOKA ANGLE CAN BE UPDATED
-			else if ((moveDown==true && moveLeft==false && moveRight==false && moveUp==false) || (this.stick.isDown==true && this.stick.octant==90))
-				{
-				// CHECKING IF THE WORM WAS WALKING TO THE LEFT AND THE BAZOOKA ANGLE CAN BE UPDATED
-				if (this.player1Worm1.animations.currentAnim.name=="walk_left" && this.bazooka.angle > -90)
-					{
-					// UPDATING THE BAZOOKA ANGLE
-					this.bazooka.angle = this.bazooka.angle - 1;
-					}
-
-				// CHECKING IF THE WORM WAS WALKING TO THE RIGHT AND THE BAZOOKA ANGLE CAN BE UPDATED
-				if (this.player1Worm1.animations.currentAnim.name=="walk_right" && this.bazooka.angle < 90)
-					{
-					// UPDATING THE BAZOOKA ANGLE
-					this.bazooka.angle = this.bazooka.angle + 1;
-					}
-				}
-
-			// CHECKING IF THE USER IS PRESSING THE SPACE KEY
-			if (this.keySpace.isDown==true)
-				{
-				// SETTING THAT THE USER IS PRESSING THE SPACE KEY
-				this.keySpaceWasDown = true;
 
 				// CHECKING IF THE USER CAN INCREASE THE SHOT POWER
-				if (this.power<490)
+				if (this.power<500)
 					{
 					// INCREASING THE SHOT POWER
 					this.power = this.power + 10;
+					}
+
+				// CHECKING IF THE USER HIT THE POWER LIMIT
+				else if (this.power==500)
+					{
+					// SETTING THAT THE USER IS NOT PRESSING THE SPACE KEY
+					this.keySpaceWasDown = false;
+
+					// FIRING THE BAZOOKA
+					this.fire();
+
+					// RESTORING THE SHOT POWER
+					this.power = 100;
 					}
 				}
 
