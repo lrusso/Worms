@@ -511,9 +511,11 @@ Worms.Game = function (game)
 	this.player1HealthMeter = null;
 	this.player1Worm1 = null;
 	this.player1Worm1Label = null;
+	this.player1Worm1LabelShadow = null;
 	this.player1Worm1Health = null;
 	this.player1Worm2 = null;
 	this.player1Worm2Label = null;
+	this.player1Worm2LabelShadow = null;
 	this.player1Worm2Health = null;
 	this.player2LabelShadow = null;
 	this.player2Label = null;
@@ -521,9 +523,11 @@ Worms.Game = function (game)
 	this.player2HealthMeter = null;
 	this.player2Worm1 = null;
 	this.player2Worm1Label = null;
+	this.player2Worm1LabelShadow = null;
 	this.player2Worm1Health = null;
 	this.player2Worm2 = null;
 	this.player2Worm2Label = null;
+	this.player2Worm2LabelShadow = null;
 	this.player2Worm2Health = null;
 	this.koLabelShadow = null;
 	this.koLabel = null;
@@ -577,9 +581,11 @@ Worms.Game.prototype = {
 		this.player1HealthMeter = null;
 		this.player1Worm1 = null;
 		this.player1Worm1Label = null;
+		this.player1Worm1LabelShadow = null;
 		this.player1Worm1Health = 100;
 		this.player1Worm2 = null;
 		this.player1Worm2Label = null;
+		this.player1Worm2LabelShadow = null;
 		this.player1Worm2Health = 100;
 		this.player2LabelShadow = null;
 		this.player2Label = null;
@@ -587,9 +593,11 @@ Worms.Game.prototype = {
 		this.player2HealthMeter = null;
 		this.player2Worm1 = null;
 		this.player2Worm1Label = null;
+		this.player2Worm1LabelShadow = null;
 		this.player2Worm1Health = 100;
 		this.player2Worm2 = null;
 		this.player2Worm2Label = null;
+		this.player2Worm2LabelShadow = null;
 		this.player2Worm2Health = 100;
 		this.koLabelShadow = null;
 		this.koLabel = null;
@@ -718,6 +726,10 @@ Worms.Game.prototype = {
 		this.player1Worm1.animations.add("walk_right", [6, 7, 8, 9, 10, 11]);
 		this.camera.follow(this.player1Worm1);
 
+		// ADDING THE PLAYER 1 WORM 1 LABEL SHADOW
+		this.player1Worm1LabelShadow = game.add.bitmapText(this.player1Worm1.x + 13, this.player1Worm1.y + 18, "ArialBlackWhite", this.player1Worm1Health + "", 15);
+		this.player1Worm1LabelShadow.tint = 0x000000;
+
 		// ADDING THE PLAYER 1 WORM 1 LABEL
 		this.player1Worm1Label = game.add.bitmapText(this.player1Worm1.x + 15, this.player1Worm1.y + 20, "ArialBlackWhite", this.player1Worm1Health + "", 15);
 		this.player1Worm1Label.tint = 0xFFFFFF;
@@ -728,6 +740,10 @@ Worms.Game.prototype = {
 		this.physics.arcade.enable(this.player1Worm2);
 		this.player1Worm2.body.allowGravity = false;
 
+		// ADDING THE PLAYER 1 WORM 2 LABEL SHADOW
+		this.player1Worm2LabelShadow = game.add.bitmapText(this.player1Worm2.x + 13, this.player1Worm2.y + 18, "ArialBlackWhite", this.player1Worm2Health + "", 15);
+		this.player1Worm2LabelShadow.tint = 0x000000;
+
 		// ADDING THE PLAYER 1 WORM 2 LABEL
 		this.player1Worm2Label = game.add.bitmapText(this.player1Worm2.x + 15, this.player1Worm2.y + 20, "ArialBlackWhite", this.player1Worm2Health + "", 15);
 		this.player1Worm2Label.tint = 0xFFFFFF;
@@ -737,6 +753,10 @@ Worms.Game.prototype = {
 		this.physics.arcade.enable(this.player2Worm1);
 		this.player2Worm1.body.allowGravity = false;
 
+		// ADDING THE PLAYER 2 WORM 1 LABEL SHADOW
+		this.player2Worm1LabelShadow = game.add.bitmapText(this.player2Worm1.x + 13, this.player2Worm1.y + 18, "ArialBlackWhite", this.player2Worm1Health + "", 15);
+		this.player2Worm1LabelShadow.tint = 0x000000;
+
 		// ADDING THE PLAYER 2 WORM 1 LABEL
 		this.player2Worm1Label = game.add.bitmapText(this.player2Worm1.x + 15, this.player2Worm1.y + 20, "ArialBlackWhite", this.player2Worm1Health + "", 15);
 		this.player2Worm1Label.tint = 0xFFFF00;
@@ -745,6 +765,10 @@ Worms.Game.prototype = {
 		this.player2Worm2 = this.add.sprite(695, 261, "imageGameWormSpritesheet");
 		this.physics.arcade.enable(this.player2Worm2);
 		this.player2Worm2.body.allowGravity = false;
+
+		// ADDING THE PLAYER 2 WORM 2 LABEL SHADOW
+		this.player2Worm2LabelShadow = game.add.bitmapText(this.player2Worm1.x + 13, this.player2Worm1.y + 18, "ArialBlackWhite", this.player2Worm2Health + "", 15);
+		this.player2Worm2LabelShadow.tint = 0x000000;
 
 		// ADDING THE PLAYER 2 WORM 2 LABEL
 		this.player2Worm2Label = game.add.bitmapText(this.player2Worm1.x + 15, this.player2Worm1.y + 20, "ArialBlackWhite", this.player2Worm2Health + "", 15);
@@ -1039,17 +1063,33 @@ Worms.Game.prototype = {
 		this.applyGravityFor(this.player2Worm1);
 		this.applyGravityFor(this.player2Worm2);
 
+		// MAKING THE PLAYER 1 WORM 1 LABEL SHADOW TO FOLLOW TO WORM
+		this.player1Worm1LabelShadow.position.x = this.player1Worm1.x + this.player1Worm1.width / 2 - this.player1Worm1LabelShadow.width / 2 + 1;
+		this.player1Worm1LabelShadow.position.y = this.player1Worm1.y - 14;
+
 		// MAKING THE PLAYER 1 WORM 1 LABEL TO FOLLOW TO WORM
 		this.player1Worm1Label.position.x = this.player1Worm1.x + this.player1Worm1.width / 2 - this.player1Worm1Label.width / 2;
 		this.player1Worm1Label.position.y = this.player1Worm1.y - 15;
+
+		// MAKING THE PLAYER 1 WORM 2 LABEL SHADOW TO FOLLOW TO WORM
+		this.player1Worm2LabelShadow.position.x = this.player1Worm2.x + this.player1Worm2.width / 2 - this.player1Worm2LabelShadow.width / 2 + 1;
+		this.player1Worm2LabelShadow.position.y = this.player1Worm2.y - 14;
 
 		// MAKING THE PLAYER 1 WORM 2 LABEL TO FOLLOW TO WORM
 		this.player1Worm2Label.position.x = this.player1Worm2.x + this.player1Worm2.width / 2 - this.player1Worm2Label.width / 2;
 		this.player1Worm2Label.position.y = this.player1Worm2.y - 15;
 
+		// MAKING THE PLAYER 2 WORM 1 LABEL SHADOW TO FOLLOW TO WORM
+		this.player2Worm1LabelShadow.position.x = this.player2Worm1.x + this.player2Worm1.width / 2 - this.player2Worm1LabelShadow.width / 2 + 1;
+		this.player2Worm1LabelShadow.position.y = this.player2Worm1.y - 14;
+
 		// MAKING THE PLAYER 2 WORM 1 LABEL TO FOLLOW TO WORM
 		this.player2Worm1Label.position.x = this.player2Worm1.x + this.player2Worm1.width / 2 - this.player2Worm1Label.width / 2;
 		this.player2Worm1Label.position.y = this.player2Worm1.y - 15;
+
+		// MAKING THE PLAYER 2 WORM 2 LABEL SHADOW TO FOLLOW TO WORM
+		this.player2Worm2LabelShadow.position.x = this.player2Worm2.x + this.player2Worm2.width / 2 - this.player2Worm2LabelShadow.width / 2 + 1;
+		this.player2Worm2LabelShadow.position.y = this.player2Worm2.y - 14;
 
 		// MAKING THE PLAYER 2 WORM 2 LABEL TO FOLLOW TO WORM
 		this.player2Worm2Label.position.x = this.player2Worm2.x + this.player2Worm2.width / 2 - this.player2Worm2Label.width / 2;
@@ -1368,9 +1408,9 @@ Worms.Game.prototype = {
 	damageWorm: function(bullet, target)
 		{
 		// CHECKING WHAT WORM LABEL TO HIDE
-		if (target==this.player1Worm2){this.player1Worm2Label.visible = false;}
-		if (target==this.player2Worm1){this.player2Worm1Label.visible = false;}
-		if (target==this.player2Worm2){this.player2Worm2Label.visible = false;}
+		if (target==this.player1Worm2){this.player1Worm2Label.visible = false;this.player1Worm2LabelShadow.visible = false}
+		if (target==this.player2Worm1){this.player2Worm1Label.visible = false;this.player2Worm1LabelShadow.visible = false}
+		if (target==this.player2Worm2){this.player2Worm2Label.visible = false;this.player2Worm2LabelShadow.visible = false;}
 
 		// RELOCATING THE FLAME SPRITE
 		this.flame.x = Math.floor(this.bullet.x);
