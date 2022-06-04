@@ -548,6 +548,7 @@ Worms.Game = function (game)
 	this.isMobileDevice = null;
 	this.power = null;
 	this.powerMax = null;
+	this.powerGradient = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
@@ -613,6 +614,7 @@ Worms.Game.prototype = {
 		this.isMobileDevice = null;
 		this.power = 100;
 		this.powerMax = 500;
+		this.powerGradient = null;
 		},
 
 	create: function ()
@@ -827,6 +829,9 @@ Worms.Game.prototype = {
 		// ADDING THE POWER METER
 		this.powerMeter = game.add.graphics(0, 0);
 		this.powerContainer.addChild(this.powerMeter);
+
+		// ADDING THE POWER GRADIENT VALUES
+		this.powerGradient = this.getRamp("#FFFF00", "#FF0000", 50);
 		},
 
 	update: function ()
@@ -1120,14 +1125,53 @@ Worms.Game.prototype = {
 		this.powerContainer.position.y = p.y;
 
 		// DRAWING THE POWER CIRCLE FOR THE CURRENT POWER LEVEL
-		this.powerMeter.beginFill(0xFF0000, 0.5);
+		this.powerMeter.beginFill(this.powerGradient[Math.floor(this.power * 100 / this.powerMax) / 2], 0.5);
 		this.powerMeter.drawCircle(currentX, 16 / 2, 16);
 		this.powerMeter.endFill();
 		},
 
+	// https://stackoverflow.com/questions/2263762/flipping-an-angle-using-radians
 	invertAngle: function(angle)
 		{
 		return (angle + Math.PI) % (2 * Math.PI);
+		},
+
+	// https://stackoverflow.com/questions/14482226/how-can-i-get-the-color-halfway-between-two-colors
+	getRamp: function(startColor, endColor, steps)
+		{
+		function rgbToHex(r, g, b)
+			{
+			return "0x" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+			}
+
+		function hexToRgb(hex)
+			{
+			var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+			return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) } : null;
+			}
+
+		var ramp = [];
+
+		ramp.push(startColor);
+
+		var startColorRgb = hexToRgb(startColor);
+		var endColorRgb = hexToRgb(endColor);
+
+		var rInc = Math.round((endColorRgb.r - startColorRgb.r) / (steps+1));
+		var gInc = Math.round((endColorRgb.g - startColorRgb.g) / (steps+1));
+		var bInc = Math.round((endColorRgb.b - startColorRgb.b) / (steps+1));
+
+		for (var i = 0; i < steps; i++)
+			{
+			startColorRgb.r += rInc;
+			startColorRgb.g += gInc;
+			startColorRgb.b += bInc;
+
+			ramp.push(rgbToHex(startColorRgb.r, startColorRgb.g, startColorRgb.b));
+			}
+		ramp.push(endColor);
+
+		return ramp;
 		},
 
 	canMoveLeft: function()
