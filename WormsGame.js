@@ -1125,7 +1125,7 @@ Worms.Game.prototype = {
 		this.powerContainer.position.y = p.y;
 
 		// DRAWING THE POWER CIRCLE FOR THE CURRENT POWER LEVEL
-		this.powerMeter.beginFill(this.powerGradient[Math.floor(this.power * 100 / this.powerMax) / 2], 0.5);
+		this.powerMeter.beginFill(this.powerGradient[Math.floor(this.power * 100 / this.powerMax / 2.1)], 0.5);
 		this.powerMeter.drawCircle(currentX, 16 / 2, 16);
 		this.powerMeter.endFill();
 		},
