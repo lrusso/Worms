@@ -767,11 +767,11 @@ Worms.Game.prototype = {
 		this.player2Worm2.body.allowGravity = false;
 
 		// ADDING THE PLAYER 2 WORM 2 LABEL SHADOW
-		this.player2Worm2LabelShadow = game.add.bitmapText(this.player2Worm1.x + 13, this.player2Worm1.y + 18, "ArialBlackWhite", this.player2Worm2Health + "", 15);
+		this.player2Worm2LabelShadow = game.add.bitmapText(this.player2Worm2.x + 13, this.player2Worm2.y + 18, "ArialBlackWhite", this.player2Worm2Health + "", 15);
 		this.player2Worm2LabelShadow.tint = 0x000000;
 
 		// ADDING THE PLAYER 2 WORM 2 LABEL
-		this.player2Worm2Label = game.add.bitmapText(this.player2Worm1.x + 15, this.player2Worm1.y + 20, "ArialBlackWhite", this.player2Worm2Health + "", 15);
+		this.player2Worm2Label = game.add.bitmapText(this.player2Worm2.x + 15, this.player2Worm2.y + 20, "ArialBlackWhite", this.player2Worm2Health + "", 15);
 		this.player2Worm2Label.tint = 0xFFFF00;
 
 		// ADDING THE BAZOOKA
