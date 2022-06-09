@@ -1135,11 +1135,11 @@ Worms.Game.prototype = {
 
 	applyGravityFor: function(selectedWorm)
 		{
-		// GETTING THE PIXEL LOCATION WHERE THE CURRENT WORM LOCATION ACTUALLY IS
+		// GETTING THE PIXEL LOCATION FROM THE CURRENT WORM LOCATION
 		var x = Math.floor(selectedWorm.position.x + selectedWorm.width / 2);
 		var y = Math.floor(selectedWorm.position.y + selectedWorm.height);
 
-		// GETTING THE PIXEL DATA WHERE THE CURRENT WORM LOCATION ACTUALLY IS
+		// GETTING THE PIXEL DATA FROM THE CURRENT WORM LOCATION
 		var hasFloor = this.land.getPixel(x,y);
 
 		// GETTING THE PIXEL DATA UNDER THE CURRENT WORM LOCATION
