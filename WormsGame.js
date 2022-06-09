@@ -1136,31 +1136,29 @@ Worms.Game.prototype = {
 		// GETTING THE LOCATION FOR THE CURRENT POWER CIRLCE
 		var currentX = 50 * ((this.power * 100 / this.powerMax) / 100);
 
-		// CREATING A VARIABLE FOR GETTING THE BAZOOKA ROTATION 
-		var bazookaRotation = null;
+		// SETTING AN OFFSET POWER INDICATOR TO BE DISPLAYED WHEN WALKING TO THE RIGHT
+		var sideOffset = 8;
 
 		// CHECKING IF THE WORM WAS WALKING TO THE LEFT
 		if (this.player1Worm1.animations.currentAnim.name=="walk_left")
 			{
-			// GETTING WHERE THE BAZOOKA ENDS
-			var p = new Phaser.Point(this.bazooka.x, this.bazooka.y + 12);
-			p.rotate(p.x, p.y, this.bazooka.rotation, false, 8);
+			// UPDATING THE OFFSET POWER INDICATOR TO BE DISPLAYED WHEN WALKING TO THE LEFT
+			sideOffset = -8;
 
-			// GETTING THE OPPOSITE BAZOOKA ANGLE
-			bazookaRotation = this.invertAngle(this.bazooka.rotation);
+			// CHECKING IF THE POWER CONTAINER IS FLIPPED HORIZONTALLY
+			if (this.powerContainer.scale.x>0)
+				{
+				// FLIPPING THE POWER CONTAINER HORIZONTALLY
+				this.powerContainer.scale.x = this.powerContainer.scale.x * -1;
+				}
 			}
-			else
-			{
-			// GETTING WHERE THE BAZOOKA ENDS
-			var p = new Phaser.Point(this.bazooka.x, this.bazooka.y - 5);
-			p.rotate(p.x, p.y, this.bazooka.rotation, false, 8);
 
-			// GETTING THE BAZOOKA ANGLE
-			bazookaRotation = this.bazooka.rotation;
-			}
+		// GETTING WHERE THE BAZOOKA ENDS
+		var p = new Phaser.Point(this.bazooka.x, this.bazooka.y - 5);
+		p.rotate(p.x, p.y, this.bazooka.rotation, false, sideOffset);
 
 		// RELOCATING THE POWER CONTAINER THE BAZOOKA ANGLE
-		this.powerContainer.rotation = bazookaRotation;
+		this.powerContainer.angle = this.bazooka.angle;
 		this.powerContainer.position.x = p.x;
 		this.powerContainer.position.y = p.y;
 
@@ -1173,7 +1171,7 @@ Worms.Game.prototype = {
 	// https://stackoverflow.com/questions/2263762/flipping-an-angle-using-radians
 	invertAngle: function(angle)
 		{
-		return (angle + Math.PI) % (2 * Math.PI);
+		return angle - 3.14;
 		},
 
 	// https://stackoverflow.com/questions/14482226/how-can-i-get-the-color-halfway-between-two-colors
