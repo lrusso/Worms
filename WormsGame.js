@@ -553,6 +553,7 @@ Worms.Game = function (game)
 	this.power = null;
 	this.powerMax = null;
 	this.powerGradient = null;
+	this.isFalling = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
@@ -623,6 +624,7 @@ Worms.Game.prototype = {
 		this.power = 100;
 		this.powerMax = 500;
 		this.powerGradient = null;
+		this.isFalling = false;
 		},
 
 	create: function ()
@@ -880,6 +882,28 @@ Worms.Game.prototype = {
 				return;
 				}
 
+			// CHECKING IF THE WORM IS FALLING
+			if (this.isFalling==true)
+				{
+				// STOPPING THE WORM ANIMATION
+				this.player1Worm1.animations.stop();
+
+				// CHECKING IF THE WORM WAS WALKING TO THE LEFT
+				if (this.player1Worm1.animations.currentAnim.name=="walk_left")
+					{
+					// SHOWING THE STAND LEFT FRAME
+					this.player1Worm1.frame = 0;
+					}
+					else
+					{
+					// SHOWING THE STAND RIGHT FRAME
+					this.player1Worm1.frame = 6;
+					}
+
+				// NO POINT GOING ANY FURTHER
+				return;
+				}
+
 			// CHECKING IF THE USER WAS NOT PRESSING THE SPACE KEY (TO PREVENT TO MOVE THE WORM WHILE POWERING UP THE SHOT)
 			if (this.keySpaceWasDown==false)
 				{
@@ -1100,7 +1124,7 @@ Worms.Game.prototype = {
 		this.bazooka.position.y = this.player1Worm1.y + 14;
 		},
 
-	render:function()
+	render: function()
 		{
 		// APPLYING GRAVITY TO EACH WORM
 		this.applyGravityFor(this.player1Worm1);
@@ -1111,23 +1135,53 @@ Worms.Game.prototype = {
 
 	applyGravityFor: function(selectedWorm)
 		{
-		// GETTING THE PIXEL LOCATION UNDER THE CURRENT WORM LOCATION
-		var x = Math.floor(selectedWorm.position.x + Math.floor(selectedWorm.width / 2));
-		var y = Math.floor(selectedWorm.position.y + selectedWorm.height - 2);
+		// GETTING THE PIXEL LOCATION WHERE THE CURRENT WORM LOCATION ACTUALLY IS
+		var x = Math.floor(selectedWorm.position.x + selectedWorm.width / 2);
+		var y = Math.floor(selectedWorm.position.y + selectedWorm.height);
 
-		// GETTING THE LAND PIXEL DATA UNDER THE CURRENT WORM LOCATION
-		var rgba = this.land.getPixel(x, y);
+		// GETTING THE PIXEL DATA WHERE THE CURRENT WORM LOCATION ACTUALLY IS
+		var hasFloor = this.land.getPixel(x,y);
 
-		// CHECKING IF THERE IS LAND ON THAT PIXEL
-		if (rgba.a > 0)
+		// GETTING THE PIXEL DATA UNDER THE CURRENT WORM LOCATION
+		var mustFall = this.land.getPixel(x,y+1);
+
+		// CHECKING IF THERE IS FLOOR UNDER THE WORM
+		if (mustFall.a==0 && hasFloor.a==0)
 			{
-			// THE WORM MUST MOVE UP
-			selectedWorm.position.y = selectedWorm.position.y - 1;
-			}
-			else
-			{
-			// THE WORM MUST MOVE DOWN
+			// MAKING THE WORM TO CLIMB UP
 			selectedWorm.position.y = selectedWorm.position.y + 1;
+
+			// CHECKING IF THE SELECTED WORM IS THE ONE AT THE CURRENT TURN
+			if (selectedWorm==this.player1Worm1)
+				{
+				// SETTING THAT THE WORM IS FALLING
+				this.isFalling = true;
+				}
+			}
+
+		// CHECKING IF THE WORM MUST FALL
+		else if (mustFall.a>0 && hasFloor.a>0)
+			{
+			// MAKING THE WORM TO FALL
+			selectedWorm.position.y = selectedWorm.position.y - 1;
+
+			// CHECKING IF THE SELECTED WORM IS THE ONE AT THE CURRENT TURN
+			if (selectedWorm==this.player1Worm1)
+				{
+				// SETTING THAT THE WORM IS NOT FALLING
+				this.isFalling = false;
+				}
+			}
+
+		// OTHERWISE, THE WORM IS JUST STILL
+		else
+			{
+			// CHECKING IF THE SELECTED WORM IS THE ONE AT THE CURRENT TURN
+			if (selectedWorm==this.player1Worm1)
+				{
+				// SETTING THAT THE WORM IS NOT FALLING
+				this.isFalling = false;
+				}
 			}
 		},
 
@@ -1311,8 +1365,8 @@ Worms.Game.prototype = {
 
 	fire: function ()
 		{
-		// CHECKING IF THE GAME IS IN MOTION
-		if (this.gameInMotion==true)
+		// CHECKING IF THE GAME IS IN MOTION OR IF THE WORM IF FALLING
+		if (this.gameInMotion==true || this.isFalling==true)
 			{
 			// NO POINT GOING ANY FURTHER
 			return;
