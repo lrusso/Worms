@@ -1206,6 +1206,15 @@ Worms.Game.prototype = {
 				this.powerContainer.scale.x = this.powerContainer.scale.x * -1;
 				}
 			}
+			else
+			{
+			// CHECKING IF THE POWER CONTAINER IS NOT FLIPPED HORIZONTALLY
+			if (this.powerContainer.scale.x<0)
+				{
+				// FLIPPING THE POWER CONTAINER HORIZONTALLY
+				this.powerContainer.scale.x = this.powerContainer.scale.x * -1;
+				}
+			}
 
 		// GETTING WHERE THE BAZOOKA ENDS
 		var p = new Phaser.Point(this.bazooka.x, this.bazooka.y - 5);
