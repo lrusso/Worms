@@ -1112,7 +1112,7 @@ Worms.Game.prototype = {
 			}
 			else
 			{
-			// APPLYING JUMPING LOGIC TO THE SELECTED WORD
+			// APPLYING JUMPING LOGIC TO THE SELECTED WORM
 			this.applyJumpFor(this.player1Worm1);
 			}
 
@@ -1166,7 +1166,7 @@ Worms.Game.prototype = {
 			}
 			else
 			{
-			// APPLYING JUMPING LOGIC TO THE SELECTED WORD
+			// APPLYING JUMPING LOGIC TO THE SELECTED WORM
 			this.applyJumpFor(this.player1Worm1);
 			}
 		},
