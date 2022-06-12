@@ -562,7 +562,8 @@ Worms.Game = function (game)
 	this.powerGradient = null;
 	this.isFalling = null;
 	this.isJumping = null;
-	this.isJumpingUntil = null;
+	this.isJumpingCounter = null;
+	this.isJumpingLimit = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
@@ -640,7 +641,8 @@ Worms.Game.prototype = {
 		this.powerGradient = null;
 		this.isFalling = false;
 		this.isJumping = false;
-		this.isJumpingUntil = null;
+		this.isJumpingCounter = null;
+		this.isJumpingLimit = 20;
 		},
 
 	create: function ()
@@ -1134,14 +1136,14 @@ Worms.Game.prototype = {
 				this.powerMeter.clear();
 				}
 
-			// CHECKING IF THE USER IS PRESSING THE ENTER KEY
-			else if (this.keyEnter.isDown==true)
+			// CHECKING IF THE USER IS PRESSING THE ENTER KEY AND THAT THE WORM IS NOT JUMPING AND NOT FALLING
+			else if (this.keyEnter.isDown==true && this.isJumping==false && this.isFalling==false)
 				{
 				// SETTING THAT THE WORM WILL JUMP
 				this.isJumping = true;
 
 				// SETTING UNTIL WHEN THE WORM WILL BE JUMPING
-				this.isJumpingUntil = this.getCurrentTime() + 300;
+				this.isJumpingCounter = 0;
 				}
 			}
 		},
@@ -1211,23 +1213,21 @@ Worms.Game.prototype = {
 			this.applyGravityFor(this.player2Worm1);
 			this.applyGravityFor(this.player2Worm2);
 			}
-			else
-			{
-			// APPLYING JUMPING LOGIC TO THE SELECTED WORM
-			this.applyJumpFor(this.player1Worm1);
-			}
 		},
 
 	applyJumpFor: function(selectedWorm)
 		{
 		// CHECKING IF THE JUMPING PERIOD IS OVER
-		if (this.isJumpingUntil<this.getCurrentTime())
+		if (this.isJumpingCounter>this.isJumpingLimit)
 			{
-			// SETTING THAT THE SELECTED WORM IS NOT JUMPING
-			this.isJumping =false;
+			// CLEARING THE JUMP COUNTER VARIABLE
+			this.isJumpingCounter = null;
 
-			// CLEARING THE JUMP UNTIL VARIABLE
-			this.isJumpingUntil = null;
+			// SETTING THAT THE SELECTED WORM IS NOT JUMPING
+			this.isJumping = false;
+
+			// SETTING THAT THE WORM IS FALLING
+			this.isFalling = true;
 
 			// NO POINT GOING ANY FURTHER
 			return;
@@ -1281,6 +1281,9 @@ Worms.Game.prototype = {
 					}
 				}
 			}
+
+		// UPDATING TE isJumpingCounter
+		this.isJumpingCounter = this.isJumpingCounter + 1;
 		},
 
 	applyGravityFor: function(selectedWorm)
