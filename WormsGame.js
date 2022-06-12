@@ -1282,7 +1282,7 @@ Worms.Game.prototype = {
 				}
 			}
 
-		// UPDATING TE isJumpingCounter
+		// UPDATING THE JUMPING COUNTER
 		this.isJumpingCounter = this.isJumpingCounter + 1;
 		},
 
