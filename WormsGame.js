@@ -541,6 +541,7 @@ Worms.Game = function (game)
 	this.keyD = null;
 	this.keyW = null;
 	this.keyS = null;
+	this.keyEnter = null;
 	this.keySpace = null;
 	this.keySpaceWasDown = null;
 	this.stick = null;
@@ -554,6 +555,8 @@ Worms.Game = function (game)
 	this.powerMax = null;
 	this.powerGradient = null;
 	this.isFalling = null;
+	this.isJumping = null;
+	this.isJumpingUntil = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
@@ -612,6 +615,7 @@ Worms.Game.prototype = {
 		this.keyD = null;
 		this.keyW = null;
 		this.keyS = null;
+		this.keyEnter = null;
 		this.keySpace = null;
 		this.keySpaceWasDown = false;
 		this.stick = null;
@@ -625,6 +629,8 @@ Worms.Game.prototype = {
 		this.powerMax = 500;
 		this.powerGradient = null;
 		this.isFalling = false;
+		this.isJumping = false;
+		this.isJumpingUntil = null;
 		},
 
 	create: function ()
@@ -787,12 +793,13 @@ Worms.Game.prototype = {
 		// REGISTERING THE CURSOR KEYS
 		this.cursors = this.input.keyboard.createCursorKeys();
 
-		// REGISTERING THE 'A','D','W','S' AND SPACE KEYS
+		// REGISTERING THE 'A','D','W','S', SPACE AND ENTER KEYS
 		this.keyA = game.input.keyboard.addKey(Phaser.Keyboard.A);
 		this.keyD = game.input.keyboard.addKey(Phaser.Keyboard.D);
 		this.keyW = game.input.keyboard.addKey(Phaser.Keyboard.W);
 		this.keyS = game.input.keyboard.addKey(Phaser.Keyboard.S);
 		this.keySpace = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		this.keyEnter = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
 		// ADDING THE STICK FOR MOBILE DEVICES
 		this.stick = this.pad.addDPad(110, 380, 0, "dpad");
@@ -875,8 +882,8 @@ Worms.Game.prototype = {
 			}
 			else
 			{
-			// CHECKING IF THE GAME IS IN MOTION
-			if (this.gameInMotion==true)
+			// CHECKING IF THE GAME IS IN MOTION OR THE WORM IS JUMPING
+			if (this.gameInMotion==true || this.isJumping==true)
 				{
 				// NO POINT GOING ANY FURTHER
 				return;
@@ -912,6 +919,9 @@ Worms.Game.prototype = {
 				var moveRight = this.cursors.right.isDown || this.keyD.isDown;
 				var moveUp = this.cursors.up.isDown || this.keyW.isDown;
 				var moveDown = this.cursors.down.isDown || this.keyS.isDown;
+
+				// MAKING THE CAMERA TO FOLLOW THE WORM
+				this.camera.follow(this.player1Worm1);
 
 				// CHECKING IF THE USER IS PRESSING THE LEFT KEY
 				if ((moveLeft==true && moveUp==false && moveDown==false && moveRight==false) || (this.stick.isDown==true && this.stick.octant==180))
@@ -1014,7 +1024,7 @@ Worms.Game.prototype = {
 				}
 
 			// CHECKING IF THE USER IS PRESSING THE SPACE KEY
-			if (this.keySpace.isDown==true)
+			if (this.keySpace.isDown==true && this.keyEnter.isDown==false)
 				{
 				// SETTING THAT THE USER IS PRESSING THE SPACE KEY
 				this.keySpaceWasDown = true;
@@ -1076,16 +1086,35 @@ Worms.Game.prototype = {
 				// CLEARING ALL THE POWER CIRCLES
 				this.powerMeter.clear();
 				}
+
+			// CHECKING IF THE USER IS PRESSING THE ENTER KEY
+			else if (this.keyEnter.isDown==true)
+				{
+				// SETTING THAT THE WORM WILL JUMP
+				this.isJumping = true;
+
+				// SETTING UNTIL WHEN THE WORM WILL BE JUMPING
+				this.isJumpingUntil = this.getCurrentTime() + 300;
+				}
 			}
 		},
 
 	preRender: function()
 		{
-		// APPLYING GRAVITY TO EACH WORM
-		this.applyGravityFor(this.player1Worm1);
-		this.applyGravityFor(this.player1Worm2);
-		this.applyGravityFor(this.player2Worm1);
-		this.applyGravityFor(this.player2Worm2);
+		// CHECKING IF THE WORM IS NOT JUMPING
+		if (this.isJumping==false)
+			{
+			// APPLYING GRAVITY TO EACH WORM
+			this.applyGravityFor(this.player1Worm1);
+			this.applyGravityFor(this.player1Worm2);
+			this.applyGravityFor(this.player2Worm1);
+			this.applyGravityFor(this.player2Worm2);
+			}
+			else
+			{
+			// APPLYING JUMPING LOGIC TO THE SELECTED WORD
+			this.applyJumpFor(this.player1Worm1);
+			}
 
 		// MAKING THE PLAYER 1 WORM 1 LABEL SHADOW TO FOLLOW TO WORM
 		this.player1Worm1LabelShadow.position.x = this.player1Worm1.x + this.player1Worm1.width / 2 - this.player1Worm1LabelShadow.width / 2 + 1;
@@ -1126,11 +1155,85 @@ Worms.Game.prototype = {
 
 	render: function()
 		{
-		// APPLYING GRAVITY TO EACH WORM
-		this.applyGravityFor(this.player1Worm1);
-		this.applyGravityFor(this.player1Worm2);
-		this.applyGravityFor(this.player2Worm1);
-		this.applyGravityFor(this.player2Worm2);
+		// CHECKING IF THE WORM IS NOT JUMPING
+		if (this.isJumping==false)
+			{
+			// APPLYING GRAVITY TO EACH WORM
+			this.applyGravityFor(this.player1Worm1);
+			this.applyGravityFor(this.player1Worm2);
+			this.applyGravityFor(this.player2Worm1);
+			this.applyGravityFor(this.player2Worm2);
+			}
+			else
+			{
+			// APPLYING JUMPING LOGIC TO THE SELECTED WORD
+			this.applyJumpFor(this.player1Worm1);
+			}
+		},
+
+	applyJumpFor: function(selectedWorm)
+		{
+		// CHECKING IF THE JUMPING PERIOD IS OVER
+		if (this.isJumpingUntil<this.getCurrentTime())
+			{
+			// SETTING THAT THE SELECTED WORM IS NOT JUMPING
+			this.isJumping =false;
+
+			// CLEARING THE JUMP UNTIL VARIABLE
+			this.isJumpingUntil = null;
+
+			// NO POINT GOING ANY FURTHER
+			return;
+			}
+
+		// GETTING TO WHERE WORM IS WALKING TO
+		var walkingTo = this.player1Worm1.animations.currentAnim.name;
+
+		// GETTING THE PIXEL LOCATION FROM THE WORM IS JUMPING TO
+		var x = Math.floor(selectedWorm.position.x + selectedWorm.width / 2);
+		var y = Math.floor(selectedWorm.position.y + selectedWorm.height - 4) - 2;
+
+		// CHECKING IF THE WORM WAS WALKING TO THE LEFT
+		if (walkingTo=="walk_left")
+			{
+			// ADJUSTING THE FINAL DESTINATION ONE PIXEL TO THE LEFT
+			x = x - 1;
+			}
+			else
+			{
+			// ADJUSTING THE FINAL DESTINATION ONE PIXEL TO THE RIGHT
+			x = x + 1;
+			}
+
+		// GETTING THE PIXEL DATA FROM THE CURRENT WORM LOCATION
+		var hasFloor = this.land.getPixel(x,y);
+
+		// CHECKING IF THE DESTINATION PIXEL IS EMPTY
+		if (hasFloor.a==0)
+			{
+			// MOVING THE WORM UP
+			selectedWorm.position.y = selectedWorm.position.y - 2;
+
+			// CHECKING IF THE WORM WAS WALKING TO THE LEFT
+			if (walkingTo=="walk_left")
+				{
+				// CHECKING IF THE WORM CAN BE MOVED TO THE LEFT
+				if (this.canMoveLeft()==true)
+					{
+					// MOVING THE WORM THE LEFT
+					selectedWorm.position.x = selectedWorm.position.x - 1;
+					}
+				}
+				else
+				{
+				// CHECKING IF THE WORM CAN BE MOVED TO THE RIGHT
+				if (this.canMoveRight()==true)
+					{
+					// MOVING THE WORM THE RIGHT
+					selectedWorm.position.x = selectedWorm.position.x + 1;
+					}
+				}
+			}
 		},
 
 	applyGravityFor: function(selectedWorm)
@@ -1541,6 +1644,11 @@ Worms.Game.prototype = {
 					}
 				});
 			});
+		},
+
+	getCurrentTime: function()
+		{
+		return window.performance && window.performance.now && window.performance.timing && window.performance.timing.navigationStart ? window.performance.now() + window.performance.timing.navigationStart : Date.now();
 		}
 	};
 
