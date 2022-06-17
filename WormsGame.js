@@ -741,7 +741,7 @@ Worms.Game.prototype = {
 		this.physics.arcade.enable(this.bullet);
 
 		// ADDING THE PLAYER 1 WORM 1
-		this.player1Worm1 = this.add.sprite(324, 231, "imageGameWormSpritesheet");
+		this.player1Worm1 = this.add.sprite(324, 237, "imageGameWormSpritesheet");
 		this.player1Worm1.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]);
 		this.player1Worm1.animations.add("walk_right", [6, 7, 8, 9, 10, 11]);
 		this.camera.follow(this.player1Worm1);
@@ -1217,9 +1217,6 @@ Worms.Game.prototype = {
 
 	applyJumpFor: function(selectedWorm)
 		{
-		// GETTING TO WHERE WORM IS WALKING TO
-		var walkingTo = this.player1Worm1.animations.currentAnim.name;
-
 		// CHECKING IF THE JUMPING PERIOD IS OVER
 		if (this.isJumpingCounter>this.isJumpingLimit)
 			{
@@ -1235,6 +1232,9 @@ Worms.Game.prototype = {
 			// NO POINT GOING ANY FURTHER
 			return;
 			}
+
+		// GETTING TO WHERE WORM IS WALKING TO
+		var walkingTo = this.player1Worm1.animations.currentAnim.name;
 
 		// GETTING THE PIXEL LOCATION FROM THE WORM IS JUMPING TO
 		var x = Math.floor(selectedWorm.position.x + selectedWorm.width / 2);
