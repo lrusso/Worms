@@ -1006,6 +1006,9 @@ Worms.Game.prototype = {
 					else if (this.player1Worm2.visible==true){this.selectedWorm = this.player1Worm2;}
 					}
 
+				// RESTORING THE BAZOOKA ROTATION
+				this.bazooka.rotation = 0;
+
 				// CHECKING IF THE WORM IS LOOKING TO THE LEFT
 				if (this.selectedWorm.lookingLeft==true)
 					{
