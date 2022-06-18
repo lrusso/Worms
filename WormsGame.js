@@ -1298,14 +1298,17 @@ Worms.Game.prototype = {
 		// GETTING THE PIXEL DATA UNDER THE CURRENT WORM LOCATION
 		var mustFall = this.land.getPixel(x,y+1);
 
+		// GETTING THE PIXEL DATA VERY UNDER THE CURRENT WORM LOCATION
+		var mustUpdateFall = this.land.getPixel(x,y+25);
+
 		// CHECKING IF THERE IS FLOOR UNDER THE WORM
 		if (mustFall.a==0 && hasFloor.a==0)
 			{
 			// MAKING THE WORM TO CLIMB UP
 			selectedWorm.position.y = selectedWorm.position.y + 1;
 
-			// CHECKING IF THE SELECTED WORM IS THE ONE AT THE CURRENT TURN
-			if (selectedWorm==this.player1Worm1)
+			// CHECKING IF THE SELECTED WORM IS THE ONE AT THE CURRENT TURN AND IF ITS FALLING (AND NOT WALKING DOWN)
+			if (selectedWorm==this.player1Worm1 && mustUpdateFall.a==0)
 				{
 				// SETTING THAT THE WORM IS FALLING
 				this.isFalling = true;
