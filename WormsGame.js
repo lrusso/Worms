@@ -566,6 +566,8 @@ Worms.Game = function (game)
 	this.isJumpingLimit = null;
 	this.selectedWorm = null;
 	this.turnMustPass = null;
+	this.lastWormTeam1 = null;
+	this.lastWormTeam2 = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
@@ -647,6 +649,8 @@ Worms.Game.prototype = {
 		this.isJumpingLimit = 20;
 		this.selectedWorm = null;
 		this.turnMustPass = false;
+		this.lastWormTeam1 = 1;
+		this.lastWormTeam2 = 2;
 		},
 
 	create: function ()
@@ -974,36 +978,92 @@ Worms.Game.prototype = {
 			// CHECKING IF THE TURN MUST PASS
 			if (this.turnMustPass==true)
 				{
-				// CHECKING IF THE SELECTED WORM IS THE PLAYER 1 WORM 1
-				if (this.selectedWorm==this.player1Worm1)
+				// CHECKING IF THE SELECTED WORM IS FROM THE TEAM 1
+				if (this.selectedWorm==this.player1Worm1 || this.selectedWorm==this.player1Worm2)
 					{
-					// PASSING TURN TO THE NEXT WORM
-					if (this.player2Worm1.visible==true && this.player1Worm1.visible==true){this.selectedWorm = this.player2Worm1;}
-					else if (this.player2Worm2.visible==true){this.selectedWorm = this.player2Worm2;}
+					// CHECKING IF PREVIOUS WORMS WAS 1 AND THE CURRENT WILL BE 2
+					if (this.lastWormTeam2==1 && this.player2Worm2.visible==true)
+						{
+						// UPDATING THE SELECTED WORM
+						this.selectedWorm = this.player2Worm2;
+
+						// UPDATING THE LAST WORM USED ON THE TEAM 2
+						this.lastWormTeam2 = 2;
+						}
+
+					// CHECKING IF PREVIOUS WORMS WAS 1 BUT 2 WAS KILLED
+					else if (this.lastWormTeam2==1 && this.player2Worm2.visible==false)
+						{
+						// UPDATING THE SELECTED WORM
+						this.selectedWorm = this.player2Worm1;
+
+						// UPDATING THE LAST WORM USED ON THE TEAM 2
+						this.lastWormTeam2 = 1;
+						}
+
+					// CHECKING IF PREVIOUS WORMS WAS 2 AND THE CURRENT WILL BE 1
+					else if (this.lastWormTeam2==2 && this.player2Worm1.visible==true)
+						{
+						// UPDATING THE SELECTED WORM
+						this.selectedWorm = this.player2Worm1;
+
+						// UPDATING THE LAST WORM USED ON THE TEAM 2
+						this.lastWormTeam2 = 1;
+						}
+
+					// CHECKING IF PREVIOUS WORMS WAS 2 BUT 1 WAS KILLED
+					else if (this.lastWormTeam2==2 && this.player2Worm1.visible==false)
+						{
+						// UPDATING THE SELECTED WORM
+						this.selectedWorm = this.player2Worm2;
+
+						// UPDATING THE LAST WORM USED ON THE TEAM 2
+						this.lastWormTeam2 = 2;
+						}
 					}
 
-				// CHECKING IF THE SELECTED WORM IS THE PLAYER 1 WORM 2
-				else if (this.selectedWorm==this.player1Worm2)
+				// CHECKING IF THE SELECTED WORM IS FROM THE TEAM 2
+				else if (this.selectedWorm==this.player2Worm1 || this.selectedWorm==this.player2Worm2)
 					{
-					// PASSING TURN TO THE NEXT WORM
-					if (this.player2Worm2.visible==true && this.player1Worm2.visible==true){this.selectedWorm = this.player2Worm2;}
-					else if (this.player2Worm1.visible==true){this.selectedWorm = this.player2Worm1;}
-					}
+					// CHECKING IF PREVIOUS WORMS WAS 1 AND THE CURRENT WILL BE 2
+					if (this.lastWormTeam1==1 && this.player1Worm2.visible==true)
+						{
+						// UPDATING THE SELECTED WORM
+						this.selectedWorm = this.player1Worm2;
 
-				// CHECKING IF THE SELECTED WORM IS THE PLAYER 2 WORM 1
-				else if (this.selectedWorm==this.player2Worm1)
-					{
-					// PASSING TURN TO THE NEXT WORM
-					if (this.player1Worm2.visible==true && this.player2Worm2.visible==true){this.selectedWorm = this.player1Worm2;}
-					else if (this.player1Worm1.visible==true){this.selectedWorm = this.player1Worm1;}
-					}
+						// UPDATING THE LAST WORM USED ON THE TEAM 1
+						this.lastWormTeam1 = 2;
+						}
 
-				// CHECKING IF THE SELECTED WORM IS THE PLAYER 2 WORM 2
-				else if (this.selectedWorm==this.player2Worm2)
-					{
-					// PASSING TURN TO THE NEXT WORM
-					if (this.player1Worm1.visible==true && this.player2Worm1.visible==true){this.selectedWorm = this.player1Worm1;}
-					else if (this.player1Worm2.visible==true){this.selectedWorm = this.player1Worm2;}
+					// CHECKING IF PREVIOUS WORMS WAS 1 BUT 2 WAS KILLED
+					else if (this.lastWormTeam1==1 && this.player1Worm2.visible==false)
+						{
+						// UPDATING THE SELECTED WORM
+						this.selectedWorm = this.player1Worm1;
+
+						// UPDATING THE LAST WORM USED ON THE TEAM 1
+						this.lastWormTeam1 = 1;
+						}
+
+					// CHECKING IF PREVIOUS WORMS WAS 2 AND THE CURRENT WILL BE 1
+					else if (this.lastWormTeam1==2 && this.player1Worm1.visible==true)
+						{
+						// UPDATING THE SELECTED WORM
+						this.selectedWorm = this.player1Worm1;
+
+						// UPDATING THE LAST WORM USED ON THE TEAM 1
+						this.lastWormTeam1 = 1;
+						}
+
+					// CHECKING IF PREVIOUS WORMS WAS 2 BUT 1 DOESN'T EXISTS
+					else if (this.lastWormTeam1==2 && this.player1Worm1.visible==false)
+						{
+						// UPDATING THE SELECTED WORM
+						this.selectedWorm = this.player1Worm2;
+
+						// UPDATING THE LAST WORM USED ON THE TEAM 1
+						this.lastWormTeam1 = 2;
+						}
 					}
 
 				// RESTORING THE BAZOOKA ROTATION
