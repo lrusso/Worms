@@ -760,6 +760,10 @@ Worms.Game.prototype = {
 
 		// ADDING THE PLAYER 1 WORM 2
 		this.player1Worm2 = this.add.sprite(208, 305, "imageGameWormSpritesheet");
+		this.player1Worm2.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]);
+		this.player1Worm2.animations.add("walk_right", [6, 7, 8, 9, 10, 11]);
+		this.player1Worm2.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
+		this.player1Worm2.animations.add("jump_right", [19, 20, 21, 22, 23, 24, 25]);
 		this.player1Worm2.frame = 6;
 		this.player1Worm2.lookingLeft = false;
 		this.physics.arcade.enable(this.player1Worm2);
@@ -775,6 +779,10 @@ Worms.Game.prototype = {
 
 		// ADDING THE PLAYER 2 WORM 1
 		this.player2Worm1 = this.add.sprite(475, 135, "imageGameWormSpritesheet");
+		this.player2Worm1.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]);
+		this.player2Worm1.animations.add("walk_right", [6, 7, 8, 9, 10, 11]);
+		this.player2Worm1.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
+		this.player2Worm1.animations.add("jump_right", [19, 20, 21, 22, 23, 24, 25]);
 		this.player2Worm1.frame = 0;
 		this.player2Worm1.lookingLeft = true;
 		this.physics.arcade.enable(this.player2Worm1);
@@ -790,6 +798,10 @@ Worms.Game.prototype = {
 
 		// ADDING THE PLAYER 2 WORM 2
 		this.player2Worm2 = this.add.sprite(695, 261, "imageGameWormSpritesheet");
+		this.player2Worm2.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]);
+		this.player2Worm2.animations.add("walk_right", [6, 7, 8, 9, 10, 11]);
+		this.player2Worm2.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
+		this.player2Worm2.animations.add("jump_right", [19, 20, 21, 22, 23, 24, 25]);
 		this.player2Worm2.frame = 0;
 		this.player2Worm2.lookingLeft = true;
 		this.physics.arcade.enable(this.player2Worm2);
