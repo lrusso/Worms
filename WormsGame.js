@@ -744,6 +744,10 @@ Worms.Game.prototype = {
 		this.player1Worm1 = this.add.sprite(324, 237, "imageGameWormSpritesheet");
 		this.player1Worm1.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]);
 		this.player1Worm1.animations.add("walk_right", [6, 7, 8, 9, 10, 11]);
+		this.player1Worm1.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
+		this.player1Worm1.animations.add("jump_right", [19, 20, 21, 22, 23, 24, 25]);
+		this.player1Worm1.frame = 6;
+		this.player1Worm1.lookingLeft = false;
 		this.camera.follow(this.player1Worm1);
 
 		// ADDING THE PLAYER 1 WORM 1 LABEL SHADOW
@@ -757,6 +761,7 @@ Worms.Game.prototype = {
 		// ADDING THE PLAYER 1 WORM 2
 		this.player1Worm2 = this.add.sprite(208, 305, "imageGameWormSpritesheet");
 		this.player1Worm2.frame = 6;
+		this.player1Worm2.lookingLeft = false;
 		this.physics.arcade.enable(this.player1Worm2);
 		this.player1Worm2.body.allowGravity = false;
 
@@ -770,6 +775,8 @@ Worms.Game.prototype = {
 
 		// ADDING THE PLAYER 2 WORM 1
 		this.player2Worm1 = this.add.sprite(475, 135, "imageGameWormSpritesheet");
+		this.player2Worm1.frame = 0;
+		this.player2Worm1.lookingLeft = true;
 		this.physics.arcade.enable(this.player2Worm1);
 		this.player2Worm1.body.allowGravity = false;
 
@@ -783,6 +790,8 @@ Worms.Game.prototype = {
 
 		// ADDING THE PLAYER 2 WORM 2
 		this.player2Worm2 = this.add.sprite(695, 261, "imageGameWormSpritesheet");
+		this.player2Worm2.frame = 0;
+		this.player2Worm2.lookingLeft = true;
 		this.physics.arcade.enable(this.player2Worm2);
 		this.player2Worm2.body.allowGravity = false;
 
@@ -944,8 +953,8 @@ Worms.Game.prototype = {
 				// STOPPING THE WORM ANIMATION
 				this.player1Worm1.animations.stop();
 
-				// CHECKING IF THE WORM WAS WALKING TO THE LEFT
-				if (this.player1Worm1.animations.currentAnim.name=="walk_left")
+				// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
+				if (this.player1Worm1.lookingLeft==true)
 					{
 					// SHOWING THE FALLING LEFT FRAME
 					this.player1Worm1.frame = 17;
@@ -978,6 +987,9 @@ Worms.Game.prototype = {
 					// PLAYING THE WALKING LEFT ANIMATION
 					this.player1Worm1.animations.play("walk_left", 9, true);
 
+					// SETTING THAT THE WORM IS LOOKING TO THE LEFT
+					this.player1Worm1.lookingLeft = true;
+
 					// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
 					if (this.bazooka.scale.x>0)
 						{
@@ -1001,6 +1013,9 @@ Worms.Game.prototype = {
 					// PLAYING THE WALKING RIGHT ANIMATION
 					this.player1Worm1.animations.play("walk_right", 9, true);
 
+					// SETTING THAT THE WORM IS LOOKING TO THE RIGHT
+					this.player1Worm1.lookingLeft = false;
+
 					// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
 					if (this.bazooka.scale.x<0)
 						{
@@ -1023,8 +1038,8 @@ Worms.Game.prototype = {
 					// STOPPING ALL THE ANIMATIONS
 					this.player1Worm1.animations.stop();
 
-					// CHECKING IF THE WORM WAS WALKING TO THE LEFT
-					if (this.player1Worm1.animations.currentAnim.name=="walk_left")
+					// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
+					if (this.player1Worm1.lookingLeft==true)
 						{
 						// SHOWING THE STAND LEFT FRAME
 						this.player1Worm1.frame = 0;
@@ -1039,15 +1054,15 @@ Worms.Game.prototype = {
 				// CHECKING IF THE USER IS PRESSING THE UP KEY AND IF THE BAZOOKA ANGLE CAN BE UPDATED
 				if ((moveUp==true && moveLeft==false && moveRight==false && moveDown==false) || (this.stick.isDown==true && this.stick.octant==270))
 					{
-					// CHECKING IF THE WORM WAS WALKING TO THE LEFT AND THE BAZOOKA ANGLE CAN BE UPDATED
-					if (this.player1Worm1.animations.currentAnim.name=="walk_left" && this.bazooka.angle < 90)
+					// CHECKING IF THE WORM WAS LOOKING TO THE LEFT AND THE BAZOOKA ANGLE CAN BE UPDATED
+					if (this.player1Worm1.lookingLeft==true && this.bazooka.angle < 90)
 						{
 						// UPDATING THE BAZOOKA ANGLE
 						this.bazooka.angle = this.bazooka.angle + 1;
 						}
 
-					// CHECKING IF THE WORM WAS WALKING TO THE RIGHT AND THE BAZOOKA ANGLE CAN BE UPDATED
-					if (this.player1Worm1.animations.currentAnim.name=="walk_right" && this.bazooka.angle > -90)
+					// CHECKING IF THE WORM WAS LOOKING TO THE RIGHT AND THE BAZOOKA ANGLE CAN BE UPDATED
+					if (this.player1Worm1.lookingLeft==false && this.bazooka.angle > -90)
 						{
 						// UPDATING THE BAZOOKA ANGLE
 						this.bazooka.angle = this.bazooka.angle - 1;
@@ -1056,15 +1071,15 @@ Worms.Game.prototype = {
 				// CHECKING IF THE USER IS PRESSING THE DOWN KEY AND IF THE BAZOOKA ANGLE CAN BE UPDATED
 				else if ((moveDown==true && moveLeft==false && moveRight==false && moveUp==false) || (this.stick.isDown==true && this.stick.octant==90))
 					{
-					// CHECKING IF THE WORM WAS WALKING TO THE LEFT AND THE BAZOOKA ANGLE CAN BE UPDATED
-					if (this.player1Worm1.animations.currentAnim.name=="walk_left" && this.bazooka.angle > -90)
+					// CHECKING IF THE WORM WAS LOOKING TO THE LEFT AND THE BAZOOKA ANGLE CAN BE UPDATED
+					if (this.player1Worm1.lookingLeft==true && this.bazooka.angle > -90)
 						{
 						// UPDATING THE BAZOOKA ANGLE
 						this.bazooka.angle = this.bazooka.angle - 1;
 						}
 
-					// CHECKING IF THE WORM WAS WALKING TO THE RIGHT AND THE BAZOOKA ANGLE CAN BE UPDATED
-					if (this.player1Worm1.animations.currentAnim.name=="walk_right" && this.bazooka.angle < 90)
+					// CHECKING IF THE WORM WAS LOOKING TO THE RIGHT AND THE BAZOOKA ANGLE CAN BE UPDATED
+					if (this.player1Worm1.lookingLeft==false && this.bazooka.angle < 90)
 						{
 						// UPDATING THE BAZOOKA ANGLE
 						this.bazooka.angle = this.bazooka.angle + 1;
@@ -1081,8 +1096,8 @@ Worms.Game.prototype = {
 				// STOPPING THE WORM ANIMATION
 				this.player1Worm1.animations.stop();
 
-				// CHECKING IF THE WORM WAS WALKING TO THE LEFT
-				if (this.player1Worm1.animations.currentAnim.name=="walk_left")
+				// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
+				if (this.player1Worm1.lookingLeft==true)
 					{
 					// SHOWING THE STAND LEFT FRAME
 					this.player1Worm1.frame = 0;
@@ -1144,6 +1159,17 @@ Worms.Game.prototype = {
 
 				// SETTING UNTIL WHEN THE WORM WILL BE JUMPING
 				this.isJumpingCounter = 0;
+
+				if (this.player1Worm1.lookingLeft==true)
+					{
+					// PLAYING THE JUMPING LEFT ANIMATION
+					this.player1Worm1.animations.play("jump_left", 9, false);
+					}
+					else
+					{
+					// PLAYING THE JUMPING RIGHT ANIMATION
+					this.player1Worm1.animations.play("jump_right", 9, false);
+					}
 				}
 			}
 		},
@@ -1233,15 +1259,12 @@ Worms.Game.prototype = {
 			return;
 			}
 
-		// GETTING TO WHERE WORM IS WALKING TO
-		var walkingTo = this.player1Worm1.animations.currentAnim.name;
-
 		// GETTING THE PIXEL LOCATION FROM THE WORM IS JUMPING TO
 		var x = Math.floor(selectedWorm.position.x + selectedWorm.width / 2);
 		var y = Math.floor(selectedWorm.position.y + selectedWorm.height - 3) - 2;
 
-		// CHECKING IF THE WORM WAS WALKING TO THE LEFT
-		if (walkingTo=="walk_left")
+		// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
+		if (selectedWorm.lookingLeft==true)
 			{
 			// ADJUSTING THE FINAL DESTINATION ONE PIXEL TO THE LEFT
 			x = x - 1;
@@ -1261,8 +1284,8 @@ Worms.Game.prototype = {
 			// MOVING THE WORM UP
 			selectedWorm.position.y = selectedWorm.position.y - 2;
 
-			// CHECKING IF THE WORM WAS WALKING TO THE LEFT
-			if (walkingTo=="walk_left")
+			// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
+			if (selectedWorm.lookingLeft==true)
 				{
 				// CHECKING IF THE WORM CAN BE MOVED TO THE LEFT
 				if (this.canMoveLeft()==true)
@@ -1307,7 +1330,7 @@ Worms.Game.prototype = {
 			// MAKING THE WORM TO CLIMB UP
 			selectedWorm.position.y = selectedWorm.position.y + 1;
 
-			// CHECKING IF THE SELECTED WORM IS THE ONE AT THE CURRENT TURN AND IF ITS FALLING (AND NOT WALKING DOWN)
+			// CHECKING IF THE SELECTED WORM IS THE ONE AT THE CURRENT TURN AND IF ITS FALLING (AND NOT MOVING DOWN)
 			if (selectedWorm==this.player1Worm1 && mustUpdateFall.a==0)
 				{
 				// SETTING THAT THE WORM IS FALLING
@@ -1346,13 +1369,13 @@ Worms.Game.prototype = {
 		// GETTING THE LOCATION FOR THE CURRENT POWER CIRLCE
 		var currentX = 50 * ((this.power * 100 / this.powerMax) / 100);
 
-		// SETTING AN OFFSET POWER INDICATOR TO BE DISPLAYED WHEN WALKING TO THE RIGHT
+		// SETTING AN OFFSET POWER INDICATOR TO BE DISPLAYED WHEN LOOKING TO THE RIGHT
 		var sideOffset = 8;
 
-		// CHECKING IF THE WORM WAS WALKING TO THE LEFT
-		if (this.player1Worm1.animations.currentAnim.name=="walk_left")
+		// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
+		if (this.player1Worm1.lookingLeft==true)
 			{
-			// UPDATING THE OFFSET POWER INDICATOR TO BE DISPLAYED WHEN WALKING TO THE LEFT
+			// UPDATING THE OFFSET POWER INDICATOR TO BE DISPLAYED WHEN LOOKING TO THE LEFT
 			sideOffset = -8;
 
 			// CHECKING IF THE POWER CONTAINER IS FLIPPED HORIZONTALLY
@@ -1571,8 +1594,8 @@ Worms.Game.prototype = {
 		// STOPPING THE WORM ANIMATION
 		this.player1Worm1.animations.stop();
 
-		// CHECKING IF THE WORM WAS WALKING TO THE LEFT
-		if (this.player1Worm1.animations.currentAnim.name=="walk_left")
+		// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
+		if (this.player1Worm1.lookingLeft==true)
 			{
 			// SHOWING THE STAND LEFT FRAME
 			this.player1Worm1.frame = 0;
@@ -1589,8 +1612,8 @@ Worms.Game.prototype = {
 		// GETTING THE BAZOOKA ROTATION FOR LATER USE
 		var bazookaRotation = this.bazooka.rotation;
 
-		// CHECKING IF THE WORM WAS WALKING TO THE LEFT
-		if (this.player1Worm1.animations.currentAnim.name=="walk_left")
+		// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
+		if (this.player1Worm1.lookingLeft==true)
 			{
 			// GETTING THE OPPOSITE ANGLE
 			bazookaRotation = this.invertAngle(this.bazooka.rotation);
