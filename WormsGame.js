@@ -564,6 +564,8 @@ Worms.Game = function (game)
 	this.isJumping = null;
 	this.isJumpingCounter = null;
 	this.isJumpingLimit = null;
+	this.selectedWorm = null;
+	this.turnMustPass = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
@@ -643,6 +645,8 @@ Worms.Game.prototype = {
 		this.isJumping = false;
 		this.isJumpingCounter = null;
 		this.isJumpingLimit = 20;
+		this.selectedWorm = null;
+		this.turnMustPass = false;
 		},
 
 	create: function ()
@@ -748,7 +752,8 @@ Worms.Game.prototype = {
 		this.player1Worm1.animations.add("jump_right", [19, 20, 21, 22, 23, 24, 25]);
 		this.player1Worm1.frame = 6;
 		this.player1Worm1.lookingLeft = false;
-		this.camera.follow(this.player1Worm1);
+		this.physics.arcade.enable(this.player1Worm1);
+		this.player1Worm1.body.allowGravity = false;
 
 		// ADDING THE PLAYER 1 WORM 1 LABEL SHADOW
 		this.player1Worm1LabelShadow = game.add.bitmapText(this.player1Worm1.x + 13, this.player1Worm1.y + 18, "ArialBlackWhite", this.player1Worm1Health + "", 15);
@@ -757,6 +762,12 @@ Worms.Game.prototype = {
 		// ADDING THE PLAYER 1 WORM 1 LABEL
 		this.player1Worm1Label = game.add.bitmapText(this.player1Worm1.x + 15, this.player1Worm1.y + 20, "ArialBlackWhite", this.player1Worm1Health + "", 15);
 		this.player1Worm1Label.tint = 0xFFFFFF;
+
+		// MAKING THE PLAYER 1 WORM 1 THE SELECTED WORM
+		this.selectedWorm = this.player1Worm1;
+
+		// MAKING THE CAMERA TO FOLLOW THE WORM
+		this.camera.follow(this.selectedWorm);
 
 		// ADDING THE PLAYER 1 WORM 2
 		this.player1Worm2 = this.add.sprite(208, 305, "imageGameWormSpritesheet");
@@ -816,7 +827,7 @@ Worms.Game.prototype = {
 		this.player2Worm2Label.tint = 0xFFFF00;
 
 		// ADDING THE BAZOOKA
-		this.bazooka = this.add.sprite(this.player1Worm1.x + 15, this.player1Worm1.y + 20, "imageGameBazooka");
+		this.bazooka = this.add.sprite(this.selectedWorm.x + 12, this.selectedWorm.y + 21, "imageGameBazooka");
 
 		// ADDING THE BAZOOKA EXPLOSION
 		this.flame = this.add.sprite(0, 0, "imageGameFlame");
@@ -943,6 +954,7 @@ Worms.Game.prototype = {
 		if (this.bullet.exists==true)
 			{
 			// CHECKING IF THE BULLET OVERLAPS A WORM
+			this.physics.arcade.overlap(this.bullet, this.player1Worm1, this.damageWorm, null, this);
 			this.physics.arcade.overlap(this.bullet, this.player1Worm2, this.damageWorm, null, this);
 			this.physics.arcade.overlap(this.bullet, this.player2Worm1, this.damageWorm, null, this);
 			this.physics.arcade.overlap(this.bullet, this.player2Worm2, this.damageWorm, null, this);
@@ -959,22 +971,92 @@ Worms.Game.prototype = {
 				return;
 				}
 
+			// CHECKING IF THE TURN MUST PASS
+			if (this.turnMustPass==true)
+				{
+				// CHECKING IF THE SELECTED WORM IS THE PLAYER 1 WORM 1
+				if (this.selectedWorm==this.player1Worm1)
+					{
+					// PASSING TURN TO THE NEXT WORM
+					if (this.player2Worm1.visible==true && this.player1Worm1.visible==true){this.selectedWorm = this.player2Worm1;}
+					else if (this.player2Worm2.visible==true){this.selectedWorm = this.player2Worm2;}
+					}
+
+				// CHECKING IF THE SELECTED WORM IS THE PLAYER 1 WORM 2
+				else if (this.selectedWorm==this.player1Worm2)
+					{
+					// PASSING TURN TO THE NEXT WORM
+					if (this.player2Worm2.visible==true && this.player1Worm2.visible==true){this.selectedWorm = this.player2Worm2;}
+					else if (this.player2Worm1.visible==true){this.selectedWorm = this.player2Worm1;}
+					}
+
+				// CHECKING IF THE SELECTED WORM IS THE PLAYER 2 WORM 1
+				else if (this.selectedWorm==this.player2Worm1)
+					{
+					// PASSING TURN TO THE NEXT WORM
+					if (this.player1Worm2.visible==true && this.player2Worm2.visible==true){this.selectedWorm = this.player1Worm2;}
+					else if (this.player1Worm1.visible==true){this.selectedWorm = this.player1Worm1;}
+					}
+
+				// CHECKING IF THE SELECTED WORM IS THE PLAYER 2 WORM 2
+				else if (this.selectedWorm==this.player2Worm2)
+					{
+					// PASSING TURN TO THE NEXT WORM
+					if (this.player1Worm1.visible==true && this.player2Worm1.visible==true){this.selectedWorm = this.player1Worm1;}
+					else if (this.player1Worm2.visible==true){this.selectedWorm = this.player1Worm2;}
+					}
+
+				// CHECKING IF THE WORM IS LOOKING TO THE LEFT
+				if (this.selectedWorm.lookingLeft==true)
+					{
+					// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
+					if (this.bazooka.scale.x>0)
+						{
+						// UPDATING THE BAZOOKA ORIENTATION
+						this.bazooka.scale.x = this.bazooka.scale.x * -1;
+
+						// UPDATING THE BAZOOKA ANGLE
+						this.bazooka.angle = this.bazooka.angle * -1;
+						}
+					}
+
+				// CHECKING IF THE WORM IS LOOKING TO THE RIGHT
+				else if (this.selectedWorm.lookingLeft==false)
+					{
+					// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
+					if (this.bazooka.scale.x<0)
+						{
+						// UPDATING THE BAZOOKA ORIENTATION
+						this.bazooka.scale.x = this.bazooka.scale.x * -1;
+
+						// UPDATING THE BAZOOKA ANGLE
+						this.bazooka.angle = this.bazooka.angle * -1;
+						}
+					}
+
+				// SETTING THAT THE TURN MUST NOT PASS
+				this.turnMustPass = false;
+
+				// MAKING THE CAMERA TO FOLLOW THE SELECTED WORM
+				this.camera.follow(this.selectedWorm);
+				}
+
 			// CHECKING IF THE WORM IS FALLING
 			if (this.isFalling==true)
 				{
 				// STOPPING THE WORM ANIMATION
-				this.player1Worm1.animations.stop();
+				this.selectedWorm.animations.stop();
 
 				// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
-				if (this.player1Worm1.lookingLeft==true)
+				if (this.selectedWorm.lookingLeft==true)
 					{
 					// SHOWING THE FALLING LEFT FRAME
-					this.player1Worm1.frame = 17;
+					this.selectedWorm.frame = 17;
 					}
 					else
 					{
 					// SHOWING THE FALLING RIGHT FRAME
-					this.player1Worm1.frame = 25;
+					this.selectedWorm.frame = 25;
 					}
 
 				// NO POINT GOING ANY FURTHER
@@ -991,16 +1073,16 @@ Worms.Game.prototype = {
 				var moveDown = this.cursors.down.isDown || this.keyS.isDown;
 
 				// MAKING THE CAMERA TO FOLLOW THE WORM
-				this.camera.follow(this.player1Worm1);
+				this.camera.follow(this.selectedWorm);
 
 				// CHECKING IF THE USER IS PRESSING THE LEFT KEY
 				if ((moveLeft==true && moveUp==false && moveDown==false && moveRight==false) || (this.stick.isDown==true && this.stick.octant==180))
 					{
 					// PLAYING THE WALKING LEFT ANIMATION
-					this.player1Worm1.animations.play("walk_left", 9, true);
+					this.selectedWorm.animations.play("walk_left", 9, true);
 
 					// SETTING THAT THE WORM IS LOOKING TO THE LEFT
-					this.player1Worm1.lookingLeft = true;
+					this.selectedWorm.lookingLeft = true;
 
 					// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
 					if (this.bazooka.scale.x>0)
@@ -1016,17 +1098,17 @@ Worms.Game.prototype = {
 					if (this.canMoveLeft()==true)
 						{
 						// MOVING THE WORM TO THE LEFT
-						this.player1Worm1.position.x = this.player1Worm1.position.x - 1;
+						this.selectedWorm.position.x = this.selectedWorm.position.x - 1;
 						}
 					}
 				// CHECKING IF THE USER IS PRESSING THE RIGHT KEY
 				else if ((moveRight==true && moveUp==false && moveDown==false && moveLeft==false) || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)))
 					{
 					// PLAYING THE WALKING RIGHT ANIMATION
-					this.player1Worm1.animations.play("walk_right", 9, true);
+					this.selectedWorm.animations.play("walk_right", 9, true);
 
 					// SETTING THAT THE WORM IS LOOKING TO THE RIGHT
-					this.player1Worm1.lookingLeft = false;
+					this.selectedWorm.lookingLeft = false;
 
 					// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
 					if (this.bazooka.scale.x<0)
@@ -1042,24 +1124,24 @@ Worms.Game.prototype = {
 					if (this.canMoveRight()==true)
 						{
 						// MOVING THE WORM TO THE RIGHT
-						this.player1Worm1.position.x = this.player1Worm1.position.x + 1;
+						this.selectedWorm.position.x = this.selectedWorm.position.x + 1;
 						}
 					}
 					else
 					{
 					// STOPPING ALL THE ANIMATIONS
-					this.player1Worm1.animations.stop();
+					this.selectedWorm.animations.stop();
 
 					// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
-					if (this.player1Worm1.lookingLeft==true)
+					if (this.selectedWorm.lookingLeft==true)
 						{
 						// SHOWING THE STAND LEFT FRAME
-						this.player1Worm1.frame = 0;
+						this.selectedWorm.frame = 0;
 						}
 						else
 						{
 						// SHOWING THE STAND RIGHT FRAME
-						this.player1Worm1.frame = 6;
+						this.selectedWorm.frame = 6;
 						}
 					}
 
@@ -1067,14 +1149,14 @@ Worms.Game.prototype = {
 				if ((moveUp==true && moveLeft==false && moveRight==false && moveDown==false) || (this.stick.isDown==true && this.stick.octant==270))
 					{
 					// CHECKING IF THE WORM WAS LOOKING TO THE LEFT AND THE BAZOOKA ANGLE CAN BE UPDATED
-					if (this.player1Worm1.lookingLeft==true && this.bazooka.angle < 90)
+					if (this.selectedWorm.lookingLeft==true && this.bazooka.angle < 90)
 						{
 						// UPDATING THE BAZOOKA ANGLE
 						this.bazooka.angle = this.bazooka.angle + 1;
 						}
 
 					// CHECKING IF THE WORM WAS LOOKING TO THE RIGHT AND THE BAZOOKA ANGLE CAN BE UPDATED
-					if (this.player1Worm1.lookingLeft==false && this.bazooka.angle > -90)
+					if (this.selectedWorm.lookingLeft==false && this.bazooka.angle > -90)
 						{
 						// UPDATING THE BAZOOKA ANGLE
 						this.bazooka.angle = this.bazooka.angle - 1;
@@ -1084,14 +1166,14 @@ Worms.Game.prototype = {
 				else if ((moveDown==true && moveLeft==false && moveRight==false && moveUp==false) || (this.stick.isDown==true && this.stick.octant==90))
 					{
 					// CHECKING IF THE WORM WAS LOOKING TO THE LEFT AND THE BAZOOKA ANGLE CAN BE UPDATED
-					if (this.player1Worm1.lookingLeft==true && this.bazooka.angle > -90)
+					if (this.selectedWorm.lookingLeft==true && this.bazooka.angle > -90)
 						{
 						// UPDATING THE BAZOOKA ANGLE
 						this.bazooka.angle = this.bazooka.angle - 1;
 						}
 
 					// CHECKING IF THE WORM WAS LOOKING TO THE RIGHT AND THE BAZOOKA ANGLE CAN BE UPDATED
-					if (this.player1Worm1.lookingLeft==false && this.bazooka.angle < 90)
+					if (this.selectedWorm.lookingLeft==false && this.bazooka.angle < 90)
 						{
 						// UPDATING THE BAZOOKA ANGLE
 						this.bazooka.angle = this.bazooka.angle + 1;
@@ -1106,18 +1188,18 @@ Worms.Game.prototype = {
 				this.keySpaceWasDown = true;
 
 				// STOPPING THE WORM ANIMATION
-				this.player1Worm1.animations.stop();
+				this.selectedWorm.animations.stop();
 
 				// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
-				if (this.player1Worm1.lookingLeft==true)
+				if (this.selectedWorm.lookingLeft==true)
 					{
 					// SHOWING THE STAND LEFT FRAME
-					this.player1Worm1.frame = 0;
+					this.selectedWorm.frame = 0;
 					}
 					else
 					{
 					// SHOWING THE STAND RIGHT FRAME
-					this.player1Worm1.frame = 6;
+					this.selectedWorm.frame = 6;
 					}
 
 				// CHECKING IF THE USER CAN INCREASE THE SHOT POWER
@@ -1172,15 +1254,15 @@ Worms.Game.prototype = {
 				// SETTING UNTIL WHEN THE WORM WILL BE JUMPING
 				this.isJumpingCounter = 0;
 
-				if (this.player1Worm1.lookingLeft==true)
+				if (this.selectedWorm.lookingLeft==true)
 					{
 					// PLAYING THE JUMPING LEFT ANIMATION
-					this.player1Worm1.animations.play("jump_left", 9, false);
+					this.selectedWorm.animations.play("jump_left", 9, false);
 					}
 					else
 					{
 					// PLAYING THE JUMPING RIGHT ANIMATION
-					this.player1Worm1.animations.play("jump_right", 9, false);
+					this.selectedWorm.animations.play("jump_right", 9, false);
 					}
 				}
 			}
@@ -1200,7 +1282,7 @@ Worms.Game.prototype = {
 			else
 			{
 			// APPLYING JUMPING LOGIC TO THE SELECTED WORM
-			this.applyJumpFor(this.player1Worm1);
+			this.applyJumpFor(this.selectedWorm);
 			}
 
 		// MAKING THE PLAYER 1 WORM 1 LABEL SHADOW TO FOLLOW TO WORM
@@ -1236,8 +1318,8 @@ Worms.Game.prototype = {
 		this.player2Worm2Label.position.y = this.player2Worm2.y - 8;
 
 		// MAKING THE BAZOOKA TO FOLLOW THE WORM
-		this.bazooka.position.x = this.player1Worm1.x + 12;
-		this.bazooka.position.y = this.player1Worm1.y + 21;
+		this.bazooka.position.x = this.selectedWorm.x + 12;
+		this.bazooka.position.y = this.selectedWorm.y + 21;
 		},
 
 	render: function()
@@ -1253,7 +1335,7 @@ Worms.Game.prototype = {
 			}
 		},
 
-	applyJumpFor: function(selectedWorm)
+	applyJumpFor: function(myWorm)
 		{
 		// CHECKING IF THE JUMPING PERIOD IS OVER
 		if (this.isJumpingCounter>this.isJumpingLimit)
@@ -1272,11 +1354,11 @@ Worms.Game.prototype = {
 			}
 
 		// GETTING THE PIXEL LOCATION FROM THE WORM IS JUMPING TO
-		var x = Math.floor(selectedWorm.position.x + selectedWorm.width / 2);
-		var y = Math.floor(selectedWorm.position.y + selectedWorm.height - 3) - 2;
+		var x = Math.floor(myWorm.position.x + myWorm.width / 2);
+		var y = Math.floor(myWorm.position.y + myWorm.height - 3) - 2;
 
 		// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
-		if (selectedWorm.lookingLeft==true)
+		if (myWorm.lookingLeft==true)
 			{
 			// ADJUSTING THE FINAL DESTINATION ONE PIXEL TO THE LEFT
 			x = x - 1;
@@ -1294,16 +1376,16 @@ Worms.Game.prototype = {
 		if (hasFloor.a==0)
 			{
 			// MOVING THE WORM UP
-			selectedWorm.position.y = selectedWorm.position.y - 2;
+			myWorm.position.y = myWorm.position.y - 2;
 
 			// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
-			if (selectedWorm.lookingLeft==true)
+			if (myWorm.lookingLeft==true)
 				{
 				// CHECKING IF THE WORM CAN BE MOVED TO THE LEFT
 				if (this.canMoveLeft()==true)
 					{
 					// MOVING THE WORM THE LEFT
-					selectedWorm.position.x = selectedWorm.position.x - 1;
+					myWorm.position.x = myWorm.position.x - 1;
 					}
 				}
 				else
@@ -1312,7 +1394,7 @@ Worms.Game.prototype = {
 				if (this.canMoveRight()==true)
 					{
 					// MOVING THE WORM THE RIGHT
-					selectedWorm.position.x = selectedWorm.position.x + 1;
+					myWorm.position.x = myWorm.position.x + 1;
 					}
 				}
 			}
@@ -1321,11 +1403,11 @@ Worms.Game.prototype = {
 		this.isJumpingCounter = this.isJumpingCounter + 1;
 		},
 
-	applyGravityFor: function(selectedWorm)
+	applyGravityFor: function(myWorm)
 		{
 		// GETTING THE PIXEL LOCATION FROM THE CURRENT WORM LOCATION
-		var x = Math.floor(selectedWorm.position.x + selectedWorm.width / 2);
-		var y = Math.floor(selectedWorm.position.y + selectedWorm.height - 3);
+		var x = Math.floor(myWorm.position.x + myWorm.width / 2);
+		var y = Math.floor(myWorm.position.y + myWorm.height - 3);
 
 		// GETTING THE PIXEL DATA FROM THE CURRENT WORM LOCATION
 		var hasFloor = this.land.getPixel(x,y);
@@ -1340,10 +1422,10 @@ Worms.Game.prototype = {
 		if (mustFall.a==0 && hasFloor.a==0)
 			{
 			// MAKING THE WORM TO CLIMB UP
-			selectedWorm.position.y = selectedWorm.position.y + 1;
+			myWorm.position.y = myWorm.position.y + 1;
 
 			// CHECKING IF THE SELECTED WORM IS THE ONE AT THE CURRENT TURN AND IF ITS FALLING (AND NOT MOVING DOWN)
-			if (selectedWorm==this.player1Worm1 && mustUpdateFall.a==0)
+			if (myWorm==this.selectedWorm && mustUpdateFall.a==0)
 				{
 				// SETTING THAT THE WORM IS FALLING
 				this.isFalling = true;
@@ -1354,10 +1436,10 @@ Worms.Game.prototype = {
 		else if (mustFall.a>0 && hasFloor.a>0)
 			{
 			// MAKING THE WORM TO FALL
-			selectedWorm.position.y = selectedWorm.position.y - 1;
+			myWorm.position.y = myWorm.position.y - 1;
 
 			// CHECKING IF THE SELECTED WORM IS THE ONE AT THE CURRENT TURN
-			if (selectedWorm==this.player1Worm1)
+			if (myWorm==this.selectedWorm)
 				{
 				// SETTING THAT THE WORM IS NOT FALLING
 				this.isFalling = false;
@@ -1368,7 +1450,7 @@ Worms.Game.prototype = {
 		else
 			{
 			// CHECKING IF THE SELECTED WORM IS THE ONE AT THE CURRENT TURN
-			if (selectedWorm==this.player1Worm1)
+			if (myWorm==this.selectedWorm)
 				{
 				// SETTING THAT THE WORM IS NOT FALLING
 				this.isFalling = false;
@@ -1385,7 +1467,7 @@ Worms.Game.prototype = {
 		var sideOffset = 8;
 
 		// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
-		if (this.player1Worm1.lookingLeft==true)
+		if (this.selectedWorm.lookingLeft==true)
 			{
 			// UPDATING THE OFFSET POWER INDICATOR TO BE DISPLAYED WHEN LOOKING TO THE LEFT
 			sideOffset = -8;
@@ -1469,8 +1551,8 @@ Worms.Game.prototype = {
 	canMoveLeft: function()
 		{
 		// GETTING THE WORM TOP-LEFT LOCATION
-		var x = Math.floor(this.player1Worm1.position.x - 1);
-		var y = Math.floor(this.player1Worm1.position.y - 1);
+		var x = Math.floor(this.selectedWorm.position.x - 1);
+		var y = Math.floor(this.selectedWorm.position.y - 1);
 
 		// GETTING THE LAND PIXEL DATA FROM THAT LOCATION
 		var rgba = this.land.getPixel(x, y);
@@ -1483,7 +1565,7 @@ Worms.Game.prototype = {
 			}
 
 		// CHECKING IF THE WORM IS GOING TO BE OUT OF THE SCREEN
-		if (this.player1Worm1.position.x < 2)
+		if (this.selectedWorm.position.x < 2)
 			{
 			// THE WORM CANNOT MOVE
 			return false;
@@ -1496,8 +1578,8 @@ Worms.Game.prototype = {
 	canMoveRight: function()
 		{
 		// GETTING THE WORM TOP-RIGHT LOCATION
-		var x = Math.floor(this.player1Worm1.position.x + this.player1Worm1.width + 1);
-		var y = Math.floor(this.player1Worm1.position.y + this.player1Worm1.height - 20);
+		var x = Math.floor(this.selectedWorm.position.x + this.selectedWorm.width + 1);
+		var y = Math.floor(this.selectedWorm.position.y + this.selectedWorm.height - 20);
 
 		// GETTING THE LAND PIXEL DATA FROM THAT LOCATION
 		var rgba = this.land.getPixel(x, y);
@@ -1510,7 +1592,7 @@ Worms.Game.prototype = {
 			}
 
 		// CHECKING IF THE WORM IS GOING TO BE OUT OF THE SCREEN
-		if (this.player1Worm1.position.x > this.game.world.width - this.player1Worm1.width - 2)
+		if (this.selectedWorm.position.x > this.game.world.width - this.selectedWorm.width - 2)
 			{
 			// THE WORM CANNOT MOVE
 			return false;
@@ -1604,18 +1686,18 @@ Worms.Game.prototype = {
 			}
 
 		// STOPPING THE WORM ANIMATION
-		this.player1Worm1.animations.stop();
+		this.selectedWorm.animations.stop();
 
 		// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
-		if (this.player1Worm1.lookingLeft==true)
+		if (this.selectedWorm.lookingLeft==true)
 			{
 			// SHOWING THE STAND LEFT FRAME
-			this.player1Worm1.frame = 0;
+			this.selectedWorm.frame = 0;
 			}
 			else
 			{
 			// SHOWING THE STAND RIGHT FRAME
-			this.player1Worm1.frame = 6;
+			this.selectedWorm.frame = 6;
 			}
 
 		// RESTORING THE BULLET POSITION
@@ -1625,7 +1707,7 @@ Worms.Game.prototype = {
 		var bazookaRotation = this.bazooka.rotation;
 
 		// CHECKING IF THE WORM WAS LOOKING TO THE LEFT
-		if (this.player1Worm1.lookingLeft==true)
+		if (this.selectedWorm.lookingLeft==true)
 			{
 			// GETTING THE OPPOSITE ANGLE
 			bazookaRotation = this.invertAngle(this.bazooka.rotation);
@@ -1653,13 +1735,20 @@ Worms.Game.prototype = {
 		// SETTING THAT THE GAME IS IN MOTION
 		this.gameInMotion = true;
 
+		// SETTING THAT THE TURN MUST PASS
+		this.turnMustPass = true;
+
 		// FIRING THE BAZOOKA
 		this.physics.arcade.velocityFromRotation(bazookaRotation, this.power, this.bullet.body.velocity);
 		},
 
 	damageWorm: function(bullet, target)
 		{
+		// PREVENTING TO HIT THE WORM WHO TOOK THE SHOT
+		if (target==this.selectedWorm){return}
+
 		// CHECKING WHAT WORM LABEL TO HIDE
+		if (target==this.player1Worm1){this.player1Worm1Label.visible = false;this.player1Worm1LabelShadow.visible = false}
 		if (target==this.player1Worm2){this.player1Worm2Label.visible = false;this.player1Worm2LabelShadow.visible = false}
 		if (target==this.player2Worm1){this.player2Worm1Label.visible = false;this.player2Worm1LabelShadow.visible = false}
 		if (target==this.player2Worm2){this.player2Worm2Label.visible = false;this.player2Worm2LabelShadow.visible = false;}
@@ -1692,13 +1781,13 @@ Worms.Game.prototype = {
 		game.time.events.add(1500, function()
 			{
 			// MOVING THE CAMERA BACK TO THE WORM IN 500 MS
-			game.add.tween(game.state.states["Worms.Game"].camera).to({x: game.state.states["Worms.Game"].player1Worm1.position.x - (game.state.states["Worms.Game"].camera.width / 2)}, 500, Phaser.Easing.Linear.None, true).onComplete.add(function()
+			game.add.tween(game.state.states["Worms.Game"].camera).to({x: game.state.states["Worms.Game"].selectedWorm.position.x - (game.state.states["Worms.Game"].camera.width / 2)}, 500, Phaser.Easing.Linear.None, true).onComplete.add(function()
 				{
 				// SETTING THAT THE GAME IS NOT IN MOTION
 				game.state.states["Worms.Game"].gameInMotion = false;
 
 				// MAKING THE CAMERA TO FOLLOW THE WORM
-				game.state.states["Worms.Game"].camera.follow(game.state.states["Worms.Game"].player1Worm1);
+				game.state.states["Worms.Game"].camera.follow(game.state.states["Worms.Game"].selectedWorm);
 
 				// FADING IN THE PLAYER 1 LABEL AND HEALTH METER
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1LabelShadow).to( { alpha: 1 }, 200, "Linear", true);
