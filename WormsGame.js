@@ -978,21 +978,21 @@ Worms.Game.prototype = {
 					// PLAYING THE WALKING LEFT ANIMATION
 					this.player1Worm1.animations.play("walk_left", 9, true);
 
+					// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
+					if (this.bazooka.scale.x>0)
+						{
+						// UPDATING THE BAZOOKA ORIENTATION
+						this.bazooka.scale.x = this.bazooka.scale.x * -1;
+
+						// UPDATING THE BAZOOKA ANGLE
+						this.bazooka.angle = this.bazooka.angle * -1;
+						}
+
 					// CHECKING IF THE WORM CAN MOVE TO THE LEFT
 					if (this.canMoveLeft()==true)
 						{
 						// MOVING THE WORM TO THE LEFT
 						this.player1Worm1.position.x = this.player1Worm1.position.x - 1;
-
-						// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
-						if (this.bazooka.scale.x>0)
-							{
-							// UPDATING THE BAZOOKA ORIENTATION
-							this.bazooka.scale.x = this.bazooka.scale.x * -1;
-
-							// UPDATING THE BAZOOKA ANGLE
-							this.bazooka.angle = this.bazooka.angle * -1;
-							}
 						}
 					}
 				// CHECKING IF THE USER IS PRESSING THE RIGHT KEY
@@ -1001,21 +1001,21 @@ Worms.Game.prototype = {
 					// PLAYING THE WALKING RIGHT ANIMATION
 					this.player1Worm1.animations.play("walk_right", 9, true);
 
+					// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
+					if (this.bazooka.scale.x<0)
+						{
+						// UPDATING THE BAZOOKA ORIENTATION
+						this.bazooka.scale.x = this.bazooka.scale.x * -1;
+
+						// UPDATING THE BAZOOKA ANGLE
+						this.bazooka.angle = this.bazooka.angle * -1;
+						}
+
 					// CHECKING IF THE WORM CAN MOVE TO THE RIGHT
 					if (this.canMoveRight()==true)
 						{
 						// MOVING THE WORM TO THE RIGHT
 						this.player1Worm1.position.x = this.player1Worm1.position.x + 1;
-
-						// CHECKING IF THE BAZOOKA ORIENTATION NEEDS TO BE UPDATED
-						if (this.bazooka.scale.x<0)
-							{
-							// UPDATING THE BAZOOKA ORIENTATION
-							this.bazooka.scale.x = this.bazooka.scale.x * -1;
-
-							// UPDATING THE BAZOOKA ANGLE
-							this.bazooka.angle = this.bazooka.angle * -1;
-							}
 						}
 					}
 					else
