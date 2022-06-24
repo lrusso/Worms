@@ -1795,6 +1795,11 @@ Worms.Game.prototype = {
 			// FADING OUT THE STICK
 			this.add.tween(this.stick).to( { alpha: 0 }, 200, "Linear", true);
 
+			// FADING OUT THE JUMP BUTTON
+			this.add.tween(this.buttonJumpNormal).to( { alpha: 0 }, 200, "Linear", true);
+			this.add.tween(this.buttonJumpPressed).to( { alpha: 0 }, 200, "Linear", true);
+			this.add.tween(this.buttonJumpIcon).to( { alpha: 0 }, 200, "Linear", true);
+
 			// FADING OUT THE FIRE BUTTON
 			this.add.tween(this.buttonFireNormal).to( { alpha: 0 }, 200, "Linear", true);
 			this.add.tween(this.buttonFirePressed).to( { alpha: 0 }, 200, "Linear", true);
@@ -1929,6 +1934,11 @@ Worms.Game.prototype = {
 
 					// FADING IN THE STICK
 					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].stick).to( { alpha: 1 }, 200, "Linear", true);
+
+					// FADING IN THE JUMP BUTTON
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpNormal).to( { alpha: 1 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpPressed).to( { alpha: 1 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpIcon).to( { alpha: 0.35 }, 200, "Linear", true);
 
 					// FADING IN THE FIRE BUTTON
 					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireNormal).to( { alpha: 1 }, 200, "Linear", true);
