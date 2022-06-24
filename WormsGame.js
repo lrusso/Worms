@@ -858,6 +858,7 @@ Worms.Game.prototype = {
 		// ADDING THE STICK FOR MOBILE DEVICES
 		this.stick = this.pad.addDPad(110, 380, 0, "dpad");
 		this.stick.sprite.tint = 0xA9A9A9;
+		this.stick.sprite.alpha = 0;
 		this.stick.sprite.inputEnabled = true;
 		this.stick.sprite.events.onInputDown.add(function(){this.update();},this);
 		this.stick.enabled = false;
@@ -867,6 +868,7 @@ Worms.Game.prototype = {
 		this.buttonJumpNormal = game.add.sprite(775, 197, "imageGameButtonNormal");
 		this.buttonJumpNormal.scale.set(1.2);
 		this.buttonJumpNormal.tint = 0xAFAFAF;
+		this.buttonJumpNormal.alpha = 0;
 		this.buttonJumpNormal.fixedToCamera = true;
 		this.buttonJumpNormal.visible = false;
 
@@ -874,6 +876,7 @@ Worms.Game.prototype = {
 		this.buttonJumpPressed = game.add.sprite(775, 197, "imageGameButtonPressed");
 		this.buttonJumpPressed.scale.set(1.2);
 		this.buttonJumpPressed.tint = 0xAFAFAF;
+		this.buttonJumpPressed.alpha = 0;
 		this.buttonJumpPressed.fixedToCamera = true;
 		this.buttonJumpPressed.visible = false;
 
@@ -881,7 +884,7 @@ Worms.Game.prototype = {
 		this.buttonJumpIcon = game.add.sprite(833, 252, "imageGameButtonJumpIcon");
 		this.buttonJumpIcon.scale.set(1);
 		this.buttonJumpIcon.tint = 0x000000;
-		this.buttonJumpIcon.alpha = 0.35;
+		this.buttonJumpIcon.alpha = 0;
 		this.buttonJumpIcon.fixedToCamera = true;
 		this.buttonJumpIcon.visible = false;
 
@@ -899,6 +902,7 @@ Worms.Game.prototype = {
 		this.buttonFireNormal = game.add.sprite(775, 335, "imageGameButtonNormal");
 		this.buttonFireNormal.scale.set(1.2);
 		this.buttonFireNormal.tint = 0xAFAFAF;
+		this.buttonFireNormal.alpha = 0;
 		this.buttonFireNormal.fixedToCamera = true;
 		this.buttonFireNormal.visible = false;
 
@@ -906,6 +910,7 @@ Worms.Game.prototype = {
 		this.buttonFirePressed = game.add.sprite(775, 335, "imageGameButtonPressed");
 		this.buttonFirePressed.scale.set(1.2);
 		this.buttonFirePressed.tint = 0xAFAFAF;
+		this.buttonFirePressed.alpha = 0;
 		this.buttonFirePressed.fixedToCamera = true;
 		this.buttonFirePressed.visible = false;
 
@@ -913,7 +918,7 @@ Worms.Game.prototype = {
 		this.buttonFireIcon = game.add.sprite(827.5, 387, "imageGameButtonFireIcon");
 		this.buttonFireIcon.scale.set(1.2);
 		this.buttonFireIcon.tint = 0x000000;
-		this.buttonFireIcon.alpha = 0.35;
+		this.buttonFireIcon.alpha = 0;
 		this.buttonFireIcon.fixedToCamera = true;
 		this.buttonFireIcon.visible = false;
 
@@ -1448,6 +1453,30 @@ Worms.Game.prototype = {
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].wormIndicatorShadow).to( { alpha: 0 }, 100, "Linear", true);
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].wormIndicator).to( { alpha: 0 }, 100, "Linear", true);
 				});
+
+			// WAITING 300 MS
+			game.time.events.add(300, function()
+				{
+				// CHECKING IF IT IS A MOBILE DEVICE
+				if (game.state.states["Worms.Game"].isMobileDevice==true)
+					{
+					// ENABLING THE STICK
+					game.state.states["Worms.Game"].stick.enabled = true;
+
+					// FADING IN THE STICK
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].stick).to( { alpha: 1 }, 200, "Linear", true);
+
+					// FADING IN THE JUMP BUTTON
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpNormal).to( { alpha: 1 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpPressed).to( { alpha: 1 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpIcon).to( { alpha: 0.35 }, 200, "Linear", true);
+
+					// FADING IN THE FIRE BUTTON
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireNormal).to( { alpha: 1 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFirePressed).to( { alpha: 1 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireIcon).to( { alpha: 0.35 }, 200, "Linear", true);
+					}
+				});
 			}, this);
 		},
 
@@ -1925,26 +1954,6 @@ Worms.Game.prototype = {
 				// FADING IN THE KO LABEL
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].koLabelShadow).to( { alpha: 1 }, 200, "Linear", true);
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].koLabel).to( { alpha: 1 }, 200, "Linear", true);
-
-				// CHECKING IF IT IS A MOBILE DEVICE
-				if (game.state.states["Worms.Game"].isMobileDevice==true)
-					{
-					// ENABLING THE STICK
-					game.state.states["Worms.Game"].stick.enabled = true;
-
-					// FADING IN THE STICK
-					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].stick).to( { alpha: 1 }, 200, "Linear", true);
-
-					// FADING IN THE JUMP BUTTON
-					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpNormal).to( { alpha: 1 }, 200, "Linear", true);
-					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpPressed).to( { alpha: 1 }, 200, "Linear", true);
-					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpIcon).to( { alpha: 0.35 }, 200, "Linear", true);
-
-					// FADING IN THE FIRE BUTTON
-					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireNormal).to( { alpha: 1 }, 200, "Linear", true);
-					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFirePressed).to( { alpha: 1 }, 200, "Linear", true);
-					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireIcon).to( { alpha: 0.35 }, 200, "Linear", true);
-					}
 				});
 			});
 		},
