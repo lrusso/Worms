@@ -788,8 +788,12 @@ Worms.Game.prototype = {
 		this.buttonGoBack.fixedToCamera = true;
 		this.buttonGoBack.onInputUp.add(function()
 			{
-			// GOING BACK THE GAME MENU
-			game.state.start("Worms.Menu", Phaser.Plugin.StateTransition.Out.SlideRight);
+			// CHECKING IF THE BUTTON IS VISIBLE
+			if (this.buttonGoBack.alpha==1)
+				{
+				// GOING BACK THE GAME MENU
+				game.state.start("Worms.Menu", Phaser.Plugin.StateTransition.Out.SlideRight);
+				}
 			}, this);
 
 		// ADDING THE SOUND HANDLER BUTTON
