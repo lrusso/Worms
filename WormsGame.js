@@ -1012,8 +1012,6 @@ Worms.Game.prototype = {
 			// SHOWING THE WORM INDICATOR
 			game.state.states["Worms.Game"].showWormIndicator();
 			});
-
-		this.updateTeamsHealthMeter();
 		},
 
 	update: function ()
@@ -2040,8 +2038,8 @@ Worms.Game.prototype = {
 			// SETTING THAT THE GAME IS OVER
 			this.gameOver = true;
 
-			// SHOWING A MESSAGE SAYING THAT THE PLAYER 2 WINS
-			this.showToast(STRING_PLAYER2_WINS);
+			// SHOWING A MESSAGE SAYING THAT THE PLAYER 1 WINS
+			this.showToast(STRING_PLAYER1_WINS);
 			}
 
 		// CHECKING IF THE GAME IS OVER
