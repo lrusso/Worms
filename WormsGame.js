@@ -788,7 +788,7 @@ Worms.Game.prototype = {
 		this.buttonGoBack.fixedToCamera = true;
 		this.buttonGoBack.onInputUp.add(function()
 			{
-			// CHECKING IF THE BUTTON IS VISIBLE
+			// CHECKING IF THE GO BACK BUTTON IS VISIBLE
 			if (this.buttonGoBack.alpha==1)
 				{
 				// GOING BACK THE GAME MENU
