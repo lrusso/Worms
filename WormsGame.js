@@ -1511,6 +1511,12 @@ Worms.Game.prototype = {
 			this.applyGravityFor(this.player1Worm2);
 			this.applyGravityFor(this.player2Worm1);
 			this.applyGravityFor(this.player2Worm2);
+
+			// APPLYING THE ABYSS CHECK FOR EACH WORM
+			this.applyAbyssCheckFor(this.player1Worm1, this.player1Worm1Health);
+			this.applyAbyssCheckFor(this.player1Worm2, this.player1Worm2Health);
+			this.applyAbyssCheckFor(this.player2Worm1, this.player2Worm1Health);
+			this.applyAbyssCheckFor(this.player2Worm2, this.player2Worm2Health);
 			}
 		},
 
@@ -1635,6 +1641,9 @@ Worms.Game.prototype = {
 
 	applyGravityFor: function(myWorm)
 		{
+		// NOT APPLYING GRAVITY FOR A DEAD WORM
+		if (myWorm.alpha<1){return}
+
 		// GETTING THE PIXEL LOCATION FROM THE CURRENT WORM LOCATION
 		var x = Math.floor(myWorm.position.x + myWorm.width / 2);
 		var y = Math.floor(myWorm.position.y + myWorm.height - 3);
@@ -1644,6 +1653,20 @@ Worms.Game.prototype = {
 
 		// GETTING THE PIXEL DATA UNDER THE CURRENT WORM LOCATION
 		var mustFall = this.land.getPixel(x,y+1);
+
+		// CHECKING IF THE WORM IS WALKING OVER THE ABYSS
+		if (mustFall.a==undefined)
+			{
+			// SETTING THAT THERE IS NOTHING UNDER THE WORM
+			mustFall = {a: 0};
+			}
+
+		// CHECKING IF THE WORM IS WALKING OVER THE ABYSS
+		if (hasFloor.a==undefined)
+			{
+			// SETTING THAT THERE IS NOTHING UNDER THE WORM
+			hasFloor = {a: 0};
+			}
 
 		// GETTING THE PIXEL DATA VERY UNDER THE CURRENT WORM LOCATION
 		var mustUpdateFall = this.land.getPixel(x,y+25);
@@ -1685,6 +1708,29 @@ Worms.Game.prototype = {
 				// SETTING THAT THE WORM IS NOT FALLING
 				this.isFalling = false;
 				}
+			}
+		},
+
+	applyAbyssCheckFor: function(myWorm, myWormHealth)
+		{
+		// CHECKING IF THE WORM HAS FALL INTO THE ABYSS
+		if (myWorm.position.y > game.height + 40 && myWormHealth>0)
+			{
+			// SETTING THAT THE GAME IS IN MOTION
+			this.gameInMotion = true;
+
+			// KILLING THE WORM
+			this.causeDamage(myWorm, 999);
+
+			// WAITING 2000 MS
+			game.time.events.add(2000, function()
+				{
+				// SETTING THAT THE GAME IS NOT IN MOTION
+				game.state.states["Worms.Game"].gameInMotion = false;
+
+				// SETTING THAT THE TURN MUST PASS
+				game.state.states["Worms.Game"].turnMustPass = true;
+				});
 			}
 		},
 
@@ -2003,21 +2049,18 @@ Worms.Game.prototype = {
 		// STARTING THE FADE OUT ANIMATION (EXPLOSION) ON THE FLAME SPRITE
 		this.add.tween(this.flame).to({alpha: 0 }, 100, "Linear", true);
 
-		// CAUSING DAMAGE TO THE WORM
-		this.causeDamage(bullet, target);
+		// GETTING THE DAMAGE ORIGINAL VALUE
+		var damageOriginal = (Math.abs(bullet.body.velocity.x) + Math.abs(bullet.body.velocity.y)) * 0.05;
 
-		// UPDATING THE TEAMS HEALTH METER
-		this.updateTeamsHealthMeter();
+		// CAUSING DAMAGE TO THE WORM
+		this.causeDamage(target, damageOriginal);
 
 		// REMOVING THE BULLLET
 		this.removeBullet();
 		},
 
-	causeDamage: function(bullet, target)
+	causeDamage: function(target, damageOriginal)
 		{
-		// GETTING THE DAMAGE ORIGINAL VALUE
-		var damageOriginal = (Math.abs(bullet.body.velocity.x) + Math.abs(bullet.body.velocity.y)) * 0.05;
-
 		// GETTING THE DAMAGE TO CAUSE TO THE WORM
 		var damageValue = damageOriginal * 100 / 100;
 
@@ -2042,6 +2085,9 @@ Worms.Game.prototype = {
 			else if (target==this.player2Worm1){this.add.tween(this.player2Worm1Label).to({alpha: 0 }, 100, "Linear", true);this.add.tween(this.player2Worm1LabelShadow).to({alpha: 0 }, 100, "Linear", true);}
 			else if (target==this.player2Worm2){this.add.tween(this.player2Worm2Label).to({alpha: 0 }, 100, "Linear", true);this.add.tween(this.player2Worm2LabelShadow).to({alpha: 0 }, 100, "Linear", true);}
 			}
+
+		// UPDATING THE TEAMS HEALTH METER
+		this.updateTeamsHealthMeter();
 		},
 
 	updateTeamsHealthMeter: function()
