@@ -998,7 +998,7 @@ Worms.Game.prototype = {
 			}
 			else
 			{
-			// CHECKING IF THE GAME IS IN MOTION OR THE WORM IS JUMPING OR THE WORM INDICATOR IS VISIBLE
+			// CHECKING IF THE GAME IS IN MOTION OR THE WORM IS JUMPING OR THE WORM INDICATOR IS VISIBLE OR THE INTRO IS NOT DONE
 			if (this.gameInMotion==true || this.isJumping==true || this.wormIndicator.alpha>0 || this.introDone==false)
 				{
 				// NO POINT GOING ANY FURTHER
