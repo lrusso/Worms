@@ -1194,8 +1194,8 @@ Worms.Game.prototype = {
 				return;
 				}
 
-			// CHECKING IF THE USER WAS NOT PRESSING THE SPACE KEY (TO PREVENT TO MOVE THE WORM WHILE POWERING UP THE SHOT)
-			if (this.keySpaceWasDown==false)
+			// CHECKING IF THE USER WAS NOT PRESSING THE SPACE KEY AND THAT THE HEALTH METER IS VISIBLE (TO PREVENT TO MOVE THE WORM WHILE POWERING UP THE SHOT)
+			if (this.keySpaceWasDown==false && this.player1HealthContainer.alpha==1)
 				{
 				// DETECTING THE KEYS
 				var moveLeft = this.cursors.left.isDown || this.keyA.isDown;
