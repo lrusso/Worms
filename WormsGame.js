@@ -191,7 +191,7 @@ Worms.Splash.prototype = {
 		game.time.events.add(500, function()
 			{
 			// FADING IN THE URL
-			this.imageLogoPart1Handler = game.add.tween(game.state.states["Worms.Splash"].imageLogoPart1).to({alpha: 1}, 1500, Phaser.Easing.Linear.None, true);
+			this.imageLogoPart1Handler = game.add.tween(game.state.states["Worms.Splash"].imageLogoPart1).to({alpha: 1 }, 1500, Phaser.Easing.Linear.None, true);
 			});
 
 		// WAITING 1500 MS
@@ -1387,34 +1387,42 @@ Worms.Game.prototype = {
 		// MAKING THE PLAYER 1 WORM 1 LABEL SHADOW TO FOLLOW TO WORM
 		this.player1Worm1LabelShadow.position.x = this.player1Worm1.x + this.player1Worm1.width / 2 - this.player1Worm1LabelShadow.width / 2 + 1;
 		this.player1Worm1LabelShadow.position.y = this.player1Worm1.y - 7;
+		this.player1Worm1LabelShadow.setText(this.player1Worm1Health);
 
 		// MAKING THE PLAYER 1 WORM 1 LABEL TO FOLLOW TO WORM
 		this.player1Worm1Label.position.x = this.player1Worm1.x + this.player1Worm1.width / 2 - this.player1Worm1Label.width / 2;
 		this.player1Worm1Label.position.y = this.player1Worm1.y - 8;
+		this.player1Worm1Label.setText(this.player1Worm1Health);
 
 		// MAKING THE PLAYER 1 WORM 2 LABEL SHADOW TO FOLLOW TO WORM
 		this.player1Worm2LabelShadow.position.x = this.player1Worm2.x + this.player1Worm2.width / 2 - this.player1Worm2LabelShadow.width / 2 + 1;
 		this.player1Worm2LabelShadow.position.y = this.player1Worm2.y - 7;
+		this.player1Worm2LabelShadow.setText(this.player1Worm2Health);
 
 		// MAKING THE PLAYER 1 WORM 2 LABEL TO FOLLOW TO WORM
 		this.player1Worm2Label.position.x = this.player1Worm2.x + this.player1Worm2.width / 2 - this.player1Worm2Label.width / 2;
 		this.player1Worm2Label.position.y = this.player1Worm2.y - 8;
+		this.player1Worm2Label.setText(this.player1Worm2Health);
 
 		// MAKING THE PLAYER 2 WORM 1 LABEL SHADOW TO FOLLOW TO WORM
 		this.player2Worm1LabelShadow.position.x = this.player2Worm1.x + this.player2Worm1.width / 2 - this.player2Worm1LabelShadow.width / 2 + 1;
 		this.player2Worm1LabelShadow.position.y = this.player2Worm1.y - 7;
+		this.player2Worm1LabelShadow.setText(this.player2Worm1Health);
 
 		// MAKING THE PLAYER 2 WORM 1 LABEL TO FOLLOW TO WORM
 		this.player2Worm1Label.position.x = this.player2Worm1.x + this.player2Worm1.width / 2 - this.player2Worm1Label.width / 2;
 		this.player2Worm1Label.position.y = this.player2Worm1.y - 8;
+		this.player2Worm1Label.setText(this.player2Worm1Health);
 
 		// MAKING THE PLAYER 2 WORM 2 LABEL SHADOW TO FOLLOW TO WORM
 		this.player2Worm2LabelShadow.position.x = this.player2Worm2.x + this.player2Worm2.width / 2 - this.player2Worm2LabelShadow.width / 2 + 1;
 		this.player2Worm2LabelShadow.position.y = this.player2Worm2.y - 7;
+		this.player2Worm2LabelShadow.setText(this.player2Worm2Health);
 
 		// MAKING THE PLAYER 2 WORM 2 LABEL TO FOLLOW TO WORM
 		this.player2Worm2Label.position.x = this.player2Worm2.x + this.player2Worm2.width / 2 - this.player2Worm2Label.width / 2;
 		this.player2Worm2Label.position.y = this.player2Worm2.y - 8;
+		this.player2Worm2Label.setText(this.player2Worm2Health);
 
 		// MAKING THE BAZOOKA TO FOLLOW THE WORM
 		this.bazooka.position.x = this.selectedWorm.x + 12;
@@ -1445,8 +1453,8 @@ Worms.Game.prototype = {
 		this.wormIndicator.position.y = this.selectedWorm.position.y - 120;
 
 		// FADING IN THE WORM INDICATOR
-		game.add.tween(game.state.states["Worms.Game"].wormIndicatorShadow).to( { alpha: 1 }, 100, "Linear", true);
-		game.add.tween(game.state.states["Worms.Game"].wormIndicator).to( { alpha: 1 }, 100, "Linear", true);
+		game.add.tween(game.state.states["Worms.Game"].wormIndicatorShadow).to({alpha: 1 }, 100, "Linear", true);
+		game.add.tween(game.state.states["Worms.Game"].wormIndicator).to({alpha: 1 }, 100, "Linear", true);
 
 		// MOVING THE WORM INDICATOR
 		game.add.tween(this.wormIndicatorShadow).to({ y: this.wormIndicatorShadow.position.y + 57 }, 2000, Phaser.Easing.Bounce.Out, true)
@@ -1456,8 +1464,8 @@ Worms.Game.prototype = {
 			game.time.events.add(250, function()
 				{
 				// FADING OUT THE WORM INDICATOR
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].wormIndicatorShadow).to( { alpha: 0 }, 100, "Linear", true);
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].wormIndicator).to( { alpha: 0 }, 100, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].wormIndicatorShadow).to({alpha: 0 }, 100, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].wormIndicator).to({alpha: 0 }, 100, "Linear", true);
 				});
 
 			// WAITING 300 MS
@@ -1473,17 +1481,17 @@ Worms.Game.prototype = {
 					game.state.states["Worms.Game"].stick.enabled = true;
 
 					// FADING IN THE STICK
-					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].stick).to( { alpha: 1 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].stick).to({alpha: 1 }, 200, "Linear", true);
 
 					// FADING IN THE JUMP BUTTON
-					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpNormal).to( { alpha: 1 }, 200, "Linear", true);
-					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpPressed).to( { alpha: 1 }, 200, "Linear", true);
-					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpIcon).to( { alpha: 0.35 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpNormal).to({alpha: 1 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpPressed).to({alpha: 1 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonJumpIcon).to({alpha: 0.35 }, 200, "Linear", true);
 
 					// FADING IN THE FIRE BUTTON
-					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireNormal).to( { alpha: 1 }, 200, "Linear", true);
-					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFirePressed).to( { alpha: 1 }, 200, "Linear", true);
-					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireIcon).to( { alpha: 0.35 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireNormal).to({alpha: 1 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFirePressed).to({alpha: 1 }, 200, "Linear", true);
+					game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonFireIcon).to({alpha: 0.35 }, 200, "Linear", true);
 					}
 				});
 			}, this);
@@ -1792,7 +1800,7 @@ Worms.Game.prototype = {
 			this.flame.visible = true;
 
 			// STARTING THE FADE OUT ANIMATION (EXPLOSION) ON THE FLAME SPRITE
-			this.add.tween(this.flame).to( { alpha: 0 }, 100, "Linear", true);
+			this.add.tween(this.flame).to({alpha: 0 }, 100, "Linear", true);
 
 			// REMOVING THE BULLET
 			this.removeBullet();
@@ -1809,20 +1817,20 @@ Worms.Game.prototype = {
 			}
 
 		// FADING OUT THE PLAYER 1 LABEL AND HEALTH METER
-		this.add.tween(this.player1LabelShadow).to( { alpha: 0 }, 200, "Linear", true);
-		this.add.tween(this.player1Label).to( { alpha: 0 }, 200, "Linear", true);
-		this.add.tween(this.player1HealthContainer).to( { alpha: 0 }, 200, "Linear", true);
-		this.add.tween(this.player1HealthMeter).to( { alpha: 0 }, 200, "Linear", true);
+		this.add.tween(this.player1LabelShadow).to({alpha: 0 }, 200, "Linear", true);
+		this.add.tween(this.player1Label).to({alpha: 0 }, 200, "Linear", true);
+		this.add.tween(this.player1HealthContainer).to({alpha: 0 }, 200, "Linear", true);
+		this.add.tween(this.player1HealthMeter).to({alpha: 0 }, 200, "Linear", true);
 
 		// FADING OUT THE PLAYER 2 LABEL AND HEALTH METER
-		this.add.tween(this.player2LabelShadow).to( { alpha: 0 }, 200, "Linear", true);
-		this.add.tween(this.player2Label).to( { alpha: 0 }, 200, "Linear", true);
-		this.add.tween(this.player2HealthContainer).to( { alpha: 0 }, 200, "Linear", true);
-		this.add.tween(this.player2HealthMeter).to( { alpha: 0 }, 200, "Linear", true);
+		this.add.tween(this.player2LabelShadow).to({alpha: 0 }, 200, "Linear", true);
+		this.add.tween(this.player2Label).to({alpha: 0 }, 200, "Linear", true);
+		this.add.tween(this.player2HealthContainer).to({alpha: 0 }, 200, "Linear", true);
+		this.add.tween(this.player2HealthMeter).to({alpha: 0 }, 200, "Linear", true);
 
 		// FADING OUT THE KO LABEL
-		this.add.tween(this.koLabelShadow).to( { alpha: 0 }, 200, "Linear", true);
-		this.add.tween(this.koLabel).to( { alpha: 0 }, 200, "Linear", true);
+		this.add.tween(this.koLabelShadow).to({alpha: 0 }, 200, "Linear", true);
+		this.add.tween(this.koLabel).to({alpha: 0 }, 200, "Linear", true);
 
 		// CHECKING IF IT IS A MOBILE DEVICE
 		if (this.isMobileDevice==true)
@@ -1831,17 +1839,17 @@ Worms.Game.prototype = {
 			this.stick.enabled = false;
 
 			// FADING OUT THE STICK
-			this.add.tween(this.stick).to( { alpha: 0 }, 200, "Linear", true);
+			this.add.tween(this.stick).to({alpha: 0 }, 200, "Linear", true);
 
 			// FADING OUT THE JUMP BUTTON
-			this.add.tween(this.buttonJumpNormal).to( { alpha: 0 }, 200, "Linear", true);
-			this.add.tween(this.buttonJumpPressed).to( { alpha: 0 }, 200, "Linear", true);
-			this.add.tween(this.buttonJumpIcon).to( { alpha: 0 }, 200, "Linear", true);
+			this.add.tween(this.buttonJumpNormal).to({alpha: 0 }, 200, "Linear", true);
+			this.add.tween(this.buttonJumpPressed).to({alpha: 0 }, 200, "Linear", true);
+			this.add.tween(this.buttonJumpIcon).to({alpha: 0 }, 200, "Linear", true);
 
 			// FADING OUT THE FIRE BUTTON
-			this.add.tween(this.buttonFireNormal).to( { alpha: 0 }, 200, "Linear", true);
-			this.add.tween(this.buttonFirePressed).to( { alpha: 0 }, 200, "Linear", true);
-			this.add.tween(this.buttonFireIcon).to( { alpha: 0 }, 200, "Linear", true);
+			this.add.tween(this.buttonFireNormal).to({alpha: 0 }, 200, "Linear", true);
+			this.add.tween(this.buttonFirePressed).to({alpha: 0 }, 200, "Linear", true);
+			this.add.tween(this.buttonFireIcon).to({alpha: 0 }, 200, "Linear", true);
 			}
 
 		// STOPPING THE WORM ANIMATION
@@ -1883,7 +1891,7 @@ Worms.Game.prototype = {
 		this.flame.visible = true;
 
 		// STARTING THE FADE OUT ANIMATION (EXPLOSION) ON THE FLAME SPRITE
-		this.add.tween(this.flame).to( { alpha: 0 }, 100, "Linear", true);
+		this.add.tween(this.flame).to({alpha: 0 }, 100, "Linear", true);
 
 		// MAKING THE CAMERA TO NOT FOLLOWING ANYONE
 		this.camera.follow(null);
@@ -1906,12 +1914,6 @@ Worms.Game.prototype = {
 		// PREVENTING TO HIT THE WORM WHO TOOK THE SHOT
 		if (target==this.selectedWorm){return}
 
-		// CHECKING WHAT WORM LABEL TO HIDE
-		if (target==this.player1Worm1){this.player1Worm1Label.visible = false;this.player1Worm1LabelShadow.visible = false}
-		if (target==this.player1Worm2){this.player1Worm2Label.visible = false;this.player1Worm2LabelShadow.visible = false}
-		if (target==this.player2Worm1){this.player2Worm1Label.visible = false;this.player2Worm1LabelShadow.visible = false}
-		if (target==this.player2Worm2){this.player2Worm2Label.visible = false;this.player2Worm2LabelShadow.visible = false;}
-
 		// RELOCATING THE FLAME SPRITE
 		this.flame.x = Math.floor(this.bullet.x);
 		this.flame.y = Math.floor(this.bullet.y);
@@ -1919,13 +1921,44 @@ Worms.Game.prototype = {
 		this.flame.visible = true;
 
 		// STARTING THE FADE OUT ANIMATION (EXPLOSION) ON THE FLAME SPRITE
-		this.add.tween(this.flame).to( { alpha: 0 }, 100, "Linear", true);
+		this.add.tween(this.flame).to({alpha: 0 }, 100, "Linear", true);
 
-		// FADING OUT THE WORM AND KILLING IT
-		this.add.tween(target).to( { alpha: 0 }, 100, "Linear", true).onComplete.add(function(){target.kill();});
+		// CAUSING DAMAGE TO THE WORM
+		this.causeDamage(bullet, target);
 
 		// REMOVING THE BULLLET
 		this.removeBullet();
+		},
+
+	causeDamage: function(bullet, target)
+		{
+		// GETTING THE DAMAGE ORIGINAL VALUE
+		var damageOriginal = (Math.abs(bullet.body.velocity.x) + Math.abs(bullet.body.velocity.y)) * 0.05;
+
+		// GETTING THE DAMAGE TO CAUSE TO THE WORM
+		var damageValue = damageOriginal * 100 / 100;
+
+		// CREATING A VARIABLE TO CHECK IF THE WORM MUST DIE
+		var mustDie = false;
+
+		// CAUSING DAMAGE TO THE WORM
+		if (target==this.player1Worm1){this.player1Worm1Health = Math.floor(this.player1Worm1Health - damageValue);if(this.player1Worm1Health<1){mustDie=true;this.player1Worm1Health=0;}}
+		else if (target==this.player1Worm2){this.player1Worm2Health = Math.floor(this.player1Worm2Health - damageValue);if(this.player1Worm2Health<1){mustDie=true;this.player1Worm2Health=0;}}
+		else if (target==this.player2Worm1){this.player2Worm1Health = Math.floor(this.player2Worm1Health - damageValue);if(this.player2Worm1Health<1){mustDie=true;this.player2Worm1Health=0;}}
+		else if (target==this.player2Worm2){this.player2Worm2Health = Math.floor(this.player2Worm2Health - damageValue);if(this.player2Worm2Health<1){mustDie=true;this.player2Worm2Health=0;}}
+
+		// CHECKING IF THE WORM MUST DIE
+		if (mustDie==true)
+			{
+			// FADING OUT THE WORM AND KILLING IT
+			this.add.tween(target).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){target.kill();});
+
+			// FADING OUT THE WORM LABEL AND WORM LABEL SHADOW
+			if (target==this.player1Worm1){this.add.tween(this.player1Worm1Label).to({alpha: 0 }, 100, "Linear", true);this.add.tween(this.player1Worm1LabelShadow).to({alpha: 0 }, 100, "Linear", true);}
+			else if (target==this.player1Worm2){this.add.tween(this.player1Worm2Label).to({alpha: 0 }, 100, "Linear", true);this.add.tween(this.player1Worm2LabelShadow).to({alpha: 0 }, 100, "Linear", true);}
+			else if (target==this.player2Worm1){this.add.tween(this.player2Worm1Label).to({alpha: 0 }, 100, "Linear", true);this.add.tween(this.player2Worm1LabelShadow).to({alpha: 0 }, 100, "Linear", true);}
+			else if (target==this.player2Worm2){this.add.tween(this.player2Worm2Label).to({alpha: 0 }, 100, "Linear", true);this.add.tween(this.player2Worm2LabelShadow).to({alpha: 0 }, 100, "Linear", true);}
+			}
 		},
 
 	removeBullet: function ()
@@ -1949,20 +1982,20 @@ Worms.Game.prototype = {
 				game.state.states["Worms.Game"].camera.follow(game.state.states["Worms.Game"].selectedWorm);
 
 				// FADING IN THE PLAYER 1 LABEL AND HEALTH METER
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1LabelShadow).to( { alpha: 1 }, 200, "Linear", true);
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1Label).to( { alpha: 1 }, 200, "Linear", true);
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1HealthContainer).to( { alpha: 1 }, 200, "Linear", true);
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1HealthMeter).to( { alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1LabelShadow).to({alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1Label).to({alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1HealthContainer).to({alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1HealthMeter).to({alpha: 1 }, 200, "Linear", true);
 
 				// FADING IN THE PLAYER 2 LABEL AND HEALTH METER
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2LabelShadow).to( { alpha: 1 }, 200, "Linear", true);
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2Label).to( { alpha: 1 }, 200, "Linear", true);
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2HealthContainer).to( { alpha: 1 }, 200, "Linear", true);
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2HealthMeter).to( { alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2LabelShadow).to({alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2Label).to({alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2HealthContainer).to({alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2HealthMeter).to({alpha: 1 }, 200, "Linear", true);
 
 				// FADING IN THE KO LABEL
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].koLabelShadow).to( { alpha: 1 }, 200, "Linear", true);
-				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].koLabel).to( { alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].koLabelShadow).to({alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].koLabel).to({alpha: 1 }, 200, "Linear", true);
 				});
 			});
 		},
