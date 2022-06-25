@@ -17,7 +17,9 @@ function isMobileDevice(){return!!(navigator.userAgent.match(/Android/i)||naviga
 var userLanguage = window.navigator.userLanguage || window.navigator.language;
 
 var STRING_PLAYER1 = "";
+var STRING_PLAYER1_WINS = "";
 var STRING_PLAYER2 = "";
+var STRING_PLAYER2_WINS = "";
 var STRING_DISCLAIMER1 = "";
 var STRING_DISCLAIMER2 = "";
 var STRING_DISCLAIMER3 = "";
@@ -32,7 +34,9 @@ var STRING_DISCLAIMER8_MOBILE = "";
 if (userLanguage.substring(0,2)=="es")
 	{
 	STRING_PLAYER1 = "JUGADOR 1";
+	STRING_PLAYER1_WINS = "GANO EL JUGADOR 1";
 	STRING_PLAYER2 = "JUGADOR 2";
+	STRING_PLAYER2_WINS = "GANO EL JUGADOR 2";
 	STRING_DISCLAIMER1 = "DESCARGO DE RESPONSABILIDAD";
 	STRING_DISCLAIMER2 = "Los recursos de Worms";
 	STRING_DISCLAIMER3 = "(im" + String.fromCharCode(225) + "genes, fuentes, m" + String.fromCharCode(250) + "sica y sonidos)";
@@ -46,7 +50,9 @@ if (userLanguage.substring(0,2)=="es")
 	else
 	{
 	STRING_PLAYER1 = "PLAYER 1";
+	STRING_PLAYER1_WINS = "PLAYER 1 WINS";
 	STRING_PLAYER2 = "PLAYER 2";
+	STRING_PLAYER2_WINS = "PLAYER 2 WINS";
 	STRING_DISCLAIMER1 = "DISCLAIMER";
 	STRING_DISCLAIMER2 = "The Worms resources";
 	STRING_DISCLAIMER3 = "(images, fonts, music and sounds)";
@@ -512,6 +518,7 @@ Worms.Game = function (game)
 	this.player1LabelShadow = null;
 	this.player1Label = null;
 	this.player1HealthContainer = null;
+	this.player1HealthBackground = null;
 	this.player1HealthMeter = null;
 	this.player1Worm1 = null;
 	this.player1Worm1Label = null;
@@ -524,6 +531,7 @@ Worms.Game = function (game)
 	this.player2LabelShadow = null;
 	this.player2Label = null;
 	this.player2HealthContainer = null;
+	this.player2HealthBackground = null;
 	this.player2HealthMeter = null;
 	this.player2Worm1 = null;
 	this.player2Worm1Label = null;
@@ -573,6 +581,8 @@ Worms.Game = function (game)
 	this.lastWormTeam1 = null;
 	this.lastWormTeam2 = null;
 	this.introDone = null;
+	this.gameOver = null;
+	this.healthMeterMaxValue = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
@@ -598,6 +608,7 @@ Worms.Game.prototype = {
 		this.player1LabelShadow = null;
 		this.player1Label = null;
 		this.player1HealthContainer = null;
+		this.player1HealthBackground = null;
 		this.player1HealthMeter = null;
 		this.player1Worm1 = null;
 		this.player1Worm1Label = null;
@@ -610,6 +621,7 @@ Worms.Game.prototype = {
 		this.player2LabelShadow = null;
 		this.player2Label = null;
 		this.player2HealthContainer = null;
+		this.player2HealthBackground = null;
 		this.player2HealthMeter = null;
 		this.player2Worm1 = null;
 		this.player2Worm1Label = null;
@@ -659,6 +671,8 @@ Worms.Game.prototype = {
 		this.lastWormTeam1 = 1;
 		this.lastWormTeam2 = 2;
 		this.introDone = false;
+		this.gameOver = false;
+		this.healthMeterMaxValue = 410;
 		},
 
 	create: function ()
@@ -698,13 +712,19 @@ Worms.Game.prototype = {
 		// ADDING THE PLAYER 1 HEALTH CONTAINER
 		this.player1HealthContainer = game.add.graphics(0, 0);
 		this.player1HealthContainer.lineStyle(4, 0xFFFFFF, 1);
-		this.player1HealthContainer.drawRect(20, 40, 410, 20);
+		this.player1HealthContainer.drawRect(20, 40, this.healthMeterMaxValue, 20);
 		this.player1HealthContainer.fixedToCamera = true;
+
+		// ADDING THE PLAYER 1 HEALTH BACKGROUND
+		this.player1HealthBackground = game.add.graphics(0, 0);
+		this.player1HealthBackground.beginFill(0x000000);
+		this.player1HealthBackground.drawRect(20, 40, this.healthMeterMaxValue, 20);
+		this.player1HealthBackground.fixedToCamera = true;
 
 		// ADDING THE PLAYER 1 HEALTH METER
 		this.player1HealthMeter = game.add.graphics(0, 0);
-		this.player1HealthMeter.beginFill(0XB9180B);
-		this.player1HealthMeter.drawRect(20, 40, 410, 20);
+		this.player1HealthMeter.beginFill(0xB9180B);
+		this.player1HealthMeter.drawRect(20, 40, this.healthMeterMaxValue, 20);
 		this.player1HealthMeter.fixedToCamera = true;
 
 		// ADDING THE PLAYER 2 LABEL SHADOW
@@ -724,13 +744,19 @@ Worms.Game.prototype = {
 		// ADDING THE PLAYER 2 HEALTH CONTAINER
 		this.player2HealthContainer = game.add.graphics(0, 0);
 		this.player2HealthContainer.lineStyle(4, 0xFFFFFF, 1);
-		this.player2HealthContainer.drawRect(505, 40, 410, 20);
+		this.player2HealthContainer.drawRect(505, 40, this.healthMeterMaxValue, 20);
 		this.player2HealthContainer.fixedToCamera = true;
+
+		// ADDING THE PLAYER 1 HEALTH BACKGROUND
+		this.player2HealthBackground = game.add.graphics(0, 0);
+		this.player2HealthBackground.beginFill(0x000000);
+		this.player2HealthBackground.drawRect(505, 40, this.healthMeterMaxValue, 20);
+		this.player2HealthBackground.fixedToCamera = true;
 
 		// ADDING THE PLAYER 2 HEALTH METER
 		this.player2HealthMeter = game.add.graphics(0, 0);
-		this.player2HealthMeter.beginFill(0XB9180B);
-		this.player2HealthMeter.drawRect(505, 40, 410, 20);
+		this.player2HealthMeter.beginFill(0xB9180B);
+		this.player2HealthMeter.drawRect(505, 40, this.healthMeterMaxValue, 20);
 		this.player2HealthMeter.fixedToCamera = true;
 
 		// ADDING THE KO LABEL SHADOW
@@ -1820,12 +1846,14 @@ Worms.Game.prototype = {
 		this.add.tween(this.player1LabelShadow).to({alpha: 0 }, 200, "Linear", true);
 		this.add.tween(this.player1Label).to({alpha: 0 }, 200, "Linear", true);
 		this.add.tween(this.player1HealthContainer).to({alpha: 0 }, 200, "Linear", true);
+		this.add.tween(this.player1HealthBackground).to({alpha: 0 }, 200, "Linear", true);
 		this.add.tween(this.player1HealthMeter).to({alpha: 0 }, 200, "Linear", true);
 
 		// FADING OUT THE PLAYER 2 LABEL AND HEALTH METER
 		this.add.tween(this.player2LabelShadow).to({alpha: 0 }, 200, "Linear", true);
 		this.add.tween(this.player2Label).to({alpha: 0 }, 200, "Linear", true);
 		this.add.tween(this.player2HealthContainer).to({alpha: 0 }, 200, "Linear", true);
+		this.add.tween(this.player2HealthBackground).to({alpha: 0 }, 200, "Linear", true);
 		this.add.tween(this.player2HealthMeter).to({alpha: 0 }, 200, "Linear", true);
 
 		// FADING OUT THE KO LABEL
@@ -1926,6 +1954,9 @@ Worms.Game.prototype = {
 		// CAUSING DAMAGE TO THE WORM
 		this.causeDamage(bullet, target);
 
+		// UPDATING THE TEAMS HEALTH METER
+		this.updateTeamsHealthMeter();
+
 		// REMOVING THE BULLLET
 		this.removeBullet();
 		},
@@ -1961,6 +1992,31 @@ Worms.Game.prototype = {
 			}
 		},
 
+	updateTeamsHealthMeter: function()
+		{
+		// GETTING THE CURRENT HEALTH VALUE OF EACH TEAM
+		var healthTeam1 = this.player1Worm1Health + this.player1Worm2Health;
+		var healthTeam2 = this.player2Worm1Health + this.player2Worm2Health;
+
+		// GETTING THE CURRENT PERCENTAGE HEALTH VALUE OF EACH TEAM
+		var meter1Value = Math.floor(healthTeam1 * 100 / 200);
+		var meter2Value = Math.floor(healthTeam2 * 100 / 200);
+
+		// GETTING THE NEW WIDTH FOR EACH HEALTH METER
+		var meter1NewWidth = Math.floor(meter1Value * this.healthMeterMaxValue / 100);
+		var meter2NewWidth = Math.floor(meter2Value * this.healthMeterMaxValue / 100);
+
+		// UPDATING THE PLAYER 1 HEALTH METER
+		this.player1HealthMeter.clear();
+		this.player1HealthMeter.beginFill(0xB9180B);
+		this.player1HealthMeter.drawRect(20, 40, meter1NewWidth, 20);
+
+		// UPDATING THE PLAYER 2 HEALTH METER
+		this.player2HealthMeter.clear();
+		this.player2HealthMeter.beginFill(0xB9180B);
+		this.player2HealthMeter.drawRect(505, 40, meter2NewWidth, 20);
+		},
+
 	removeBullet: function ()
 		{
 		// REMOVING THE BULLET
@@ -1985,12 +2041,14 @@ Worms.Game.prototype = {
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1LabelShadow).to({alpha: 1 }, 200, "Linear", true);
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1Label).to({alpha: 1 }, 200, "Linear", true);
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1HealthContainer).to({alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1HealthBackground).to({alpha: 1 }, 200, "Linear", true);
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player1HealthMeter).to({alpha: 1 }, 200, "Linear", true);
 
 				// FADING IN THE PLAYER 2 LABEL AND HEALTH METER
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2LabelShadow).to({alpha: 1 }, 200, "Linear", true);
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2Label).to({alpha: 1 }, 200, "Linear", true);
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2HealthContainer).to({alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2HealthBackground).to({alpha: 1 }, 200, "Linear", true);
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].player2HealthMeter).to({alpha: 1 }, 200, "Linear", true);
 
 				// FADING IN THE KO LABEL
