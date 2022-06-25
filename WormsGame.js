@@ -792,6 +792,7 @@ Worms.Game.prototype = {
 		this.player1Worm1.lookingLeft = false;
 		this.physics.arcade.enable(this.player1Worm1);
 		this.player1Worm1.body.allowGravity = false;
+		this.player1Worm1.body.setSize(20, 25, 4, 8);
 
 		// ADDING THE PLAYER 1 WORM 1 LABEL SHADOW
 		this.player1Worm1LabelShadow = game.add.bitmapText(this.player1Worm1.x + 13, this.player1Worm1.y + 18, "ArialBlackWhite", this.player1Worm1Health + "", 15);
@@ -817,6 +818,7 @@ Worms.Game.prototype = {
 		this.player1Worm2.lookingLeft = false;
 		this.physics.arcade.enable(this.player1Worm2);
 		this.player1Worm2.body.allowGravity = false;
+		this.player1Worm2.body.setSize(20, 25, 4, 8);
 
 		// ADDING THE PLAYER 1 WORM 2 LABEL SHADOW
 		this.player1Worm2LabelShadow = game.add.bitmapText(this.player1Worm2.x + 13, this.player1Worm2.y + 18, "ArialBlackWhite", this.player1Worm2Health + "", 15);
@@ -836,6 +838,7 @@ Worms.Game.prototype = {
 		this.player2Worm1.lookingLeft = true;
 		this.physics.arcade.enable(this.player2Worm1);
 		this.player2Worm1.body.allowGravity = false;
+		this.player2Worm1.body.setSize(20, 25, 4, 8);
 
 		// ADDING THE PLAYER 2 WORM 1 LABEL SHADOW
 		this.player2Worm1LabelShadow = game.add.bitmapText(this.player2Worm1.x + 13, this.player2Worm1.y + 18, "ArialBlackWhite", this.player2Worm1Health + "", 15);
@@ -855,6 +858,7 @@ Worms.Game.prototype = {
 		this.player2Worm2.lookingLeft = true;
 		this.physics.arcade.enable(this.player2Worm2);
 		this.player2Worm2.body.allowGravity = false;
+		this.player2Worm2.body.setSize(20, 25, 4, 8);
 
 		// ADDING THE PLAYER 2 WORM 2 LABEL SHADOW
 		this.player2Worm2LabelShadow = game.add.bitmapText(this.player2Worm2.x + 13, this.player2Worm2.y + 18, "ArialBlackWhite", this.player2Worm2Health + "", 15);
