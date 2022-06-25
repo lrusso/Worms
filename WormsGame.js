@@ -590,6 +590,7 @@ Worms.Game = function (game)
 	this.gameOver = null;
 	this.toastAccent = null;
 	this.healthMeterMaxValue = null;
+	this.wormCanMove = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
@@ -681,6 +682,7 @@ Worms.Game.prototype = {
 		this.gameOver = false;
 		this.toastAccent = null;
 		this.healthMeterMaxValue = 355;
+		this.wormCanMove = false;
 		},
 
 	create: function ()
@@ -1042,6 +1044,9 @@ Worms.Game.prototype = {
 		// ADDING THE POWER GRADIENT VALUES
 		this.powerGradient = this.getRamp("#FFFF00", "#FF0000", 50);
 
+		// SETTING THAT THE WORM CANNOT MOVE
+		this.wormCanMove = false;
+
 		// WAITING 525 MS
 		game.time.events.add(525, function()
 			{
@@ -1066,8 +1071,8 @@ Worms.Game.prototype = {
 			}
 			else
 			{
-			// CHECKING IF THE GAME IS IN MOTION OR THE WORM IS JUMPING OR THE WORM INDICATOR IS VISIBLE OR THE INTRO IS NOT DONE OR THE GAME IS OVER
-			if (this.gameInMotion==true || this.isJumping==true || this.wormIndicator.alpha>0 || this.introDone==false || this.gameOver==true)
+			// CHECKING IF THE GAME IS IN MOTION OR THE WORM IS JUMPING OR THE WORM INDICATOR IS VISIBLE OR THE INTRO IS NOT DONE OR THE GAME IS OVER OR IF THE WORM CANNOT MOVE
+			if (this.gameInMotion==true || this.isJumping==true || this.wormIndicator.alpha>0 || this.introDone==false || this.gameOver==true || this.wormCanMove==false)
 				{
 				// NO POINT GOING ANY FURTHER
 				return;
@@ -1119,6 +1124,9 @@ Worms.Game.prototype = {
 						this.lastWormTeam2 = 2;
 						}
 
+					// SETTING THAT THE WORM CANNOT MOVE
+					this.wormCanMove = false;
+
 					// SHOWING THE WORM INDICATOR
 					this.showWormIndicator();
 					}
@@ -1165,6 +1173,9 @@ Worms.Game.prototype = {
 						// UPDATING THE LAST WORM USED ON THE TEAM 1
 						this.lastWormTeam1 = 2;
 						}
+
+					// SETTING THAT THE WORM CANNOT MOVE
+					this.wormCanMove = false;
 
 					// SHOWING THE WORM INDICATOR
 					this.showWormIndicator();
@@ -1231,7 +1242,7 @@ Worms.Game.prototype = {
 				}
 
 			// CHECKING IF THE USER WAS NOT PRESSING THE SPACE KEY AND THAT THE HEALTH METER IS VISIBLE (TO PREVENT TO MOVE THE WORM WHILE POWERING UP THE SHOT)
-			if (this.keySpaceWasDown==false && this.player1HealthContainer.alpha==1)
+			if (this.keySpaceWasDown==false && this.player1HealthContainer.alpha==1 && this.wormCanMove==true)
 				{
 				// DETECTING THE KEYS
 				var moveLeft = this.cursors.left.isDown || this.keyA.isDown;
@@ -1548,6 +1559,9 @@ Worms.Game.prototype = {
 				// SETTING THAT THE INTRO IS DONE
 				game.state.states["Worms.Game"].introDone = true;
 
+				// SETTING THAT THE WORM CAN MOVE
+				game.state.states["Worms.Game"].wormCanMove = true;
+
 				// CHECKING IF IT IS A MOBILE DEVICE
 				if (game.state.states["Worms.Game"].isMobileDevice==true)
 					{
@@ -1718,6 +1732,9 @@ Worms.Game.prototype = {
 			{
 			// SETTING THAT THE GAME IS IN MOTION
 			this.gameInMotion = true;
+
+			// SETTING THAT THE WORM IS NOT FALLING
+			this.isFalling = false;
 
 			// KILLING THE WORM
 			this.causeDamage(myWorm, 999);
