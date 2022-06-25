@@ -582,6 +582,7 @@ Worms.Game = function (game)
 	this.lastWormTeam2 = null;
 	this.introDone = null;
 	this.gameOver = null;
+	this.toastAccent = null;
 	this.healthMeterMaxValue = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
@@ -672,6 +673,7 @@ Worms.Game.prototype = {
 		this.lastWormTeam2 = 2;
 		this.introDone = false;
 		this.gameOver = false;
+		this.toastAccent = null;
 		this.healthMeterMaxValue = 410;
 		},
 
@@ -1010,6 +1012,8 @@ Worms.Game.prototype = {
 			// SHOWING THE WORM INDICATOR
 			game.state.states["Worms.Game"].showWormIndicator();
 			});
+
+		this.updateTeamsHealthMeter();
 		},
 
 	update: function ()
@@ -1028,8 +1032,8 @@ Worms.Game.prototype = {
 			}
 			else
 			{
-			// CHECKING IF THE GAME IS IN MOTION OR THE WORM IS JUMPING OR THE WORM INDICATOR IS VISIBLE OR THE INTRO IS NOT DONE
-			if (this.gameInMotion==true || this.isJumping==true || this.wormIndicator.alpha>0 || this.introDone==false)
+			// CHECKING IF THE GAME IS IN MOTION OR THE WORM IS JUMPING OR THE WORM INDICATOR IS VISIBLE OR THE INTRO IS NOT DONE OR THE GAME IS OVER
+			if (this.gameInMotion==true || this.isJumping==true || this.wormIndicator.alpha>0 || this.introDone==false || this.gameOver==true)
 				{
 				// NO POINT GOING ANY FURTHER
 				return;
@@ -2019,6 +2023,39 @@ Worms.Game.prototype = {
 		this.player2HealthMeter.clear();
 		this.player2HealthMeter.beginFill(0xB9180B);
 		this.player2HealthMeter.drawRect(505, 40, meter2NewWidth, 20);
+
+		// CHECKING IF THE TEAM 1 IS DEAD
+		if (meter1NewWidth<1)
+			{
+			// SETTING THAT THE GAME IS OVER
+			this.gameOver = true;
+
+			// SHOWING A MESSAGE SAYING THAT THE PLAYER 2 WINS
+			this.showToast(STRING_PLAYER2_WINS);
+			}
+
+		// CHECKING IF THE TEAM 2 IS DEAD
+		else if (meter2NewWidth<1)
+			{
+			// SETTING THAT THE GAME IS OVER
+			this.gameOver = true;
+
+			// SHOWING A MESSAGE SAYING THAT THE PLAYER 2 WINS
+			this.showToast(STRING_PLAYER2_WINS);
+			}
+
+		// CHECKING IF THE GAME IS OVER
+		if (this.gameOver==true)
+			{
+			// CHECKING THE USER LANGUAGE IS RUNNING THE GAME IN SPANISH
+			if (userLanguage.substring(0,2)=="es")
+				{
+				// ADDING A SPANISH ACCENT TO AN SPECIFIC WORD IN THE PLAYER WINS LABEL
+				this.toastAccent = game.add.bitmapText(405, 442, "ArialBlackWhite", "´", 20);
+				this.toastAccent.height = 24;
+				this.toastAccent.fixedToCamera = true;
+				}
+			}
 		},
 
 	removeBullet: function ()
@@ -2060,6 +2097,24 @@ Worms.Game.prototype = {
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].koLabel).to({alpha: 1 }, 200, "Linear", true);
 				});
 			});
+		},
+
+	showToast: function(myText)
+		{
+		// CREATING THE TOAST SHADOW
+		this.toastShadow = game.add.graphics();
+		this.toastShadow.beginFill(0x000000, 0.75);
+		this.toastShadow.fixedToCamera = true;
+
+		// CREATING THE TOAST TEXT
+		this.toastText = game.add.bitmapText(0, 0, "ArialBlackShadow", myText, 20.5);
+		this.toastText.height = 24.5;
+		this.toastText.position.x = game.width / 2 - this.toastText.width / 2;
+		this.toastText.position.y = game.height - this.toastText.height - 18;
+		this.toastText.fixedToCamera = true;
+
+		// DRAWING THE TOAST SHADOW
+		this.toastShadow.drawRoundedRect(game.width / 2 - this.toastText.width / 2 - 10, game.height - 52, this.toastText.width + 20, 40, 10);
 		},
 
 	getCurrentTime: function()
