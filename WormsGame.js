@@ -1901,10 +1901,12 @@ Worms.Game.prototype = {
 		// FADING OUT THE SOUND BUTTON
 		this.add.tween(this.buttonSoundShadow).to({alpha: 0 }, 200, "Linear", true);
 		this.add.tween(this.buttonSound).to({alpha: 0 }, 200, "Linear", true);
+		this.buttonSound.input.useHandCursor = false;
 
 		// FADING OUT THE GO BACK BUTTON
 		this.add.tween(this.buttonGoBackShadow).to({alpha: 0 }, 200, "Linear", true);
 		this.add.tween(this.buttonGoBack).to({alpha: 0 }, 200, "Linear", true);
+		this.buttonGoBack.input.useHandCursor = false;
 
 		// CHECKING IF IT IS A MOBILE DEVICE
 		if (this.isMobileDevice==true)
@@ -2137,10 +2139,12 @@ Worms.Game.prototype = {
 				// FADING IN THE SOUND BUTTON
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonSoundShadow).to({alpha: 1 }, 200, "Linear", true);
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonSound).to({alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].buttonSound.input.useHandCursor = true;
 
 				// FADING IN THE GO BACK BUTTON
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonGoBackShadow).to({alpha: 1 }, 200, "Linear", true);
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonGoBack).to({alpha: 1 }, 200, "Linear", true);
+				game.state.states["Worms.Game"].buttonGoBack.input.useHandCursor = true;
 				});
 			});
 		},
