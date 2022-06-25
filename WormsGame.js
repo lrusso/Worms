@@ -572,6 +572,7 @@ Worms.Game = function (game)
 	this.turnMustPass = null;
 	this.lastWormTeam1 = null;
 	this.lastWormTeam2 = null;
+	this.introDone = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
@@ -657,6 +658,7 @@ Worms.Game.prototype = {
 		this.turnMustPass = false;
 		this.lastWormTeam1 = 1;
 		this.lastWormTeam2 = 2;
+		this.introDone = false;
 		},
 
 	create: function ()
@@ -972,8 +974,12 @@ Worms.Game.prototype = {
 		// ADDING THE POWER GRADIENT VALUES
 		this.powerGradient = this.getRamp("#FFFF00", "#FF0000", 50);
 
-		// SHOWING THE WORM INDICATOR
-		this.showWormIndicator();
+		// WAITING 525 MS
+		game.time.events.add(525, function()
+			{
+			// SHOWING THE WORM INDICATOR
+			game.state.states["Worms.Game"].showWormIndicator();
+			});
 		},
 
 	update: function ()
@@ -993,7 +999,7 @@ Worms.Game.prototype = {
 			else
 			{
 			// CHECKING IF THE GAME IS IN MOTION OR THE WORM IS JUMPING OR THE WORM INDICATOR IS VISIBLE
-			if (this.gameInMotion==true || this.isJumping==true || this.wormIndicator.alpha>0)
+			if (this.gameInMotion==true || this.isJumping==true || this.wormIndicator.alpha>0 || this.introDone==false)
 				{
 				// NO POINT GOING ANY FURTHER
 				return;
@@ -1457,6 +1463,9 @@ Worms.Game.prototype = {
 			// WAITING 300 MS
 			game.time.events.add(300, function()
 				{
+				// SETTING THAT THE INTRO IS DONE
+				game.state.states["Worms.Game"].introDone = true;
+
 				// CHECKING IF IT IS A MOBILE DEVICE
 				if (game.state.states["Worms.Game"].isMobileDevice==true)
 					{
