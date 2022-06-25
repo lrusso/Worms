@@ -1384,42 +1384,42 @@ Worms.Game.prototype = {
 			this.applyJumpFor(this.selectedWorm);
 			}
 
-		// MAKING THE PLAYER 1 WORM 1 LABEL SHADOW TO FOLLOW TO WORM
+		// MAKING THE PLAYER 1 WORM 1 LABEL SHADOW TO FOLLOW TO WORM AND UPDATING THE WORM LABEL SHADOW WITH THE CURRENT HEALTH VALUE
 		this.player1Worm1LabelShadow.position.x = this.player1Worm1.x + this.player1Worm1.width / 2 - this.player1Worm1LabelShadow.width / 2 + 1;
 		this.player1Worm1LabelShadow.position.y = this.player1Worm1.y - 7;
 		this.player1Worm1LabelShadow.setText(this.player1Worm1Health);
 
-		// MAKING THE PLAYER 1 WORM 1 LABEL TO FOLLOW TO WORM
+		// MAKING THE PLAYER 1 WORM 1 LABEL TO FOLLOW TO WORM AND UPDATING THE WORM LABEL SHADOW WITH THE CURRENT HEALTH VALUE
 		this.player1Worm1Label.position.x = this.player1Worm1.x + this.player1Worm1.width / 2 - this.player1Worm1Label.width / 2;
 		this.player1Worm1Label.position.y = this.player1Worm1.y - 8;
 		this.player1Worm1Label.setText(this.player1Worm1Health);
 
-		// MAKING THE PLAYER 1 WORM 2 LABEL SHADOW TO FOLLOW TO WORM
+		// MAKING THE PLAYER 1 WORM 2 LABEL SHADOW TO FOLLOW TO WORM AND UPDATING THE WORM LABEL SHADOW WITH THE CURRENT HEALTH VALUE
 		this.player1Worm2LabelShadow.position.x = this.player1Worm2.x + this.player1Worm2.width / 2 - this.player1Worm2LabelShadow.width / 2 + 1;
 		this.player1Worm2LabelShadow.position.y = this.player1Worm2.y - 7;
 		this.player1Worm2LabelShadow.setText(this.player1Worm2Health);
 
-		// MAKING THE PLAYER 1 WORM 2 LABEL TO FOLLOW TO WORM
+		// MAKING THE PLAYER 1 WORM 2 LABEL TO FOLLOW TO WORM AND UPDATING THE WORM LABEL SHADOW WITH THE CURRENT HEALTH VALUE
 		this.player1Worm2Label.position.x = this.player1Worm2.x + this.player1Worm2.width / 2 - this.player1Worm2Label.width / 2;
 		this.player1Worm2Label.position.y = this.player1Worm2.y - 8;
 		this.player1Worm2Label.setText(this.player1Worm2Health);
 
-		// MAKING THE PLAYER 2 WORM 1 LABEL SHADOW TO FOLLOW TO WORM
+		// MAKING THE PLAYER 2 WORM 1 LABEL SHADOW TO FOLLOW TO WORM AND UPDATING THE WORM LABEL SHADOW WITH THE CURRENT HEALTH VALUE
 		this.player2Worm1LabelShadow.position.x = this.player2Worm1.x + this.player2Worm1.width / 2 - this.player2Worm1LabelShadow.width / 2 + 1;
 		this.player2Worm1LabelShadow.position.y = this.player2Worm1.y - 7;
 		this.player2Worm1LabelShadow.setText(this.player2Worm1Health);
 
-		// MAKING THE PLAYER 2 WORM 1 LABEL TO FOLLOW TO WORM
+		// MAKING THE PLAYER 2 WORM 1 LABEL TO FOLLOW TO WORM AND UPDATING THE WORM LABEL SHADOW WITH THE CURRENT HEALTH VALUE
 		this.player2Worm1Label.position.x = this.player2Worm1.x + this.player2Worm1.width / 2 - this.player2Worm1Label.width / 2;
 		this.player2Worm1Label.position.y = this.player2Worm1.y - 8;
 		this.player2Worm1Label.setText(this.player2Worm1Health);
 
-		// MAKING THE PLAYER 2 WORM 2 LABEL SHADOW TO FOLLOW TO WORM
+		// MAKING THE PLAYER 2 WORM 2 LABEL SHADOW TO FOLLOW TO WORM AND UPDATING THE WORM LABEL SHADOW WITH THE CURRENT HEALTH VALUE
 		this.player2Worm2LabelShadow.position.x = this.player2Worm2.x + this.player2Worm2.width / 2 - this.player2Worm2LabelShadow.width / 2 + 1;
 		this.player2Worm2LabelShadow.position.y = this.player2Worm2.y - 7;
 		this.player2Worm2LabelShadow.setText(this.player2Worm2Health);
 
-		// MAKING THE PLAYER 2 WORM 2 LABEL TO FOLLOW TO WORM
+		// MAKING THE PLAYER 2 WORM 2 LABEL TO FOLLOW TO WORM AND UPDATING THE WORM LABEL SHADOW WITH THE CURRENT HEALTH VALUE
 		this.player2Worm2Label.position.x = this.player2Worm2.x + this.player2Worm2.width / 2 - this.player2Worm2Label.width / 2;
 		this.player2Worm2Label.position.y = this.player2Worm2.y - 8;
 		this.player2Worm2Label.setText(this.player2Worm2Health);
