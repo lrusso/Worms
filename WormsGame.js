@@ -780,11 +780,11 @@ Worms.Game.prototype = {
 		this.koLabel.fixedToCamera = true;
 
 		// ADDING THE GO BACK BUTTON
-		this.buttonGoBackShadow = game.add.sprite(12, 12, "imageGameGoBack");
+		this.buttonGoBackShadow = game.add.sprite(12, 16, "imageGameGoBack");
 		this.buttonGoBackShadow.tint = 0x000000;
 		this.buttonGoBackShadow.alpha = 0.7;
 		this.buttonGoBackShadow.fixedToCamera = true;
-		this.buttonGoBack = this.add.button(10, 10, "imageGameGoBack", null, this, 2, 1, 0);
+		this.buttonGoBack = this.add.button(10, 14, "imageGameGoBack", null, this, 2, 1, 0);
 		this.buttonGoBack.fixedToCamera = true;
 		this.buttonGoBack.onInputUp.add(function()
 			{
@@ -793,11 +793,11 @@ Worms.Game.prototype = {
 			}, this);
 
 		// ADDING THE SOUND HANDLER BUTTON
-		this.buttonSoundShadow = game.add.sprite(877, 12, "imageGameSoundOn");
+		this.buttonSoundShadow = game.add.sprite(877, 16, "imageGameSoundOn");
 		this.buttonSoundShadow.tint = 0x000000;
 		this.buttonSoundShadow.alpha = 0.7;
 		this.buttonSoundShadow.fixedToCamera = true;
-		this.buttonSound = this.add.button(875, 10, "imageGameSoundOn", null, this, 2, 1, 0);
+		this.buttonSound = this.add.button(875, 14, "imageGameSoundOn", null, this, 2, 1, 0);
 		if (GAME_SOUND_ENABLED==false){this.buttonSound.loadTexture("imageGameSoundOff");}
 		this.buttonSound.fixedToCamera = true;
 		this.buttonSound.onInputUp.add(function()
