@@ -2236,8 +2236,21 @@ Worms.Game.prototype = {
 			// SETTING THAT THE GAME IS OVER
 			this.gameOver = true;
 
-			// SHOWING A MESSAGE SAYING THAT THE PLAYER 2 WINS
-			this.showToast(STRING_PLAYER2_WINS);
+			// WAITING 2750 MS
+			game.time.events.add(2750, function()
+				{
+				// SHOWING A MESSAGE SAYING THAT THE PLAYER 2 WINS
+				game.state.states["Worms.Game"].showToast(STRING_PLAYER2_WINS);
+
+				// CHECKING THE USER LANGUAGE IS RUNNING THE GAME IN SPANISH
+				if (userLanguage.substring(0,2)=="es")
+					{
+					// ADDING A SPANISH ACCENT TO AN SPECIFIC WORD IN THE PLAYER WINS LABEL
+					game.state.states["Worms.Game"].toastAccent = game.add.bitmapText(405, 442, "ArialBlackWhite", "´", 20);
+					game.state.states["Worms.Game"].toastAccent.height = 24;
+					game.state.states["Worms.Game"].toastAccent.fixedToCamera = true;
+					}
+				});
 			}
 
 		// CHECKING IF THE TEAM 2 IS DEAD
@@ -2246,21 +2259,21 @@ Worms.Game.prototype = {
 			// SETTING THAT THE GAME IS OVER
 			this.gameOver = true;
 
-			// SHOWING A MESSAGE SAYING THAT THE PLAYER 1 WINS
-			this.showToast(STRING_PLAYER1_WINS);
-			}
-
-		// CHECKING IF THE GAME IS OVER
-		if (this.gameOver==true)
-			{
-			// CHECKING THE USER LANGUAGE IS RUNNING THE GAME IN SPANISH
-			if (userLanguage.substring(0,2)=="es")
+			// WAITING 2750 MS
+			game.time.events.add(2750, function()
 				{
-				// ADDING A SPANISH ACCENT TO AN SPECIFIC WORD IN THE PLAYER WINS LABEL
-				this.toastAccent = game.add.bitmapText(405, 442, "ArialBlackWhite", "´", 20);
-				this.toastAccent.height = 24;
-				this.toastAccent.fixedToCamera = true;
-				}
+				// SHOWING A MESSAGE SAYING THAT THE PLAYER 1 WINS
+				game.state.states["Worms.Game"].showToast(STRING_PLAYER1_WINS);
+
+				// CHECKING THE USER LANGUAGE IS RUNNING THE GAME IN SPANISH
+				if (userLanguage.substring(0,2)=="es")
+					{
+					// ADDING A SPANISH ACCENT TO AN SPECIFIC WORD IN THE PLAYER WINS LABEL
+					game.state.states["Worms.Game"].toastAccent = game.add.bitmapText(405, 442, "ArialBlackWhite", "´", 20);
+					game.state.states["Worms.Game"].toastAccent.height = 24;
+					game.state.states["Worms.Game"].toastAccent.fixedToCamera = true;
+					}
+				});
 			}
 		},
 
