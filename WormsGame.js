@@ -553,17 +553,17 @@ Worms.Menu.prototype = {
 		if (randomNumber<3)
 			{
 			GAME_LEVEL_NAME = "imageGameLevelBust";
-			GAME_LEVEL_WORMS_LOCATIONS = {};
+			GAME_LEVEL_WORMS_LOCATIONS = {player1Worm1:[324, 237], player1Worm2:[208, 305], player2Worm1:[475, 135], player2Worm2:[695, 261]};
 			}
 		else if (randomNumber<6)
 			{
 			GAME_LEVEL_NAME = "imageGameLevelArtic";
-			GAME_LEVEL_WORMS_LOCATIONS = {};
+			GAME_LEVEL_WORMS_LOCATIONS = {player1Worm1:[300, 300], player1Worm2:[40, 50], player2Worm1:[650, 280], player2Worm2:[860, 190]};
 			}
 		else if (randomNumber<10)
 			{
 			GAME_LEVEL_NAME = "imageGameLevelJungle";
-			GAME_LEVEL_WORMS_LOCATIONS = {};
+			GAME_LEVEL_WORMS_LOCATIONS = {player1Worm1:[150, 300], player1Worm2:[50, 50], player2Worm1:[590, 300], player2Worm2:[700,1]};
 			}
 
 		// LAUNCHING THE GAME
@@ -906,7 +906,7 @@ Worms.Game.prototype = {
 		this.physics.arcade.enable(this.bullet);
 
 		// ADDING THE PLAYER 1 WORM 1
-		this.player1Worm1 = this.add.sprite(324, 237, "imageGameWormSpritesheet");
+		this.player1Worm1 = this.add.sprite(GAME_LEVEL_WORMS_LOCATIONS.player1Worm1[0], GAME_LEVEL_WORMS_LOCATIONS.player1Worm1[1], "imageGameWormSpritesheet");
 		this.player1Worm1.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player1Worm1.animations.add("walk_right", [6, 7, 8, 9, 10, 11]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player1Worm1.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
@@ -934,7 +934,7 @@ Worms.Game.prototype = {
 		this.camera.follow(this.selectedWorm);
 
 		// ADDING THE PLAYER 1 WORM 2
-		this.player1Worm2 = this.add.sprite(208, 305, "imageGameWormSpritesheet");
+		this.player1Worm2 = this.add.sprite(GAME_LEVEL_WORMS_LOCATIONS.player1Worm2[0], GAME_LEVEL_WORMS_LOCATIONS.player1Worm2[1], "imageGameWormSpritesheet");
 		this.player1Worm2.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player1Worm2.animations.add("walk_right", [6, 7, 8, 9, 10, 11]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player1Worm2.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
@@ -956,7 +956,7 @@ Worms.Game.prototype = {
 		this.player1Worm2Label.tint = 0xFFFFFF;
 
 		// ADDING THE PLAYER 2 WORM 1
-		this.player2Worm1 = this.add.sprite(475, 135, "imageGameWormSpritesheet");
+		this.player2Worm1 = this.add.sprite(GAME_LEVEL_WORMS_LOCATIONS.player2Worm1[0], GAME_LEVEL_WORMS_LOCATIONS.player2Worm1[1], "imageGameWormSpritesheet");
 		this.player2Worm1.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player2Worm1.animations.add("walk_right", [6, 7, 8, 9, 10, 11]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player2Worm1.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
@@ -978,7 +978,7 @@ Worms.Game.prototype = {
 		this.player2Worm1Label.tint = 0xFFFF00;
 
 		// ADDING THE PLAYER 2 WORM 2
-		this.player2Worm2 = this.add.sprite(695, 261, "imageGameWormSpritesheet");
+		this.player2Worm2 = this.add.sprite(GAME_LEVEL_WORMS_LOCATIONS.player2Worm2[0], GAME_LEVEL_WORMS_LOCATIONS.player2Worm2[1], "imageGameWormSpritesheet");
 		this.player2Worm2.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player2Worm2.animations.add("walk_right", [6, 7, 8, 9, 10, 11]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player2Worm2.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
