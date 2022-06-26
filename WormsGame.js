@@ -2101,12 +2101,15 @@ Worms.Game.prototype = {
 		// CHECKING IF THE WORM MUST DIE
 		if (mustDie==true)
 			{
+			// CHECKING IF THE WORM IS LOOKING TO THE LEFT
 			if (target.lookingLeft==true)
 				{
+				// PLAYING THE DIE LEFT ANIMATION
 				target.animations.play("die_left", 8, false);
 				}
 				else
 				{
+				// PLAYING THE DIE RIGHT ANIMATION
 				target.animations.play("die_right", 8, false);
 				}
 
