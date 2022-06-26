@@ -65,6 +65,7 @@ if (userLanguage.substring(0,2)=="es")
 	}
 
 var GAME_SOUND_ENABLED = false;
+var GAME_LEVEL_NUMBER = Math.floor(Math.random() * 3);
 var GAME_LEVEL_NAME = "";
 var GAME_LEVEL_WORMS_LOCATIONS = "";
 
@@ -546,23 +547,43 @@ Worms.Menu.prototype = {
 			this.musicPlayer.pause();
 			}
 
-		// GETTING A RANDOM NUMBER FOR SETTING THE LEVEL NAME
-		var randomNumber = Math.floor(Math.random() * 10);
+		// UDPATING THE LEVEL NUMBER
+		GAME_LEVEL_NUMBER = GAME_LEVEL_NUMBER + 1;
 
-		// CHECKING THE RANDOM VALUE AND ASSIGNING A LEVEL NAME AND THE WORMS LOCATIONS
-		if (randomNumber<3)
+		// CHECKING IF THE LEVEL NUMBER MUST BE RESET
+		if (GAME_LEVEL_NUMBER==3)
 			{
+			// RESETTING THE LEVEL NUMBER
+			GAME_LEVEL_NUMBER = 0;
+			}
+
+		// CHECKING IF THE BUST LEVEL MUST LOADED
+		if (GAME_LEVEL_NUMBER==0)
+			{
+			// SETTING THAT THE BUST LEVEL MUST BE LOADED
 			GAME_LEVEL_NAME = "imageGameLevelBust";
+
+			// SETTING THE WORM LOCATIONS FOR THE BUST LEVEL
 			GAME_LEVEL_WORMS_LOCATIONS = {player1Worm1:[324, 237], player1Worm2:[208, 305], player2Worm1:[475, 135], player2Worm2:[695, 261]};
 			}
-		else if (randomNumber<6)
+
+		// CHECKING IF THE ARTIC LEVEL MUST LOADED
+		else if (GAME_LEVEL_NUMBER==1)
 			{
+			// SETTING THAT THE ARTIC LEVEL MUST BE LOADED
 			GAME_LEVEL_NAME = "imageGameLevelArtic";
+
+			// SETTING THE WORM LOCATIONS FOR THE ARTIC LEVEL
 			GAME_LEVEL_WORMS_LOCATIONS = {player1Worm1:[300, 300], player1Worm2:[40, 50], player2Worm1:[650, 280], player2Worm2:[860, 190]};
 			}
-		else if (randomNumber<10)
+
+		// CHECKING IF THE JUNGLE LEVEL MUST LOADED
+		else if (GAME_LEVEL_NUMBER==2)
 			{
+			// SETTING THAT THE JUNGLE LEVEL MUST BE LOADED
 			GAME_LEVEL_NAME = "imageGameLevelJungle";
+
+			// SETTING THE WORM LOCATIONS FOR THE JUNGLE LEVEL
 			GAME_LEVEL_WORMS_LOCATIONS = {player1Worm1:[150, 300], player1Worm2:[50, 50], player2Worm1:[590, 300], player2Worm2:[700,1]};
 			}
 
