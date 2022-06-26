@@ -578,7 +578,8 @@ Worms.Game = function (game)
 	this.healthMeterMaxValue = null;
 	this.wormCanMove = null;
 	this.audioPlayer = null;
-	this.audioBazookaPlayer = null;
+	this.audioBazookaPowerUpPlayer = null;
+	this.audioBazookaReleasePlayer = null;
 	this.audioExplosionPlayer = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
@@ -673,7 +674,8 @@ Worms.Game.prototype = {
 		this.healthMeterMaxValue = 355;
 		this.wormCanMove = false;
 		this.audioPlayer = null;
-		this.audioBazookaPlayer = null;
+		this.audioBazookaPowerUpPlayer = null;
+		this.audioBazookaReleasePlayer = null;
 		this.audioExplosionPlayer = null;
 		},
 
@@ -816,8 +818,8 @@ Worms.Game.prototype = {
 
 		// ADDING THE PLAYER 1 WORM 1
 		this.player1Worm1 = this.add.sprite(324, 237, "imageGameWormSpritesheet");
-		this.player1Worm1.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]);
-		this.player1Worm1.animations.add("walk_right", [6, 7, 8, 9, 10, 11]);
+		this.player1Worm1.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
+		this.player1Worm1.animations.add("walk_right", [6, 7, 8, 9, 10, 11]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player1Worm1.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
 		this.player1Worm1.animations.add("jump_right", [19, 20, 21, 22, 23, 24, 25]);
 		this.player1Worm1.animations.add("die_left", [28, 29, 30, 31, 32]).onComplete.add(function(){this.add.tween(game.state.states["Worms.Game"].player1Worm1).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player1Worm1.kill();});}, this);
@@ -844,8 +846,8 @@ Worms.Game.prototype = {
 
 		// ADDING THE PLAYER 1 WORM 2
 		this.player1Worm2 = this.add.sprite(208, 305, "imageGameWormSpritesheet");
-		this.player1Worm2.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]);
-		this.player1Worm2.animations.add("walk_right", [6, 7, 8, 9, 10, 11]);
+		this.player1Worm2.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
+		this.player1Worm2.animations.add("walk_right", [6, 7, 8, 9, 10, 11]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player1Worm2.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
 		this.player1Worm2.animations.add("jump_right", [19, 20, 21, 22, 23, 24, 25]);
 		this.player1Worm2.animations.add("die_left", [28, 29, 30, 31, 32]).onComplete.add(function(){this.add.tween(game.state.states["Worms.Game"].player1Worm2).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player1Worm2.kill();});}, this);
@@ -866,8 +868,8 @@ Worms.Game.prototype = {
 
 		// ADDING THE PLAYER 2 WORM 1
 		this.player2Worm1 = this.add.sprite(475, 135, "imageGameWormSpritesheet");
-		this.player2Worm1.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]);
-		this.player2Worm1.animations.add("walk_right", [6, 7, 8, 9, 10, 11]);
+		this.player2Worm1.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
+		this.player2Worm1.animations.add("walk_right", [6, 7, 8, 9, 10, 11]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player2Worm1.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
 		this.player2Worm1.animations.add("jump_right", [19, 20, 21, 22, 23, 24, 25]);
 		this.player2Worm1.animations.add("die_left", [28, 29, 30, 31, 32]).onComplete.add(function(){this.add.tween(game.state.states["Worms.Game"].player2Worm1).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player2Worm1.kill();});}, this);
@@ -888,8 +890,8 @@ Worms.Game.prototype = {
 
 		// ADDING THE PLAYER 2 WORM 2
 		this.player2Worm2 = this.add.sprite(695, 261, "imageGameWormSpritesheet");
-		this.player2Worm2.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]);
-		this.player2Worm2.animations.add("walk_right", [6, 7, 8, 9, 10, 11]);
+		this.player2Worm2.animations.add("walk_left", [0, 1, 2, 3 ,4 ,5]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
+		this.player2Worm2.animations.add("walk_right", [6, 7, 8, 9, 10, 11]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player2Worm2.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
 		this.player2Worm2.animations.add("jump_right", [19, 20, 21, 22, 23, 24, 25]);
 		this.player2Worm2.animations.add("die_left", [28, 29, 30, 31, 32]).onComplete.add(function(){this.add.tween(game.state.states["Worms.Game"].player2Worm2).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player2Worm2.kill();});}, this);
@@ -1047,11 +1049,17 @@ Worms.Game.prototype = {
 		// SETTING THAT THE WORM CANNOT MOVE
 		this.wormCanMove = false;
 
-		// ADDING THE AUDIO BAZOOKA
-		this.audioBazookaPlayer = this.add.audio("audioBazookaPowerUp");
+		// ADDING THE AUDIO BAZOOKA POWERUP
+		this.audioBazookaPowerUpPlayer = this.add.audio("audioBazookaPowerUp");
 
-		// SETTING THE AUDIO BAZOOKA VOLUME
-		this.audioBazookaPlayer.volume = 1;
+		// SETTING THE AUDIO BAZOOKA POWERUP VOLUME
+		this.audioBazookaPowerUpPlayer.volume = 1;
+
+		// ADDING THE AUDIO BAZOOKA RELEASE
+		this.audioBazookaReleasePlayer = this.add.audio("audioBazookaRelease");
+
+		// SETTING THE AUDIO BAZOOKA RELEASE VOLUME
+		this.audioBazookaReleasePlayer.volume = 1;
 
 		// ADDING THE AUDIO FOR THE AUDIO EXPLOSION PLAYER
 		this.audioExplosionPlayer = this.add.audio("audioBazookaExplosion");
@@ -1269,7 +1277,7 @@ Worms.Game.prototype = {
 				if ((moveLeft==true && moveUp==false && moveDown==false && moveRight==false) || (this.stick.isDown==true && this.stick.octant==180))
 					{
 					// PLAYING THE WALKING LEFT ANIMATION
-					this.selectedWorm.animations.play("walk_left", 9, true);
+					this.selectedWorm.animations.play("walk_left", 9, false);
 
 					// SETTING THAT THE WORM IS LOOKING TO THE LEFT
 					this.selectedWorm.lookingLeft = true;
@@ -1295,7 +1303,7 @@ Worms.Game.prototype = {
 				else if ((moveRight==true && moveUp==false && moveDown==false && moveLeft==false) || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)))
 					{
 					// PLAYING THE WALKING RIGHT ANIMATION
-					this.selectedWorm.animations.play("walk_right", 9, true);
+					this.selectedWorm.animations.play("walk_right", 9, false);
 
 					// SETTING THAT THE WORM IS LOOKING TO THE RIGHT
 					this.selectedWorm.lookingLeft = false;
@@ -1381,7 +1389,7 @@ Worms.Game.prototype = {
 					if (this.keySpaceWasDown==false)
 						{
 						// PLAYING THE AUDIO BAZOOKA
-						this.audioBazookaPlayer.play();
+						this.audioBazookaPowerUpPlayer.play();
 						}
 					}
 
@@ -1991,11 +1999,14 @@ Worms.Game.prototype = {
 		if (GAME_SOUND_ENABLED==true)
 			{
 			// CHECKING IF THE AUDIO BAZOOKA PLAYER IS CREATED
-			if(this.audioBazookaPlayer!=null)
+			if(this.audioBazookaPowerUpPlayer!=null)
 				{
 				// PAUSING THE AUDIO BAZOOKA
-				this.audioBazookaPlayer.pause();
+				this.audioBazookaPowerUpPlayer.pause();
 				}
+
+			// PLAYING THE AUDIO BAZOOKA
+			this.audioBazookaReleasePlayer.play();
 			}
 
 		// FADING OUT THE PLAYER 1 LABEL AND HEALTH METER
@@ -2262,10 +2273,10 @@ Worms.Game.prototype = {
 		if (GAME_SOUND_ENABLED==true)
 			{
 			// CHECKING IF THE AUDIO BAZOOKA PLAYER IS CREATED
-			if(this.audioBazookaPlayer!=null)
+			if(this.audioBazookaPowerUpPlayer!=null)
 				{
 				// PAUSING THE AUDIO BAZOOKA
-				this.audioBazookaPlayer.pause();
+				this.audioBazookaPowerUpPlayer.pause();
 				}
 
 			// PLAYING THE AUDIO EXPLOSION
@@ -2316,6 +2327,37 @@ Worms.Game.prototype = {
 				game.state.states["Worms.Game"].buttonGoBack.input.useHandCursor = true;
 				});
 			});
+		},
+
+	playAudioWalk: function()
+		{
+		// CHECKING IF THE SOUND IS ENABLED
+		if (GAME_SOUND_ENABLED==true)
+			{
+			// CHECKING IF THERE IS NO AUDIO PLAYING
+			if (this.audioPlayer==null)
+				{
+				// PLAYING THE AUDIO WALK SOUND
+				this.audioPlayer = this.add.audio("audioWalk");
+
+				// SETTING THE AUDIO WALK VOLUME
+				this.audioPlayer.volume = 0.25;
+
+				// PLAYING THE AUDIO WALK SOUND
+				this.audioPlayer.play();
+				}
+			else if (this.audioPlayer.isPlaying==false)
+				{
+				// PLAYING THE AUDIO WALK SOUND
+				this.audioPlayer = this.add.audio("audioWalk");
+
+				// SETTING THE AUDIO WALK VOLUME
+				this.audioPlayer.volume = 0.25;
+
+				// PLAYING THE AUDIO WALK SOUND
+				this.audioPlayer.play();
+				}
+			}
 		},
 
 	showToast: function(myText)
