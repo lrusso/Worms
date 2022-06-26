@@ -571,6 +571,9 @@ Worms.Game = function (game)
 	this.toastAccent = null;
 	this.healthMeterMaxValue = null;
 	this.wormCanMove = null;
+	this.audioPlayer = null;
+	this.audioBazookaPlayer = null;
+	this.audioExplosionPlayer = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
@@ -663,6 +666,9 @@ Worms.Game.prototype = {
 		this.toastAccent = null;
 		this.healthMeterMaxValue = 355;
 		this.wormCanMove = false;
+		this.audioPlayer = null;
+		this.audioBazookaPlayer = null;
+		this.audioExplosionPlayer = null;
 		},
 
 	create: function ()
@@ -1035,6 +1041,18 @@ Worms.Game.prototype = {
 		// SETTING THAT THE WORM CANNOT MOVE
 		this.wormCanMove = false;
 
+		// ADDING THE AUDIO BAZOOKA
+		this.audioBazookaPlayer = this.add.audio("audioBazookaPowerUp");
+
+		// SETTING THE AUDIO BAZOOKA VOLUME
+		this.audioBazookaPlayer.volume = 1;
+
+		// ADDING THE AUDIO FOR THE AUDIO EXPLOSION PLAYER
+		this.audioExplosionPlayer = this.add.audio("audioBazookaExplosion");
+
+		// SETTING THE AUDIO EXPLOSION VOLUME
+		this.audioExplosionPlayer.volume = 1;
+
 		// WAITING 525 MS
 		game.time.events.add(525, function()
 			{
@@ -1350,6 +1368,17 @@ Worms.Game.prototype = {
 			// CHECKING IF THE USER IS PRESSING THE SPACE KEY
 			if (this.keySpace.isDown==true && this.keyEnter.isDown==false)
 				{
+				// CHECKING IF THE SOUND IS ENABLED
+				if (GAME_SOUND_ENABLED==true)
+					{
+					// CHECKING IF THE SPACE KEY WAS DOWN (FOR PLAYING THE BAZOOKA POWER UP SOUND ONLY ONE TIME)
+					if (this.keySpaceWasDown==false)
+						{
+						// PLAYING THE AUDIO BAZOOKA
+						this.audioBazookaPlayer.play();
+						}
+					}
+
 				// SETTING THAT THE USER IS PRESSING THE SPACE KEY
 				this.keySpaceWasDown = true;
 
@@ -1372,7 +1401,7 @@ Worms.Game.prototype = {
 				if (this.power<this.powerMax)
 					{
 					// INCREASING THE SHOT POWER
-					this.power = this.power + 10;
+					this.power = this.power + 5;
 
 					// DRAWING A NEW POWER CIRCLE
 					this.showPower();
@@ -1414,6 +1443,23 @@ Worms.Game.prototype = {
 			// CHECKING IF THE USER IS PRESSING THE ENTER KEY AND THAT THE WORM IS NOT JUMPING AND NOT FALLING
 			else if (this.keyEnter.isDown==true && this.isJumping==false && this.isFalling==false)
 				{
+				// CHECKING IF THE SOUND IS ENABLED
+				if (GAME_SOUND_ENABLED==true)
+					{
+					// CHECKING IF THE ENTER KEY WAS DOWN (FOR PLAYING THE JUMPING AUDIO ONLY ONE TIME)
+					if (this.isJumping==false)
+						{
+						// ADDING THE AUDIO LINE SOUND
+						this.audioPlayer = this.add.audio("audioJump");
+
+						// SETTING THE AUDIO LINE VOLUME
+						this.audioPlayer.volume = 1;
+
+						// PLAYING THE AUDIO LINE SOUND
+						this.audioPlayer.play();
+						}
+					}
+
 				// SETTING THAT THE WORM WILL JUMP
 				this.isJumping = true;
 
@@ -1935,6 +1981,17 @@ Worms.Game.prototype = {
 			return;
 			}
 
+		// CHECKING IF THE SOUND IS ENABLED
+		if (GAME_SOUND_ENABLED==true)
+			{
+			// CHECKING IF THE AUDIO BAZOOKA PLAYER IS CREATED
+			if(this.audioBazookaPlayer!=null)
+				{
+				// PAUSING THE AUDIO BAZOOKA
+				this.audioBazookaPlayer.pause();
+				}
+			}
+
 		// FADING OUT THE PLAYER 1 LABEL AND HEALTH METER
 		this.add.tween(this.player1LabelShadow).to({alpha: 0 }, 200, "Linear", true);
 		this.add.tween(this.player1Label).to({alpha: 0 }, 200, "Linear", true);
@@ -2093,11 +2150,39 @@ Worms.Game.prototype = {
 				target.animations.play("die_right", 8, false);
 				}
 
+			// CHECKING IF THE SOUND IS ENABLED
+			if (GAME_SOUND_ENABLED==true)
+				{
+				// ADDING THE AUDIO BYEBYE SOUND
+				this.audioPlayer = this.add.audio("audioByeBye");
+
+				// SETTING THE AUDIO BYEBYE VOLUME
+				this.audioPlayer.volume = 1;
+
+				// PLAYING THE AUDIO BYEBYE SOUND
+				this.audioPlayer.play();
+				}
+
 			// FADING OUT THE WORM LABEL AND WORM LABEL SHADOW
 			if (target==this.player1Worm1){this.add.tween(this.player1Worm1Label).to({alpha: 0 }, 100, "Linear", true);this.add.tween(this.player1Worm1LabelShadow).to({alpha: 0 }, 100, "Linear", true);}
 			else if (target==this.player1Worm2){this.add.tween(this.player1Worm2Label).to({alpha: 0 }, 100, "Linear", true);this.add.tween(this.player1Worm2LabelShadow).to({alpha: 0 }, 100, "Linear", true);}
 			else if (target==this.player2Worm1){this.add.tween(this.player2Worm1Label).to({alpha: 0 }, 100, "Linear", true);this.add.tween(this.player2Worm1LabelShadow).to({alpha: 0 }, 100, "Linear", true);}
 			else if (target==this.player2Worm2){this.add.tween(this.player2Worm2Label).to({alpha: 0 }, 100, "Linear", true);this.add.tween(this.player2Worm2LabelShadow).to({alpha: 0 }, 100, "Linear", true);}
+			}
+			else
+			{
+			// CHECKING IF THE SOUND IS ENABLED
+			if (GAME_SOUND_ENABLED==true)
+				{
+				// ADDING THE AUDIO PAIN SOUND
+				this.audioPlayer = this.add.audio("audioPain");
+
+				// SETTING THE AUDIO PAIN VOLUME
+				this.audioPlayer.volume = 1;
+
+				// PLAYING THE AUDIO PAIN SOUND
+				this.audioPlayer.play();
+				}
 			}
 
 		// UPDATING THE TEAMS HEALTH METER
@@ -2166,6 +2251,20 @@ Worms.Game.prototype = {
 		{
 		// REMOVING THE BULLET
 		this.bullet.kill();
+
+		// CHECKING IF THE SOUND IS ENABLED
+		if (GAME_SOUND_ENABLED==true)
+			{
+			// CHECKING IF THE AUDIO BAZOOKA PLAYER IS CREATED
+			if(this.audioBazookaPlayer!=null)
+				{
+				// PAUSING THE AUDIO BAZOOKA
+				this.audioBazookaPlayer.pause();
+				}
+
+			// PLAYING THE AUDIO EXPLOSION
+			this.audioExplosionPlayer.play();
+			}
 
 		// MAKING THE CAMERA TO NOT FOLLOWING ANYONE
 		this.camera.follow(null);
