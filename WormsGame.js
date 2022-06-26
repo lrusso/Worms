@@ -802,7 +802,29 @@ Worms.Game.prototype = {
 		this.buttonSound.fixedToCamera = true;
 		this.buttonSound.onInputUp.add(function()
 			{
-			// TODO
+			// CHECKING IF THE SOUND IS ENABLED
+			if (GAME_SOUND_ENABLED==true)
+				{
+				// DISABLING THE SOUND
+				GAME_SOUND_ENABLED = false;
+
+				// SAVING THE SOUND PREFERENCE
+				this.setBooleanSetting("GAME_SOUND_ENABLED", false);
+
+				// SHOWING THE SOUND DISABLED IMAGE
+				this.buttonSound.loadTexture("imageGameSoundOff");
+				}
+				else
+				{
+				// ENABLING THE SOUND
+				GAME_SOUND_ENABLED = true;
+
+				// SAVING THE SOUND PREFERENCE
+				this.setBooleanSetting("GAME_SOUND_ENABLED", true);
+
+				// SHOWING THE SOUND ENABLED IMAGE
+				this.buttonSound.loadTexture("imageGameSoundOn");
+				}
 			}, this);
 
 		// ADDING THE LAND
@@ -2435,6 +2457,27 @@ Worms.Game.prototype = {
 			{
 			// FADING IN THE TOAST TEXT ACCENT
 			game.add.tween(this.toastAccent).to({alpha: 1 }, 300, Phaser.Easing.Linear.None, true);
+			}
+		},
+
+	setBooleanSetting: function(settingName, settingValue)
+		{
+		try
+			{
+			var name = "worms" + settingName;
+			var value = String(settingValue);
+			var days = 999;
+			var expires = "";
+			if (days)
+				{
+				var date = new Date();
+				date.setTime(date.getTime() + (days*24*60*60*1000));
+				expires = "; expires=" + date.toUTCString();
+				}
+			document.cookie = name + "=" + (value || "")  + expires + "; Secure; path=/";
+			}
+			catch(err)
+			{
 			}
 		},
 
