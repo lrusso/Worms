@@ -2400,7 +2400,7 @@ Worms.Game.prototype = {
 				this.audioPlayer = this.add.audio("audioWalk");
 
 				// SETTING THE AUDIO WALK VOLUME
-				this.audioPlayer.volume = 0.25;
+				this.audioPlayer.volume = 0.4;
 
 				// PLAYING THE AUDIO WALK SOUND
 				this.audioPlayer.play();
@@ -2411,7 +2411,7 @@ Worms.Game.prototype = {
 				this.audioPlayer = this.add.audio("audioWalk");
 
 				// SETTING THE AUDIO WALK VOLUME
-				this.audioPlayer.volume = 0.25;
+				this.audioPlayer.volume = 0.4;
 
 				// PLAYING THE AUDIO WALK SOUND
 				this.audioPlayer.play();
