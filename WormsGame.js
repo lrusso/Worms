@@ -611,11 +611,11 @@ Worms.Game.prototype = {
 		this.player1Worm1 = null;
 		this.player1Worm1Label = null;
 		this.player1Worm1LabelShadow = null;
-		this.player1Worm1Health = 100;
+		this.player1Worm1Health = 10;
 		this.player1Worm2 = null;
 		this.player1Worm2Label = null;
 		this.player1Worm2LabelShadow = null;
-		this.player1Worm2Health = 100;
+		this.player1Worm2Health = 10;
 		this.player2LabelShadow = null;
 		this.player2Label = null;
 		this.player2HealthContainer = null;
@@ -822,8 +822,8 @@ Worms.Game.prototype = {
 		this.player1Worm1.animations.add("walk_right", [6, 7, 8, 9, 10, 11]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player1Worm1.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
 		this.player1Worm1.animations.add("jump_right", [19, 20, 21, 22, 23, 24, 25]);
-		this.player1Worm1.animations.add("die_left", [28, 29, 30, 31, 32]).onComplete.add(function(){this.add.tween(game.state.states["Worms.Game"].player1Worm1).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player1Worm1.kill();});}, this);
-		this.player1Worm1.animations.add("die_right", [33, 34, 35, 36, 37]).onComplete.add(function(){this.add.tween(game.state.states["Worms.Game"].player1Worm1).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player1Worm1.kill();});}, this);
+		this.player1Worm1.animations.add("die_left", [28, 29, 30, 31, 32]).onComplete.add(function(){game.state.states["Worms.Game"].playAudioDie();this.add.tween(game.state.states["Worms.Game"].player1Worm1).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player1Worm1.kill();});}, this);
+		this.player1Worm1.animations.add("die_right", [33, 34, 35, 36, 37]).onComplete.add(function(){game.state.states["Worms.Game"].playAudioDie();this.add.tween(game.state.states["Worms.Game"].player1Worm1).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player1Worm1.kill();});}, this);
 		this.player1Worm1.frame = 6;
 		this.player1Worm1.lookingLeft = false;
 		this.physics.arcade.enable(this.player1Worm1);
@@ -850,8 +850,8 @@ Worms.Game.prototype = {
 		this.player1Worm2.animations.add("walk_right", [6, 7, 8, 9, 10, 11]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player1Worm2.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
 		this.player1Worm2.animations.add("jump_right", [19, 20, 21, 22, 23, 24, 25]);
-		this.player1Worm2.animations.add("die_left", [28, 29, 30, 31, 32]).onComplete.add(function(){this.add.tween(game.state.states["Worms.Game"].player1Worm2).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player1Worm2.kill();});}, this);
-		this.player1Worm2.animations.add("die_right", [33, 34, 35, 36, 37]).onComplete.add(function(){this.add.tween(game.state.states["Worms.Game"].player1Worm2).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player1Worm2.kill();});}, this);
+		this.player1Worm2.animations.add("die_left", [28, 29, 30, 31, 32]).onComplete.add(function(){game.state.states["Worms.Game"].playAudioDie();this.add.tween(game.state.states["Worms.Game"].player1Worm2).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player1Worm2.kill();});}, this);
+		this.player1Worm2.animations.add("die_right", [33, 34, 35, 36, 37]).onComplete.add(function(){game.state.states["Worms.Game"].playAudioDie();this.add.tween(game.state.states["Worms.Game"].player1Worm2).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player1Worm2.kill();});}, this);
 		this.player1Worm2.frame = 6;
 		this.player1Worm2.lookingLeft = false;
 		this.physics.arcade.enable(this.player1Worm2);
@@ -872,8 +872,8 @@ Worms.Game.prototype = {
 		this.player2Worm1.animations.add("walk_right", [6, 7, 8, 9, 10, 11]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player2Worm1.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
 		this.player2Worm1.animations.add("jump_right", [19, 20, 21, 22, 23, 24, 25]);
-		this.player2Worm1.animations.add("die_left", [28, 29, 30, 31, 32]).onComplete.add(function(){this.add.tween(game.state.states["Worms.Game"].player2Worm1).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player2Worm1.kill();});}, this);
-		this.player2Worm1.animations.add("die_right", [33, 34, 35, 36, 37]).onComplete.add(function(){this.add.tween(game.state.states["Worms.Game"].player2Worm1).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player2Worm1.kill();});}, this);
+		this.player2Worm1.animations.add("die_left", [28, 29, 30, 31, 32]).onComplete.add(function(){game.state.states["Worms.Game"].playAudioDie();this.add.tween(game.state.states["Worms.Game"].player2Worm1).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player2Worm1.kill();});}, this);
+		this.player2Worm1.animations.add("die_right", [33, 34, 35, 36, 37]).onComplete.add(function(){game.state.states["Worms.Game"].playAudioDie();this.add.tween(game.state.states["Worms.Game"].player2Worm1).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player2Worm1.kill();});}, this);
 		this.player2Worm1.frame = 0;
 		this.player2Worm1.lookingLeft = true;
 		this.physics.arcade.enable(this.player2Worm1);
@@ -894,8 +894,8 @@ Worms.Game.prototype = {
 		this.player2Worm2.animations.add("walk_right", [6, 7, 8, 9, 10, 11]).onStart.add(function(){game.state.states["Worms.Game"].playAudioWalk();},this);
 		this.player2Worm2.animations.add("jump_left", [12, 13, 14, 15, 16, 17, 18]);
 		this.player2Worm2.animations.add("jump_right", [19, 20, 21, 22, 23, 24, 25]);
-		this.player2Worm2.animations.add("die_left", [28, 29, 30, 31, 32]).onComplete.add(function(){this.add.tween(game.state.states["Worms.Game"].player2Worm2).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player2Worm2.kill();});}, this);
-		this.player2Worm2.animations.add("die_right", [33, 34, 35, 36, 37]).onComplete.add(function(){this.add.tween(game.state.states["Worms.Game"].player2Worm2).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player2Worm2.kill();});}, this);
+		this.player2Worm2.animations.add("die_left", [28, 29, 30, 31, 32]).onComplete.add(function(){game.state.states["Worms.Game"].playAudioDie();this.add.tween(game.state.states["Worms.Game"].player2Worm2).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player2Worm2.kill();});}, this);
+		this.player2Worm2.animations.add("die_right", [33, 34, 35, 36, 37]).onComplete.add(function(){game.state.states["Worms.Game"].playAudioDie();this.add.tween(game.state.states["Worms.Game"].player2Worm2).to({alpha: 0 }, 100, "Linear", true).onComplete.add(function(){game.state.states["Worms.Game"].player2Worm2.kill();});}, this);
 		this.player2Worm2.frame = 0;
 		this.player2Worm2.lookingLeft = true;
 		this.physics.arcade.enable(this.player2Worm2);
@@ -2350,6 +2350,22 @@ Worms.Game.prototype = {
 			});
 		},
 
+	playAudioDie: function()
+		{
+		// CHECKING IF THE SOUND IS ENABLED
+		if (GAME_SOUND_ENABLED==true)
+			{
+			// ADDING THE AUDIO DIE SOUND
+			this.audioPlayer = this.add.audio("audioDie");
+
+			// SETTING THE AUDIO DIE VOLUME
+			this.audioPlayer.volume = 1;
+
+			// PLAYING THE AUDIO DIE SOUND
+			this.audioPlayer.play();
+			}
+		},
+
 	playAudioWalk: function()
 		{
 		// CHECKING IF THE SOUND IS ENABLED
@@ -2358,7 +2374,7 @@ Worms.Game.prototype = {
 			// CHECKING IF THERE IS NO AUDIO PLAYING
 			if (this.audioPlayer==null)
 				{
-				// PLAYING THE AUDIO WALK SOUND
+				// ADDING THE AUDIO WALK SOUND
 				this.audioPlayer = this.add.audio("audioWalk");
 
 				// SETTING THE AUDIO WALK VOLUME
@@ -2369,7 +2385,7 @@ Worms.Game.prototype = {
 				}
 			else if (this.audioPlayer.isPlaying==false)
 				{
-				// PLAYING THE AUDIO WALK SOUND
+				// ADDING THE AUDIO WALK SOUND
 				this.audioPlayer = this.add.audio("audioWalk");
 
 				// SETTING THE AUDIO WALK VOLUME
