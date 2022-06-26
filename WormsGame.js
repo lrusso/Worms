@@ -623,6 +623,12 @@ Worms.Game = function (game)
 	this.player2Worm2Health = null;
 	this.koLabelShadow = null;
 	this.koLabel = null;
+	this.buttonGoBackShadow = null;
+	this.buttonGoBack = null;
+	this.buttonGoBackHandler = null;
+	this.buttonSoundShadow = null;
+	this.buttonSound = null;
+	this.buttonSoundHandler = null;
 	this.targets = null;
 	this.land = null;
 	this.bullet = null;
@@ -719,6 +725,12 @@ Worms.Game.prototype = {
 		this.player2Worm2Health = 100;
 		this.koLabelShadow = null;
 		this.koLabel = null;
+		this.buttonGoBackShadow = null;
+		this.buttonGoBack = null;
+		this.buttonGoBackHandler = null;
+		this.buttonSoundShadow = null;
+		this.buttonSound = null;
+		this.buttonSoundHandler = null;
 		this.targets = null;
 		this.land = null;
 		this.bullet = null;
@@ -868,9 +880,14 @@ Worms.Game.prototype = {
 		this.buttonGoBackShadow.tint = 0x000000;
 		this.buttonGoBackShadow.alpha = 0.7;
 		this.buttonGoBackShadow.fixedToCamera = true;
-		this.buttonGoBack = this.add.button(10, 14, "imageGameGoBack", null, this, 2, 1, 0);
+		this.buttonGoBack = game.add.sprite(10, 14, "imageGameGoBack");
 		this.buttonGoBack.fixedToCamera = true;
-		this.buttonGoBack.onInputUp.add(function()
+		this.buttonGoBackHandler = game.add.graphics();
+		this.buttonGoBackHandler.beginFill(0x000000, 0);
+		this.buttonGoBackHandler.drawRect(0, 0, 70, 75, 10);
+		this.buttonGoBackHandler.inputEnabled = true;
+		this.buttonGoBackHandler.fixedToCamera = true;
+		this.buttonGoBackHandler.events.onInputUp.add(function()
 			{
 			// CHECKING IF THE GO BACK BUTTON IS VISIBLE
 			if (this.buttonGoBack.alpha==1)
@@ -881,17 +898,22 @@ Worms.Game.prototype = {
 				// GOING BACK THE GAME MENU
 				game.state.start("Worms.Menu", Phaser.Plugin.StateTransition.Out.SlideRight);
 				}
-			}, this);
+			},this);
 
 		// ADDING THE SOUND HANDLER BUTTON
 		this.buttonSoundShadow = game.add.sprite(877, 16, "imageGameSoundOn");
 		this.buttonSoundShadow.tint = 0x000000;
 		this.buttonSoundShadow.alpha = 0.7;
 		this.buttonSoundShadow.fixedToCamera = true;
-		this.buttonSound = this.add.button(875, 14, "imageGameSoundOn", null, this, 2, 1, 0);
-		if (GAME_SOUND_ENABLED==false){this.buttonSound.loadTexture("imageGameSoundOff");}
+		this.buttonSound = game.add.sprite(875, 14, "imageGameSoundOn");
 		this.buttonSound.fixedToCamera = true;
-		this.buttonSound.onInputUp.add(function()
+		if (GAME_SOUND_ENABLED==false){this.buttonSound.loadTexture("imageGameSoundOff");}
+		this.buttonSoundHandler = game.add.graphics();
+		this.buttonSoundHandler.beginFill(0x000000, 0);
+		this.buttonSoundHandler.drawRect(865, 0, 70, 75, 10);
+		this.buttonSoundHandler.inputEnabled = true;
+		this.buttonSoundHandler.fixedToCamera = true;
+		this.buttonSoundHandler.events.onInputUp.add(function()
 			{
 			// CHECKING IF THE SOUND IS ENABLED
 			if (GAME_SOUND_ENABLED==true)
@@ -916,7 +938,7 @@ Worms.Game.prototype = {
 				// SHOWING THE SOUND ENABLED IMAGE
 				this.buttonSound.loadTexture("imageGameSoundOn");
 				}
-			}, this);
+			},this);
 
 		// ADDING THE LAND
 		this.land = this.add.bitmapData(990, 490);
@@ -2143,12 +2165,10 @@ Worms.Game.prototype = {
 		// FADING OUT THE SOUND BUTTON
 		this.add.tween(this.buttonSoundShadow).to({alpha: 0 }, 200, "Linear", true);
 		this.add.tween(this.buttonSound).to({alpha: 0 }, 200, "Linear", true);
-		this.buttonSound.input.useHandCursor = false;
 
 		// FADING OUT THE GO BACK BUTTON
 		this.add.tween(this.buttonGoBackShadow).to({alpha: 0 }, 200, "Linear", true);
 		this.add.tween(this.buttonGoBack).to({alpha: 0 }, 200, "Linear", true);
-		this.buttonGoBack.input.useHandCursor = false;
 
 		// CHECKING IF IT IS A MOBILE DEVICE
 		if (this.isMobileDevice==true)
@@ -2453,12 +2473,10 @@ Worms.Game.prototype = {
 				// FADING IN THE SOUND BUTTON
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonSoundShadow).to({alpha: 1 }, 200, "Linear", true);
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonSound).to({alpha: 1 }, 200, "Linear", true);
-				game.state.states["Worms.Game"].buttonSound.input.useHandCursor = true;
 
 				// FADING IN THE GO BACK BUTTON
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonGoBackShadow).to({alpha: 1 }, 200, "Linear", true);
 				game.state.states["Worms.Game"].add.tween(game.state.states["Worms.Game"].buttonGoBack).to({alpha: 1 }, 200, "Linear", true);
-				game.state.states["Worms.Game"].buttonGoBack.input.useHandCursor = true;
 				});
 			});
 		},
