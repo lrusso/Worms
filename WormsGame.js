@@ -611,11 +611,11 @@ Worms.Game.prototype = {
 		this.player1Worm1 = null;
 		this.player1Worm1Label = null;
 		this.player1Worm1LabelShadow = null;
-		this.player1Worm1Health = 100;
+		this.player1Worm1Health = 10;
 		this.player1Worm2 = null;
 		this.player1Worm2Label = null;
 		this.player1Worm2LabelShadow = null;
-		this.player1Worm2Health = 100;
+		this.player1Worm2Health = 10;
 		this.player2LabelShadow = null;
 		this.player2Label = null;
 		this.player2HealthContainer = null;
@@ -2236,20 +2236,11 @@ Worms.Game.prototype = {
 			// SETTING THAT THE GAME IS OVER
 			this.gameOver = true;
 
-			// WAITING 2750 MS
-			game.time.events.add(2750, function()
+			// WAITING 2250 MS
+			game.time.events.add(2250, function()
 				{
 				// SHOWING A MESSAGE SAYING THAT THE PLAYER 2 WINS
 				game.state.states["Worms.Game"].showToast(STRING_PLAYER2_WINS);
-
-				// CHECKING THE USER LANGUAGE IS RUNNING THE GAME IN SPANISH
-				if (userLanguage.substring(0,2)=="es")
-					{
-					// ADDING A SPANISH ACCENT TO AN SPECIFIC WORD IN THE PLAYER WINS LABEL
-					game.state.states["Worms.Game"].toastAccent = game.add.bitmapText(405, 442, "ArialBlackWhite", "´", 20);
-					game.state.states["Worms.Game"].toastAccent.height = 24;
-					game.state.states["Worms.Game"].toastAccent.fixedToCamera = true;
-					}
 				});
 			}
 
@@ -2259,20 +2250,11 @@ Worms.Game.prototype = {
 			// SETTING THAT THE GAME IS OVER
 			this.gameOver = true;
 
-			// WAITING 2750 MS
-			game.time.events.add(2750, function()
+			// WAITING 2250 MS
+			game.time.events.add(2250, function()
 				{
 				// SHOWING A MESSAGE SAYING THAT THE PLAYER 1 WINS
 				game.state.states["Worms.Game"].showToast(STRING_PLAYER1_WINS);
-
-				// CHECKING THE USER LANGUAGE IS RUNNING THE GAME IN SPANISH
-				if (userLanguage.substring(0,2)=="es")
-					{
-					// ADDING A SPANISH ACCENT TO AN SPECIFIC WORD IN THE PLAYER WINS LABEL
-					game.state.states["Worms.Game"].toastAccent = game.add.bitmapText(405, 442, "ArialBlackWhite", "´", 20);
-					game.state.states["Worms.Game"].toastAccent.height = 24;
-					game.state.states["Worms.Game"].toastAccent.fixedToCamera = true;
-					}
 				});
 			}
 		},
@@ -2379,6 +2361,7 @@ Worms.Game.prototype = {
 		this.toastShadow = game.add.graphics();
 		this.toastShadow.beginFill(0x000000, 0.75);
 		this.toastShadow.fixedToCamera = true;
+		this.toastShadow.alpha = 0;
 
 		// CREATING THE TOAST TEXT
 		this.toastText = game.add.bitmapText(0, 0, "ArialBlackShadow", myText, 20.5);
@@ -2386,9 +2369,31 @@ Worms.Game.prototype = {
 		this.toastText.position.x = game.width / 2 - this.toastText.width / 2;
 		this.toastText.position.y = game.height - this.toastText.height - 18;
 		this.toastText.fixedToCamera = true;
+		this.toastText.alpha = 0;
 
 		// DRAWING THE TOAST SHADOW
 		this.toastShadow.drawRoundedRect(game.width / 2 - this.toastText.width / 2 - 10, game.height - 52, this.toastText.width + 20, 40, 10);
+
+		// CHECKING THE USER LANGUAGE IS RUNNING THE GAME IN SPANISH
+		if (userLanguage.substring(0,2)=="es")
+			{
+			// ADDING A SPANISH ACCENT TO AN SPECIFIC WORD IN THE PLAYER WINS LABEL
+			this.toastAccent = game.add.bitmapText(405, 442, "ArialBlackWhite", "´", 20);
+			this.toastAccent.height = 24;
+			this.toastAccent.fixedToCamera = true;
+			this.toastAccent.alpha = 0;
+			}
+
+		// FADING IN THE TOAST SHADOW AND TEXT
+		game.add.tween(this.toastShadow).to({alpha: 1 }, 300, Phaser.Easing.Linear.None, true);
+		game.add.tween(this.toastText).to({alpha: 1 }, 300, Phaser.Easing.Linear.None, true);
+
+		// CHECKING IF THERE IS A TOAST ACCENT
+		if (this.toastAccent!=null)
+			{
+			// FADING IN THE TOAST TEXT ACCENT
+			game.add.tween(this.toastAccent).to({alpha: 1 }, 300, Phaser.Easing.Linear.None, true);
+			}
 		},
 
 	getCurrentTime: function()
