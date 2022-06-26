@@ -2239,6 +2239,19 @@ Worms.Game.prototype = {
 			// WAITING 2250 MS
 			game.time.events.add(2250, function()
 				{
+				// CHECKING IF THE SOUND IS ENABLED
+				if (GAME_SOUND_ENABLED==true)
+					{
+					// PLAYING THE AUDIO GAMEOVER SOUND
+					game.state.states["Worms.Game"].audioPlayer = game.state.states["Worms.Game"].add.audio("audioGameOver");
+
+					// SETTING THE AUDIO GAMEOVER VOLUME
+					game.state.states["Worms.Game"].audioPlayer.volume = 1;
+
+					// PLAYING THE AUDIO WALK SOUND
+					game.state.states["Worms.Game"].audioPlayer.play();
+					}
+
 				// SHOWING A MESSAGE SAYING THAT THE PLAYER 2 WINS
 				game.state.states["Worms.Game"].showToast(STRING_PLAYER2_WINS);
 				});
@@ -2253,6 +2266,19 @@ Worms.Game.prototype = {
 			// WAITING 2250 MS
 			game.time.events.add(2250, function()
 				{
+				// CHECKING IF THE SOUND IS ENABLED
+				if (GAME_SOUND_ENABLED==true)
+					{
+					// PLAYING THE AUDIO GAMEOVER SOUND
+					game.state.states["Worms.Game"].audioPlayer = game.state.states["Worms.Game"].add.audio("audioGameOver");
+
+					// SETTING THE AUDIO GAMEOVER VOLUME
+					game.state.states["Worms.Game"].audioPlayer.volume = 1;
+
+					// PLAYING THE AUDIO WALK SOUND
+					game.state.states["Worms.Game"].audioPlayer.play();
+					}
+
 				// SHOWING A MESSAGE SAYING THAT THE PLAYER 1 WINS
 				game.state.states["Worms.Game"].showToast(STRING_PLAYER1_WINS);
 				});
