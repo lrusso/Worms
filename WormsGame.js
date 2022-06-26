@@ -875,6 +875,9 @@ Worms.Game.prototype = {
 			// CHECKING IF THE GO BACK BUTTON IS VISIBLE
 			if (this.buttonGoBack.alpha==1)
 				{
+				// REMOVING THE STICK
+				this.stick.destroy();
+
 				// GOING BACK THE GAME MENU
 				game.state.start("Worms.Menu", Phaser.Plugin.StateTransition.Out.SlideRight);
 				}
