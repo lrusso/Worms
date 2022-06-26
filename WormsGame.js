@@ -2242,10 +2242,10 @@ Worms.Game.prototype = {
 				// CHECKING IF THE SOUND IS ENABLED
 				if (GAME_SOUND_ENABLED==true)
 					{
-					// PLAYING THE AUDIO GAMEOVER SOUND
+					// PLAYING THE AUDIO GAME OVER SOUND
 					game.state.states["Worms.Game"].audioPlayer = game.state.states["Worms.Game"].add.audio("audioGameOver");
 
-					// SETTING THE AUDIO GAMEOVER VOLUME
+					// SETTING THE AUDIO GAME OVER VOLUME
 					game.state.states["Worms.Game"].audioPlayer.volume = 1;
 
 					// PLAYING THE AUDIO WALK SOUND
@@ -2269,10 +2269,10 @@ Worms.Game.prototype = {
 				// CHECKING IF THE SOUND IS ENABLED
 				if (GAME_SOUND_ENABLED==true)
 					{
-					// PLAYING THE AUDIO GAMEOVER SOUND
+					// PLAYING THE AUDIO GAME OVER SOUND
 					game.state.states["Worms.Game"].audioPlayer = game.state.states["Worms.Game"].add.audio("audioGameOver");
 
-					// SETTING THE AUDIO GAMEOVER VOLUME
+					// SETTING THE AUDIO GAME OVER VOLUME
 					game.state.states["Worms.Game"].audioPlayer.volume = 1;
 
 					// PLAYING THE AUDIO WALK SOUND
