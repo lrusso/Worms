@@ -347,7 +347,6 @@ Worms.Menu.prototype = {
 		this.menuSoundButtonShadow = null;
 		this.menuSoundButton = null;
 		this.menuSoundButtonIcon = null;
-		this.musicPlayer = null;
 		},
 
 	create: function()
@@ -404,20 +403,6 @@ Worms.Menu.prototype = {
 			// SHOWING THE SOUND ENABLED IMAGES
 			this.menuSoundButton.loadTexture("imageMenuButton");
 			this.menuSoundButtonIcon.loadTexture("imageMenuSoundOn");
-
-			/*
-			// SETTING THE AUDIO FILE THAT WILL BE PLAYED AS MENU MUSIC
-			this.musicPlayer = this.add.audio("musicMenu");
-
-			// SETTING THE MENU MUSIC VOLUME
-			this.musicPlayer.volume = 0.3;
-
-			// SETTING THAT THE MENU MUSIC WILL BE LOOPING
-			this.musicPlayer.loop = true;
-
-			// PLAYING THE MENU MUSIC
-			this.musicPlayer.play();
-			*/
 			}
 		},
 
@@ -491,13 +476,6 @@ Worms.Menu.prototype = {
 			// SHOWING THE SOUND DISABLED IMAGES
 			this.menuSoundButton.loadTexture("imageMenuButtonDisabled")
 			this.menuSoundButtonIcon.loadTexture("imageMenuSoundOff");
-
-			// CHECKING IF THE MUSIC PLAYER IS CREATED
-			if (this.musicPlayer!=null)
-				{
-				// PAUSING THE MENU MUSIC
-				this.musicPlayer.pause();
-				}
 			}
 			else
 			{
@@ -510,20 +488,6 @@ Worms.Menu.prototype = {
 			// SHOWING THE SOUND ENABLED IMAGES
 			this.menuSoundButton.loadTexture("imageMenuButton")
 			this.menuSoundButtonIcon.loadTexture("imageMenuSoundOn");
-
-			/*
-			// SETTING THE AUDIO FILE THAT WILL BE PLAYED AS MENU MUSIC
-			this.musicPlayer = this.add.audio("musicMenu");
-
-			// SETTING THE MENU MUSIC VOLUME
-			this.musicPlayer.volume = 0.3;
-
-			// SETTING THAT THE MENU MUSIC WILL BE LOOPING
-			this.musicPlayer.loop = true;
-
-			// PLAYING THE MENU MUSIC
-			this.musicPlayer.play();
-			*/
 			}
 		},
 
