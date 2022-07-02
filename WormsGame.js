@@ -574,7 +574,7 @@ Worms.Menu.prototype = {
 			GAME_LEVEL_NAME = "imageGameLevelArtic";
 
 			// SETTING THE WORM LOCATIONS FOR THE ARTIC LEVEL
-			GAME_LEVEL_WORMS_LOCATIONS = {player1Worm1:[300, 300], player1Worm2:[40, 50], player2Worm1:[650, 280], player2Worm2:[860, 190]};
+			GAME_LEVEL_WORMS_LOCATIONS = {player1Worm1:[300, 310], player1Worm2:[40, 95], player2Worm1:[650, 313], player2Worm2:[860, 210]};
 			}
 
 		// CHECKING IF THE JUNGLE LEVEL MUST LOADED
