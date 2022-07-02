@@ -671,6 +671,10 @@ Worms.Game = function (game)
 	this.toastAccent = null;
 	this.healthMeterMaxValue = null;
 	this.wormCanMove = null;
+	this.pushedWorm = null;
+	this.pushedCounter = null;
+	this.pushedLimit = null;
+	this.isPushedByExplosion = null;
 	this.audioPlayer = null;
 	this.audioBazookaPowerUpPlayer = null;
 	this.audioBazookaReleasePlayer = null;
@@ -773,6 +777,10 @@ Worms.Game.prototype = {
 		this.toastAccent = null;
 		this.healthMeterMaxValue = 355;
 		this.wormCanMove = false;
+		this.pushedWorm = null;
+		this.pushedCounter = null;
+		this.pushedLimit = 20;
+		this.isPushedByExplosion = false;
 		this.audioPlayer = null;
 		this.audioBazookaPowerUpPlayer = null;
 		this.audioBazookaReleasePlayer = null;
@@ -1428,7 +1436,7 @@ Worms.Game.prototype = {
 						}
 
 					// CHECKING IF THE WORM CAN MOVE TO THE LEFT
-					if (this.canMoveLeft()==true)
+					if (this.canMoveLeft(this.selectedWorm)==true)
 						{
 						// MOVING THE WORM TO THE LEFT
 						this.selectedWorm.position.x = this.selectedWorm.position.x - 1;
@@ -1454,7 +1462,7 @@ Worms.Game.prototype = {
 						}
 
 					// CHECKING IF THE WORM CAN MOVE TO THE RIGHT
-					if (this.canMoveRight()==true)
+					if (this.canMoveRight(this.selectedWorm)==true)
 						{
 						// MOVING THE WORM TO THE RIGHT
 						this.selectedWorm.position.x = this.selectedWorm.position.x + 1;
@@ -1612,7 +1620,7 @@ Worms.Game.prototype = {
 				// SETTING THAT THE WORM WILL JUMP
 				this.isJumping = true;
 
-				// SETTING UNTIL WHEN THE WORM WILL BE JUMPING
+				// CLEARING THE JUMPING COUNTER VARIABLE
 				this.isJumpingCounter = 0;
 
 				if (this.selectedWorm.lookingLeft==true)
@@ -1645,6 +1653,9 @@ Worms.Game.prototype = {
 			// APPLYING JUMPING LOGIC TO THE SELECTED WORM
 			this.applyJumpFor(this.selectedWorm);
 			}
+
+		// APPLYING PUSHED BY EXPLOSION LOGIC TO THE TARGETED WORM (IF ANY)
+		this.applyPushByExplosion();
 
 		// MAKING THE PLAYER 1 WORM 1 LABEL SHADOW TO FOLLOW TO WORM AND UPDATING THE WORM LABEL SHADOW WITH THE CURRENT HEALTH VALUE
 		this.player1Worm1LabelShadow.position.x = this.player1Worm1.x + this.player1Worm1.width / 2 - this.player1Worm1LabelShadow.width / 2 + 1;
@@ -1815,7 +1826,7 @@ Worms.Game.prototype = {
 			if (myWorm.lookingLeft==true)
 				{
 				// CHECKING IF THE WORM CAN BE MOVED TO THE LEFT
-				if (this.canMoveLeft()==true)
+				if (this.canMoveLeft(myWorm)==true)
 					{
 					// MOVING THE WORM THE LEFT
 					myWorm.position.x = myWorm.position.x - 1;
@@ -1824,7 +1835,7 @@ Worms.Game.prototype = {
 				else
 				{
 				// CHECKING IF THE WORM CAN BE MOVED TO THE RIGHT
-				if (this.canMoveRight()==true)
+				if (this.canMoveRight(myWorm)==true)
 					{
 					// MOVING THE WORM THE RIGHT
 					myWorm.position.x = myWorm.position.x + 1;
@@ -1834,6 +1845,93 @@ Worms.Game.prototype = {
 
 		// UPDATING THE JUMPING COUNTER
 		this.isJumpingCounter = this.isJumpingCounter + 1;
+		},
+
+	applyPushByExplosion: function()
+		{
+		// CHECKING IF A WORM IS PUSHED BY A EXPLOSION
+		if (this.isPushedByExplosion==true)
+			{
+			// CHECKING IF THE PUSHED PERIOD IS OVER
+			if (this.pushedCounter>this.pushedLimit)
+				{
+				// CLEARING THE PUSHED COUNTER VARIABLE
+				this.pushedCounter = null;
+
+				this.isPushedByExplosion = false;
+
+				// CHECKING IF THE WORM WAS PUSHED TO THE LEFT
+				if (this.pushedWorm.frame==26)
+					{
+					// SHOWING THE STAND LEFT FRAME
+					this.pushedWorm.frame = 0;
+
+					// SETTING THAT THE WORM IS LOOKING TO THE LEFT
+					this.pushedWorm.lookingLeft = true;
+					}
+				else if (this.pushedWorm.frame==27)
+					{
+					// SHOWING THE STAND RIGHT FRAME
+					this.pushedWorm.frame = 6;
+
+					// SETTING THAT THE WORM IS NOT LOOKING TO THE LEFT
+					this.pushedWorm.lookingLeft = false;
+					}
+
+				// NO POINT GOING ANY FURTHER
+				return;
+				}
+
+			// GETTING THE PIXEL LOCATION FROM THE WORM IS JUMPING TO
+			var x = Math.floor(this.pushedWorm.position.x + this.pushedWorm.width / 2);
+			var y = Math.floor(this.pushedWorm.position.y + this.pushedWorm.height - 3) - 2;
+
+			// CHECKING IF THE WORM WAS PUSHED TO THE RIGHT
+			if (this.pushedWorm.frame==26)
+				{
+				// ADJUSTING THE FINAL DESTINATION ONE PIXEL TO THE RIGHT
+				x = x + 1;
+				}
+
+			// CHECKING IF THE WORM WAS PUSHED TO THE LEFT
+			else if (this.pushedWorm.frame==27)
+				{
+				// ADJUSTING THE FINAL DESTINATION ONE PIXEL TO THE LEFT
+				x = x - 1;
+				}
+
+			// GETTING THE PIXEL DATA FROM THE CURRENT WORM LOCATION
+			var hasFloor = this.land.getPixel(x,y);
+
+			// CHECKING IF THE DESTINATION PIXEL IS EMPTY
+			if (hasFloor.a==0)
+				{
+				// CHECKING IF THE WORM WAS PUSHED TO THE RIGHT
+				if (this.pushedWorm.frame==26)
+					{
+					// CHECKING IF THE WORM CAN BE MOVED TO THE RIGHT
+					if (this.canMoveRight(this.pushedWorm)==true)
+						{
+						// MOVING THE WORM THE RIGHT
+						this.pushedWorm.position.x = this.pushedWorm.position.x + 1;
+						}
+					}
+
+				// CHECKING IF THE WORM WAS PUSHED TO THE LEFT
+				else if (this.pushedWorm.frame==27)
+					{
+					// CHECKING IF THE WORM CAN BE MOVED TO THE LEFT
+					if (this.canMoveLeft(this.pushedWorm)==true)
+						{
+						// MOVING THE WORM THE LEFT
+						this.pushedWorm.position.x = this.pushedWorm.position.x - 1;
+						}
+					}
+				}
+
+			// UPDATING THE PUSHED COUNTER
+			this.pushedCounter = this.pushedCounter + 1;
+			}
 		},
 
 	applyGravityFor: function(myWorm)
@@ -2024,11 +2122,11 @@ Worms.Game.prototype = {
 		return ramp;
 		},
 
-	canMoveLeft: function()
+	canMoveLeft: function(myWorm)
 		{
 		// GETTING THE WORM TOP-LEFT LOCATION
-		var x = Math.floor(this.selectedWorm.position.x - 1);
-		var y = Math.floor(this.selectedWorm.position.y - 1);
+		var x = Math.floor(myWorm.position.x - 1);
+		var y = Math.floor(myWorm.position.y - 1);
 
 		// GETTING THE LAND PIXEL DATA FROM THAT LOCATION
 		var rgba = this.land.getPixel(x, y);
@@ -2041,7 +2139,7 @@ Worms.Game.prototype = {
 			}
 
 		// CHECKING IF THE WORM IS GOING TO BE OUT OF THE SCREEN
-		if (this.selectedWorm.position.x < 2)
+		if (myWorm.position.x < 2)
 			{
 			// THE WORM CANNOT MOVE
 			return false;
@@ -2051,11 +2149,11 @@ Worms.Game.prototype = {
 		return true;
 		},
 
-	canMoveRight: function()
+	canMoveRight: function(myWorm)
 		{
 		// GETTING THE WORM TOP-RIGHT LOCATION
-		var x = Math.floor(this.selectedWorm.position.x + this.selectedWorm.width + 1);
-		var y = Math.floor(this.selectedWorm.position.y + this.selectedWorm.height - 20);
+		var x = Math.floor(myWorm.position.x + myWorm.width + 1);
+		var y = Math.floor(myWorm.position.y + myWorm.height - 20);
 
 		// GETTING THE LAND PIXEL DATA FROM THAT LOCATION
 		var rgba = this.land.getPixel(x, y);
@@ -2068,7 +2166,7 @@ Worms.Game.prototype = {
 			}
 
 		// CHECKING IF THE WORM IS GOING TO BE OUT OF THE SCREEN
-		if (this.selectedWorm.position.x > this.game.world.width - this.selectedWorm.width - 2)
+		if (myWorm.position.x > this.game.world.width - myWorm.width - 2)
 			{
 			// THE WORM CANNOT MOVE
 			return false;
@@ -2333,6 +2431,27 @@ Worms.Game.prototype = {
 				// PLAYING THE AUDIO PAIN SOUND
 				this.audioPlayer.play();
 				}
+
+			// SETTING THAT A WORM WILL BE PUSHED BY THE EXPLOSION
+			this.isPushedByExplosion = true;
+
+			// SETTING THAT THE WORM THAT WILL BE PUSHED
+			this.pushedWorm = target;
+
+			// CLEARING THE PUSHED COUNTER VARIABLE
+			this.pushedCounter = 0;
+
+			// CHECK IF THE SELECTED WORM IS AT THE LEFT
+			if (this.selectedWorm.position.x<=target.position.x)
+				{
+				// SHOWING THE SUFFERING RIGHT FRAME
+				target.frame = 26;
+				}
+				else
+				{
+				// SHOWING THE SUFFERING LEFT FRAME
+				target.frame = 27;
+				}
 			}
 
 		// UPDATING THE TEAMS HEALTH METER
@@ -2588,11 +2707,6 @@ Worms.Game.prototype = {
 			catch(err)
 			{
 			}
-		},
-
-	getCurrentTime: function()
-		{
-		return window.performance && window.performance.now && window.performance.timing && window.performance.timing.navigationStart ? window.performance.now() + window.performance.timing.navigationStart : Date.now();
 		}
 	};
 
