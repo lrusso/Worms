@@ -1234,8 +1234,8 @@ Worms.Game.prototype = {
 			}
 			else
 			{
-			// CHECKING IF THE GAME IS IN MOTION OR THE WORM IS JUMPING OR THE WORM INDICATOR IS VISIBLE OR THE INTRO IS NOT DONE OR THE GAME IS OVER OR IF THE WORM CANNOT MOVE
-			if (this.gameInMotion==true || this.isJumping==true || this.wormIndicator.alpha>0 || this.introDone==false || this.gameOver==true || this.wormCanMove==false)
+			// CHECKING IF THE GAME IS IN MOTION OR THE WORM IS JUMPING OR IF A WORM IS PUSHED BY AN EXPLOSION OR THE WORM INDICATOR IS VISIBLE OR THE INTRO IS NOT DONE OR THE GAME IS OVER OR IF THE WORM CANNOT MOVE
+			if (this.gameInMotion==true || this.isJumping==true || this.isPushedByExplosion==true || this.wormIndicator.alpha>0 || this.introDone==false || this.gameOver==true || this.wormCanMove==false)
 				{
 				// NO POINT GOING ANY FURTHER
 				return;
@@ -2440,6 +2440,9 @@ Worms.Game.prototype = {
 
 			// CLEARING THE PUSHED COUNTER VARIABLE
 			this.pushedCounter = 0;
+
+			// UPDATING THE PUSHED LIMIT (HOW MANY TIMES THE WORM WILL BE PUSHED) ACCORDING TO THE RECEIVED DAMAGE
+			this.pushedLimit = damageValue * 2;
 
 			// CHECK IF THE SELECTED WORM IS AT THE LEFT
 			if (this.selectedWorm.position.x<=target.position.x)
