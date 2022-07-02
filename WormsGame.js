@@ -564,7 +564,7 @@ Worms.Menu.prototype = {
 			GAME_LEVEL_NAME = "imageGameLevelBust";
 
 			// SETTING THE WORM LOCATIONS FOR THE BUST LEVEL
-			GAME_LEVEL_WORMS_LOCATIONS = {player1Worm1:[324, 237], player1Worm2:[208, 305], player2Worm1:[475, 135], player2Worm2:[695, 261]};
+			GAME_LEVEL_WORMS_LOCATIONS = {player1Worm1:[324, 233], player1Worm2:[208, 299], player2Worm1:[475, 134], player2Worm2:[695, 259]};
 			}
 
 		// CHECKING IF THE ARTIC LEVEL MUST LOADED
