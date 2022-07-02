@@ -584,7 +584,7 @@ Worms.Menu.prototype = {
 			GAME_LEVEL_NAME = "imageGameLevelJungle";
 
 			// SETTING THE WORM LOCATIONS FOR THE JUNGLE LEVEL
-			GAME_LEVEL_WORMS_LOCATIONS = {player1Worm1:[150, 300], player1Worm2:[50, 50], player2Worm1:[590, 300], player2Worm2:[700,1]};
+			GAME_LEVEL_WORMS_LOCATIONS = {player1Worm1:[150, 340], player1Worm2:[50, 83], player2Worm1:[590, 279], player2Worm2:[700, 77]};
 			}
 
 		// LAUNCHING THE GAME
