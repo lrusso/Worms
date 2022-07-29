@@ -472,13 +472,13 @@ Worms.Menu.prototype = {
 			this.menuSoundButton.loadTexture("imageMenuButton");
 			this.menuSoundButtonIcon.loadTexture("imageMenuSoundOn");
 
-			// CHECKING IF THE BACKGROUND MUSIC PLAYER IS CREATED
-			if(MUSIC_PLAYER!=null)
+			// CHECKING IF THE MUSIC PLAYER IS CREATED
+			if (MUSIC_PLAYER!=null)
 				{
-				// PAUSING THE BACKGROUND MUSIC PLAYER
+				// PAUSING THE MUSIC PLAYER
 				MUSIC_PLAYER.pause();
 
-				// DESTROYING THE BACKGROUND MUSIC PLAYER
+				// DESTROYING THE MUSIC PLAYER
 				MUSIC_PLAYER.destroy();
 				}
 
@@ -570,10 +570,10 @@ Worms.Menu.prototype = {
 			// CHECKING IF THE MUSIC PLAYER IS CREATED
 			if (MUSIC_PLAYER!=null)
 				{
-				// PAUSING THE MENU MUSIC
+				// PAUSING THE MUSIC PLAYER
 				MUSIC_PLAYER.pause();
 
-				// DESTROYING THE MENU MUSIC PLAYER
+				// DESTROYING THE MUSIC PLAYER
 				MUSIC_PLAYER.destroy();
 				}
 			}
@@ -589,13 +589,13 @@ Worms.Menu.prototype = {
 			this.menuSoundButton.loadTexture("imageMenuButton")
 			this.menuSoundButtonIcon.loadTexture("imageMenuSoundOn");
 
-			// CHECKING IF THE BACKGROUND MUSIC PLAYER IS CREATED
-			if(MUSIC_PLAYER!=null)
+			// CHECKING IF THE MUSIC PLAYER IS CREATED
+			if (MUSIC_PLAYER!=null)
 				{
-				// PAUSING THE BACKGROUND MUSIC PLAYER
+				// PAUSING THE MUSIC PLAYER
 				MUSIC_PLAYER.pause();
 
-				// DESTROYING THE BACKGROUND MUSIC PLAYER
+				// DESTROYING THE MUSIC PLAYER
 				MUSIC_PLAYER.destroy();
 				}
 
@@ -618,10 +618,10 @@ Worms.Menu.prototype = {
 		// CHECKING IF THE MUSIC PLAYER IS CREATED
 		if (MUSIC_PLAYER!=null)
 			{
-			// PAUSING THE MENU MUSIC
+			// PAUSING THE MUSIC PLAYER
 			MUSIC_PLAYER.pause();
 
-			// DESTROYING THE BACKGROUND MUSIC PLAYER
+			// DESTROYING THE MUSIC PLAYER
 			MUSIC_PLAYER.destroy();
 			}
 
