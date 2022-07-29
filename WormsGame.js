@@ -69,6 +69,8 @@ var GAME_LEVEL_NUMBER = Math.floor(Math.random() * 3);
 var GAME_LEVEL_NAME = "";
 var GAME_LEVEL_WORMS_LOCATIONS = "";
 
+var MUSIC_PLAYER = null;
+
 var Worms = {};
 
 Worms.Preloader = function(){};
@@ -342,9 +344,63 @@ Worms.Disclaimer.prototype = {
 		// SETTING THAT WILL HAPPEN WHEN THE USER STOPS TOUCHING THE SCREEN OR MOUSE UP
 		this.game.input.onUp.add(function()
 			{
+			// GETTING THE SOUND PREFERENCE
+			GAME_SOUND_ENABLED = this.getBooleanSetting("GAME_SOUND_ENABLED");
+
+			// CHECKING IF THE SOUND IS ENABLED
+			if (GAME_SOUND_ENABLED==true)
+				{
+				// SETTING THE AUDIO FILE THAT WILL BE PLAYED AS MENU MUSIC
+				MUSIC_PLAYER = this.add.audio("audioMenu");
+
+				// SETTING THE MENU MUSIC VOLUME
+				MUSIC_PLAYER.volume = 0.5;
+
+				// SETTING THAT THE MENU MUSIC WILL BE LOOPING
+				MUSIC_PLAYER.loop = true;
+
+				// PLAYING THE MENU MUSIC
+				MUSIC_PLAYER.play();
+				}
+
 			// LOADING THE GAME MENU
 			game.state.start("Worms.Menu", Phaser.Plugin.StateTransition.Out.SlideLeft);
 			}, this);
+		},
+
+	getBooleanSetting: function(settingName)
+		{
+		try
+			{
+			var name = "worms" + settingName;
+			var nameEQ = name + "=";
+			var ca = document.cookie.split(";");
+
+			for(var i=0;i < ca.length;i++)
+				{
+				var c = ca[i];
+				while (c.charAt(0)==" ")
+					{
+					c = c.substring(1,c.length);
+					}
+				if (c.indexOf(nameEQ) == 0)
+					{
+					if (c.substring(nameEQ.length,c.length)=="true")
+						{
+						return true;
+						}
+						else
+						{
+						return false;
+						}
+					}
+				}
+			}
+		catch(err)
+			{
+			}
+
+		return true;
 		}
 	};
 
@@ -362,14 +418,10 @@ Worms.Menu.prototype = {
 		this.menuSoundButtonShadow = null;
 		this.menuSoundButton = null;
 		this.menuSoundButtonIcon = null;
-		this.musicPlayer = null;
 		},
 
 	create: function()
 		{
-		// GETTING THE SOUND PREFERENCE
-		GAME_SOUND_ENABLED = this.getBooleanSetting("GAME_SOUND_ENABLED");
-
 		// ADDING THE BACKGROUND
 		this.menuBackground = game.add.sprite(0, 0, "imageMenuBackground");
 
@@ -420,17 +472,27 @@ Worms.Menu.prototype = {
 			this.menuSoundButton.loadTexture("imageMenuButton");
 			this.menuSoundButtonIcon.loadTexture("imageMenuSoundOn");
 
+			// CHECKING IF THE BACKGROUND MUSIC PLAYER IS CREATED
+			if(MUSIC_PLAYER!=null)
+				{
+				// PAUSING THE BACKGROUND MUSIC PLAYER
+				MUSIC_PLAYER.pause();
+
+				// DESTROYING THE BACKGROUND MUSIC PLAYER
+				MUSIC_PLAYER.destroy();
+				}
+
 			// SETTING THE AUDIO FILE THAT WILL BE PLAYED AS MENU MUSIC
-			this.musicPlayer = this.add.audio("audioMenu");
+			MUSIC_PLAYER = this.add.audio("audioMenu");
 
 			// SETTING THE MENU MUSIC VOLUME
-			this.musicPlayer.volume = 0.5;
+			MUSIC_PLAYER.volume = 0.5;
 
 			// SETTING THAT THE MENU MUSIC WILL BE LOOPING
-			this.musicPlayer.loop = true;
+			MUSIC_PLAYER.loop = true;
 
 			// PLAYING THE MENU MUSIC
-			this.musicPlayer.play();
+			MUSIC_PLAYER.play();
 			}
 		},
 
@@ -506,10 +568,13 @@ Worms.Menu.prototype = {
 			this.menuSoundButtonIcon.loadTexture("imageMenuSoundOff");
 
 			// CHECKING IF THE MUSIC PLAYER IS CREATED
-			if (this.musicPlayer!=null)
+			if (MUSIC_PLAYER!=null)
 				{
 				// PAUSING THE MENU MUSIC
-				this.musicPlayer.pause();
+				MUSIC_PLAYER.pause();
+
+				// DESTROYING THE BACKGROUND MUSIC PLAYER
+				MUSIC_PLAYER.destroy();
 				}
 			}
 			else
@@ -524,27 +589,37 @@ Worms.Menu.prototype = {
 			this.menuSoundButton.loadTexture("imageMenuButton")
 			this.menuSoundButtonIcon.loadTexture("imageMenuSoundOn");
 
+			// CHECKING IF THE BACKGROUND MUSIC PLAYER IS CREATED
+			if(MUSIC_PLAYER!=null)
+				{
+				// PAUSING THE BACKGROUND MUSIC PLAYER
+				MUSIC_PLAYER.pause();
+
+				// DESTROYING THE BACKGROUND MUSIC PLAYER
+				MUSIC_PLAYER.destroy();
+				}
+
 			// SETTING THE AUDIO FILE THAT WILL BE PLAYED AS MENU MUSIC
-			this.musicPlayer = this.add.audio("audioMenu");
+			MUSIC_PLAYER = this.add.audio("audioMenu");
 
 			// SETTING THE MENU MUSIC VOLUME
-			this.musicPlayer.volume = 0.5;
+			MUSIC_PLAYER.volume = 0.5;
 
 			// SETTING THAT THE MENU MUSIC WILL BE LOOPING
-			this.musicPlayer.loop = true;
+			MUSIC_PLAYER.loop = true;
 
 			// PLAYING THE MENU MUSIC
-			this.musicPlayer.play();
+			MUSIC_PLAYER.play();
 			}
 		},
 
 	playGame: function()
 		{
 		// CHECKING IF THE MUSIC PLAYER IS CREATED
-		if (this.musicPlayer!=null)
+		if (MUSIC_PLAYER!=null)
 			{
 			// PAUSING THE MENU MUSIC
-			this.musicPlayer.pause();
+			MUSIC_PLAYER.pause();
 			}
 
 		// UDPATING THE LEVEL NUMBER
