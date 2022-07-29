@@ -620,6 +620,9 @@ Worms.Menu.prototype = {
 			{
 			// PAUSING THE MENU MUSIC
 			MUSIC_PLAYER.pause();
+
+			// DESTROYING THE BACKGROUND MUSIC PLAYER
+			MUSIC_PLAYER.destroy();
 			}
 
 		// UDPATING THE LEVEL NUMBER
