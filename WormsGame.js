@@ -573,7 +573,7 @@ Worms.Menu.prototype = {
 				// PAUSING THE MENU MUSIC
 				MUSIC_PLAYER.pause();
 
-				// DESTROYING THE BACKGROUND MUSIC PLAYER
+				// DESTROYING THE MENU MUSIC PLAYER
 				MUSIC_PLAYER.destroy();
 				}
 			}
