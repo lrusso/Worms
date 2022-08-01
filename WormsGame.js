@@ -272,6 +272,8 @@ Worms.Disclaimer.prototype = {
 		this.line8 = null;
 		this.marginY = 45;
 		this.clickTimestamp = null;
+		this.clickPositionX = null;
+		this.clickPositionY = null;
 		},
 
 	create: function()
@@ -350,40 +352,42 @@ Worms.Disclaimer.prototype = {
 				{
 				// SETTING THE CLICK TIMESTAMP VALUE
 				this.clickTimestamp = this.getCurrentTime();
+
+				// SETTING THE INITIAL MOUSE OR FINGER POSITION
+				this.clickPositionX = this.game.input.activePointer.position.x;
+				this.clickPositionY = this.game.input.activePointer.position.y;
 				}
 			}, this);
 
 		// SETTING THAT WILL HAPPEN WHEN THE USER STOPS TOUCHING THE SCREEN OR MOUSE UP
 		this.game.input.onUp.add(function()
 			{
-			// CHECKING IF THE EVENT WAS A CLICK AND NOT A LONG PRESS CLICK - BUGFIX FOR SAFARI ON IOS FOR ENABLING THE AUDIO CONTEXT
-			if (this.getCurrentTime()-this.clickTimestamp<500)
+			// REJECTING ANY SLIDE AND LONG PRESS EVENT - BUGFIX FOR SAFARI ON IOS FOR ENABLING THE AUDIO CONTEXT
+			if (Math.abs(this.game.input.activePointer.position.x-this.clickPositionX)>=25){this.clickTimestamp=null;return;}
+			if (Math.abs(this.game.input.activePointer.position.y-this.clickPositionY)>=25){this.clickTimestamp=null;return;}
+			if (this.getCurrentTime()-this.clickTimestamp>=500){this.clickTimestamp=null;return;}
+
+			// GETTING THE SOUND PREFERENCE
+			GAME_SOUND_ENABLED = this.getBooleanSetting("GAME_SOUND_ENABLED");
+
+			// CHECKING IF THE SOUND IS ENABLED
+			if (GAME_SOUND_ENABLED==true)
 				{
-				// GETTING THE SOUND PREFERENCE
-				GAME_SOUND_ENABLED = this.getBooleanSetting("GAME_SOUND_ENABLED");
+				// SETTING THE AUDIO FILE THAT WILL BE PLAYED AS MENU MUSIC
+				MUSIC_PLAYER = this.add.audio("audioMenu");
 
-				// CHECKING IF THE SOUND IS ENABLED
-				if (GAME_SOUND_ENABLED==true)
-					{
-					// SETTING THE AUDIO FILE THAT WILL BE PLAYED AS MENU MUSIC
-					MUSIC_PLAYER = this.add.audio("audioMenu");
+				// SETTING THE MENU MUSIC VOLUME
+				MUSIC_PLAYER.volume = 0.5;
 
-					// SETTING THE MENU MUSIC VOLUME
-					MUSIC_PLAYER.volume = 0.5;
+				// SETTING THAT THE MENU MUSIC WILL BE LOOPING
+				MUSIC_PLAYER.loop = true;
 
-					// SETTING THAT THE MENU MUSIC WILL BE LOOPING
-					MUSIC_PLAYER.loop = true;
-
-					// PLAYING THE MENU MUSIC
-					MUSIC_PLAYER.play();
-					}
-
-				// LOADING THE GAME MENU
-				game.state.start("Worms.Menu", Phaser.Plugin.StateTransition.Out.SlideLeft);
+				// PLAYING THE MENU MUSIC
+				MUSIC_PLAYER.play();
 				}
 
-			// CLEARING THE CLICK TIMESTAMP VALUE
-			this.clickTimestamp = null;
+			// LOADING THE GAME MENU
+			game.state.start("Worms.Menu", Phaser.Plugin.StateTransition.Out.SlideLeft);
 			}, this);
 		},
 
